@@ -1,0 +1,1157 @@
+@charset "UTF-8";
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* POSITIONING BLOCKS */
+
+#app {
+    min-height: -webkit-calc(100% - 122px);
+    min-height: -moz-calc(100% - 122px);
+    min-height: calc(100% - 122px);
+}
+#app-wrapper {
+    padding: 0 5px;
+}
+#app-main-container {
+    min-width: 1024px;
+}
+
+/* ------------- test resizable modals ------------- */
+/*.modal-body{
+    margin-bottom: 0;
+}
+.ui-resizable-s {
+    bottom: 0;
+}
+.ui-resizable-e {
+    right: 0;
+}*/
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* CUSTOMISING of DATAMANGER's STYLE */
+
+/* Global design */
+.selected {
+    font-weight: bold;
+}
+
+.tab-content {
+    overflow: inherit;
+}
+
+/* General colors/font rules throughout the site */
+.doc-label {
+    color: #558855;
+}
+.model-name {
+    color: #0088cc;
+}
+.module-name {
+    color: #00aa44;
+}
+.view-name {
+    color: #504fa0;
+}
+.filter-name {
+    color: #c00000;
+}
+
+.midwidth {
+    width: 750px;
+}
+
+.help-spot {
+    color: #808080;
+    font-family: Times new roman, Nimbus;
+    font-size: 15px;
+}
+.help-spot:hover {
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+h2.page-title {
+    line-height: 30px;
+}
+
+h3 {
+    font-size: 1.4em;
+    margin-bottom: 2px;
+}
+h3.page-title {
+    line-height: 20px;
+}
+
+h4 {
+    
+}
+
+/* Form */
+legend {
+    font-size: 1.1em;
+    line-height: 1.3em;
+    margin-bottom: 0.8em;
+}
+.form-horizontal .label-small .control-label {
+     width: 60px;
+}
+.form-horizontal .label-small .controls {
+     margin-left: 80px;
+}
+.form-horizontal .label-medium .control-label {
+     width: 80px;
+}
+.form-horizontal .label-medium .controls {
+      margin-left: 100px;
+}
+.form-horizontal .label-large .control-label {
+      width: 100px;
+}
+.form-horizontal .label-large .controls {
+     margin-left: 120px;
+}
+
+/* Input Checkbox for select elements */
+input.ck {
+    /*margin: 0 5px;*/
+    vertical-align: top;
+    margin-top:4px;
+}
+table input.ck {
+    margin: 0;
+    vertical-align: middle;
+}
+.ck-col {
+    width: 25px;
+}
+
+/* Text */
+.nowrap {
+    white-space: nowrap;
+}
+.txt-centered {
+    text-align: center !important;
+}
+.txt-ellipsis {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 12em;
+}
+.txt-rtl-ellipsis {
+    display: inline-block;
+    overflow: hidden;
+    direction: rtl;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 12em;
+}
+.rtl-ellipsis {
+    overflow: hidden;
+    direction: rtl;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 7em;
+}
+.rtl-ellipsis:hover {
+    overflow: auto;
+    text-overflow: string;
+    white-space: normal;
+}
+
+/* List overflow */
+.list-overflow {
+    font-size: 0.8em;
+    line-height: 0.8em;
+    padding: 0.2em;
+    margin: 0;
+    border: #333 1px dotted;
+    border-radius: 5px;
+    width: 63em;
+    height: 25em;
+    overflow-y:auto;
+}
+
+/* Command */
+.cmd {
+    cursor: pointer;
+}
+.tab-content-padded {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+/* Attachment */
+.thumbnail {
+    position: relative;
+    min-height: 75px;
+    min-width: 100px;
+    text-align: center;
+}
+.thumbnail img {
+    max-height: 75px;
+    max-width: 100px;
+}
+.thumbnail img.file {
+    height: 55px;
+    width: auto;
+}
+.thumbnail .caption {
+    width: 100px;
+    text-align: center;
+    margin-top: 5px;
+    color: #404040;
+}
+.thumbnail .overlap-cmd {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    width: 100px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+.small-thumbnails li {
+    margin: 0.2em;
+}
+.small-thumbnail {
+    padding : 2px;
+    min-width: 65px;
+    min-height: 45px;
+    text-align: center;
+    white-space: normal;
+}
+.small-thumbnail img {
+    max-height: 45px;
+    max-width: 65px;
+}
+.small-thumbnail img.file {
+    height: 25px;
+    width: auto;
+}
+
+/* Dropbox */
+.dropbox { 
+    border: 5px dashed #ccc;
+    border-radius: 8px;
+    width: 98px;
+    height: 71px;
+    margin: 2px;
+    margin-right: 0;
+    text-align: center;
+
+}
+.dropbox-inline {
+    display: inline-block;
+}
+
+.dropbox.hover {
+    border: 5px dashed #111; 
+    border-radius: 8px;
+}
+
+/* Pagination */
+.pagination .pagination-info select {
+    margin-bottom: 0;
+    height: 28px;
+}
+.pagination .pagination-info .zero-padding {
+    padding: 0;
+}
+.pagination .pagination-info .pagination-count {
+    padding-left: 10px;
+    padding-right: 5px;
+    line-height: 28px;
+}
+div[data-spy="affix"].pagination.affix {
+    bottom: 0;
+    left: 301px;
+    padding: 5px;
+    margin: 0;
+    /*width:100%;*/
+    background-color: #F5F5F5;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+/* Toolbar */
+.btn-toolbar form {
+    margin-bottom: 0;
+}
+.btn-toolbar .toggle-all-cmd {
+    margin: 0;
+}
+.btn-toolbar .input-append, .btn-toolbar .input-prepend {
+    margin-bottom: 0;
+}
+.btn-group > .btn:hover {
+    border-radius: 0 0 0 0;
+}
+div[data-spy="affix"].btn-toolbar.affix {
+    top: 35px;
+    left: 301px;
+    padding: 5px;
+    width:100%;
+    background-color: #F5F5F5;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    z-index:2;
+}
+
+#structures-selector-button.active a.dropdown-toggle {
+    background-color: #FFE28F;
+    background-image: linear-gradient(to bottom, #FFDF7B, #FFD348);
+    background-image: -moz-linear-gradient(top,#FFDF7B,#FFD348);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#FFDF7B),to(#FFD348));
+    background-image: -webkit-linear-gradient(top,#FFDF7B,#FFD348);
+    background-image: -o-linear-gradient(top,#FFDF7B,#FFD348);
+}
+
+/* Light backgrounds for buttons, inspired by bootstrap */
+.btn-light-views, .btn-light-structures, .btn-light-docs, .btn-light-other {
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-light-views, .btn-light-views:hover, .btn-light-views:focus {
+    background-color: #8CDFF7;
+    background-image: linear-gradient(to bottom, #A6EBFF, #6DDEFF);
+    background-image: -moz-linear-gradient(top,#A6EBFF,#6DDEFF);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#A6EBFF),to(#6DDEFF));
+    background-image: -webkit-linear-gradient(top,#A6EBFF,#6DDEFF);
+    background-image: -o-linear-gradient(top,#A6EBFF,#6DDEFF);
+}
+/*.btn-light-structures, .btn-light-structures:hover, .btn-light-structures:focus {
+    background-color: #F3B3A5;
+    background-image: linear-gradient(to bottom, #F6C8BE, #EFA090);
+    background-image: -moz-linear-gradient(top,#F6C8BE,#EFA090);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#F6C8BE),to(#EFA090));
+    background-image: -webkit-linear-gradient(top,#F6C8BE,#EFA090);
+    background-image: -o-linear-gradient(top,#F6C8BE,#EFA090);
+}*/
+.btn-light-docs, .btn-light-docs:hover, .btn-light-docs:focus, .btn-light-docs:active {
+    background-color: #97ED9A;
+    background-image: linear-gradient(to bottom, #B5F5B8, #7EF483);
+    background-image: -moz-linear-gradient(top,#B5F5B8,#7EF483);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#B5F5B8),to(#7EF483));
+    background-image: -webkit-linear-gradient(top,#B5F5B8,#7EF483);
+    background-image: -o-linear-gradient(top,#B5F5B8,#7EF483);
+}
+/*.btn-light-other, .btn-light-views:hover, .btn-light-views:focus {
+    background-color: #006DCC;
+    background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+    background-image: -moz-linear-gradient(top,#0088CC,#0044CC);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#0088CC),to(#0044CC));
+    background-image: -webkit-linear-gradient(top,#0088CC,#0044CC);
+    background-image: -o-linear-gradient(top,#0088CC,#0044CC);
+}*/
+
+/* Cracra hacking for bootstrap-styled buttons, on hover only */
+.btn-hover-danger:hover {
+    background-color: #DA4F49;
+    background-image: linear-gradient(to bottom, #EE5F5B, #BD362F);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-hover-warning:hover {
+    background-color: #FAA732;
+    background-image: linear-gradient(to bottom, #FBB450, #F89406);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-hover-info:hover {
+    background-color: #49AFCD;
+    background-image: linear-gradient(to bottom, #5BC0DE, #2F96B4);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-hover-primary:hover {
+    background-color: #006DCC;
+    background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-hover-success:hover {
+    background-color: #5BB75B;
+    background-image: linear-gradient(to bottom, #62C462, #51A351);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Attempt for highlighting "data area" @TODO Use a dedicated class */
+/*.span10.proximate {
+    background-color: #FAFAFF;
+    margin-left: 5px;
+    margin-top: 5px;
+    min-height: 400px;
+    padding-left: 5px;
+}*/
+
+/* Widget : footer */
+footer.navbar {
+    margin-bottom:0;
+}
+
+/* Widget : header (#account-menu) */
+.user-role {
+    font-size: 0.6em;
+}
+
+/* Widget : quickSearch (Quick Search) */
+#quick-search-container .btn-toolbar, #quick-search {
+    margin: 0;
+}
+#quicksearch-input-field {
+    width: 160px;
+}
+#quicksearch-structure-selector {
+    width: 150px;
+}
+#quicksearch-module-selector {
+    width: 150px;
+}
+
+ul.selections > li > .view-selection-cmd {
+    padding-right: 30px;
+    clear: none;
+}
+ul.selections > li > .delete-selection-cmd {
+    padding-right: 8px;
+}
+ul.selections > li > .delete-selection-cmd:hover {
+    background: none;
+}
+
+
+/* Widget : dbHome (Database overview) */
+#db-home {
+    margin-left: 40px;
+    padding-top: 10px;
+}
+
+#db-home h3 {
+    font-size: 1.1em;
+    line-height: 1.1em;
+    margin-bottom: 10px;
+}
+
+#wiki, #models-catalog {
+    width: 700px;
+    margin-right: 50px;
+}
+
+#db-last-changes {
+    width: 700px;
+    clear: both;
+}
+
+#models-catalog p.alert {
+    width: 670px;
+}
+#models-catalog .new-model-cmd {
+    margin-top: 5px;
+}#models-catalog table.available-models {
+    width: 715px;
+}
+
+/* Widget : dbHome (Wiki) */
+.editable {
+    position: relative;
+    margin: 0.2em 0 2em 0.2em;
+}
+.editable:after {
+    content:"Click to edit content";
+    position: absolute;
+    top: 1.8em;
+    display: block;
+    font-size: 0.8em;
+    line-height: 0.8em;
+    margin: 0 0.8em;
+    padding: 0.2em;
+    font-style: italic;
+    color: #666;
+    background-color: white;
+}
+.editable *[contenteditable="true"] {
+    padding: 10px 5px;
+    border: #333 1px dotted;
+    border-radius: 5px;
+    margin: 0;
+    max-width: 50em;
+}
+.editable *[contenteditable="true"]:focus {
+    background-color: #FCF8E3;
+}
+
+/* Widget : dbHome (Last changes) */
+#db-last-changes {
+    margin: 0 0.2em 2em;
+}
+#db-last-changes table {
+    width: 710px;
+    table-layout: fixed;
+}
+#db-last-changes table tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 350px;
+    width: 710px;
+}
+#db-last-changes table thead tr {
+    position: relative;
+    display: block;
+    background-color: #F5F5F5;
+    border-bottom:1px solid #DDD;
+    width: 710px;
+}
+#db-last-changes table td, #db-last-changes table th {
+    padding: 5px;
+    margin: 0;
+    width: 165px;
+}
+#db-last-changes table td:first-child, #db-last-changes table th:first-child {
+    width: 265px;
+}
+#db-last-changes table td:nth-child(3), #db-last-changes table th:nth-child(3) {
+    width: 145px;
+}
+#db-last-changes table td:last-child, #db-last-changes table th:last-child {
+    width: 73px;
+}
+
+/* Widget : #db-details-container */
+#db-details-container {
+    margin-left: 0;
+}
+
+/* Div for missing-references */
+#missing-references {
+    margin: 0 0.2em 2em;
+}
+#missing-references table {
+    width: 710px;
+    table-layout: fixed;
+}
+#missing-references table tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 350px;
+    width: 710px;
+}
+#missing-references table thead tr {
+    position: relative;
+    display: block;
+    background-color: #F5F5F5;
+    border-bottom:1px solid #DDD;
+    width: 710px;
+}
+#missing-references table td, #missing-references table th {
+    padding: 5px;
+    margin: 0;
+    width: 165px;
+}
+#missing-references table td:first-child, #missing-references table th:first-child {
+    width: 265px;
+}
+#missing-references table td:nth-child(2), #missing-references table th:nth-child(2) {
+    width: 345px;
+}
+#missing-references table td:last-child, #missing-references table th:last-child {
+    width: 53px;
+}
+
+/* Widget : #db-nav-container */
+.nav > li.disabled > a.models-list {
+    color: black;
+}
+.models-toolbar {
+    margin: 0 10px;
+}
+.model-toolbar {
+  margin: 0;
+  margin-left: 2px;
+}
+.model-toolbar .btn-group {
+  padding-top: 5px;
+}
+.model-toolbar .btn {
+  padding-top: 2px 8px;
+}
+
+/* Widget : #model-menu (Model menu) */
+.model-menu-container.affix[data-spy="affix"] {
+    top: 45px;
+    z-index: 1;
+    max-width: 14.8%;
+}
+#model-menu {
+    resize: horizontal;
+    overflow: hidden;
+}
+#model-menu .accordion-inner .nav-list {
+    resize: none;
+    overflow-x: auto;
+}
+.icon-chevron-right {
+    float: right;
+    margin-right: -6px;
+    margin-top: 2px;
+    opacity: 0.25;
+}
+.model-menu {
+    margin-top: 5px;
+    background-color: white;
+}
+.nav-list li, .dropdown-menu li {
+  cursor: pointer;
+}
+.model-menu .nav-list {
+    padding-left: 0;
+}
+.model-menu .nav-list li a {
+    margin-left: 0;
+}
+#structure-accordion-group .accordion-inner, #modules-accordion-group .accordion-inner,
+  #views-accordion-group .accordion-inner, #queries-accordion-group .accordion-inner {
+    padding: 5px 2px;
+}
+.nav-title {
+  margin: 0;
+  font-size: 1.1em;
+}
+.nav-title i {
+    width: 20px;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.model-menu-stats {
+    border: 1px solid #E5E5E5;
+    border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    color: grey;
+    padding: 4px 4px 4px 10px;
+}
+
+/* Widget : tree */
+#root.treenode {
+    margin-top: 10px;
+    border-left: none;
+}
+
+ul.treenode {
+    border-left: 1px dotted Gainsboro;
+    margin-left: 8px;
+    padding-left: 10px;
+}
+
+.treenode .selected {
+    background-color: #DFF0D8;
+}
+
+.treenode .ref {
+    list-style-type: none;
+    padding-left: 3px;
+    margin-left: 30px;
+    max-height: 150px;
+    width: 450px;
+    overflow-y: scroll;
+    border: solid #d0d0d0 1px;
+    border-radius: 3px;
+}
+
+.expand-all-cmd, .collapse-all-cmd {
+    width: 30px;
+}
+
+.tree-search-input {
+    width: 140px;
+}
+
+.tree-action {
+    display: inline-block;
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 20px;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #FFF;
+    text-decoration: none;
+    width: 20px;
+}
+.tree-action:hover, .tree-action:focus {
+    color: #000;
+    cursor: pointer;
+    opacity: 0.4;
+    text-decoration: none;
+}
+
+.tree-node-highlight {
+    padding: 1px 1px 1px 0;
+    margin: 1px 1px 1px 0;
+    background: none;
+}
+.tree-node-highlight:hover {
+    background-color: #F5F5F5;
+    -moz-transition: background-color .25s linear;
+    -webkit-transition: background-color .25s linear;
+    transition: background-color .25s linear;
+}
+.tree-node-highlight.accept-drop {
+    background-color: #FFCC33;
+}
+
+/*.tree-node-highlight .draggable:hover {
+    cursor: move;
+}*/
+
+.dragged {
+    border:2px solid #777;
+    padding:3px;
+    border-radius: 5px;
+}
+
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  -khtml-user-select: none;
+  cursor: move;
+  -webkit-user-drag: element; 
+  -webkit-user-select:none;
+}
+
+.draggable {
+    position: relative;
+}
+
+/* Main zone */
+.main-zone {
+    border:1px dotted Gainsboro;
+    margin-top: 5px;
+    padding: 5px;
+}
+.row-fluid .proximate {
+    margin-left: 1%;
+}
+
+/* Widget : viewTable */
+table.data {
+    max-width : 10000%;
+};
+
+table.data thead tr {
+    position: relative;
+    /*display: block;*/
+    background-color: #F5F5F5;
+    border-bottom:1px solid #DDD;
+}
+table.data thead th .header-container {
+    /*display: inline-block;
+    overflow: hidden;*/
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*width: 142px;*/
+}
+table.data tbody {
+  /*  display: block;
+    overflow-y: auto;
+    max-height: 500px;*/
+}
+table.data td, table.data th {
+    /*width: 142px;*/
+    padding: 3px;
+    margin: 0;
+}
+
+table.data .val[data-type="longtext"],
+table.data .val[data-type="multi-enum"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 24em;
+}
+table.data .val[data-type="longtext"]:hover,
+table.data .val[data-type="multi-enum"]:hover {
+    overflow: auto;
+    text-overflow: string;
+    white-space: normal;
+}
+table.data .val[data-type="id"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+table.data .val[data-type="id"]:hover {
+    overflow: auto;
+    text-overflow: string;
+    white-space: normal;
+}
+
+table.data tbody tr td:first-child, table.data thead tr th:first-child {
+    width: 24px;
+    padding: 0;
+    margin: 0;
+}
+table.data td .val[data-type="url"] a {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+table.data td .val[data-type="url"] a:hover {
+    overflow: auto;
+    text-overflow: string;
+    white-space: normal;
+}
+table.data .header-sort {
+    cursor: pointer;
+}
+table.data .colunm-sort-order {
+    padding-right: 20px;
+    font-style: italic;
+    font-weight: normal;
+    color: white;
+}
+table.data .sort-asc {
+    background: #3A87AD url("../img/icons/sort_asc.png") no-repeat right center;
+}
+table.data .sort-desc {
+    background: #3A87AD url("../img/icons/sort_desc.png") no-repeat right center;
+}
+
+table.data input.ck {
+    margin : 8px 8px 8px 8px;
+}
+
+/* Widget : viewDoc */
+div.doc-toolbar.affix[data-spy="affix"] {
+    top: 33px;
+    left: 16%;
+    z-index:2;
+}
+.doc-container {
+    width: 730px;
+    border: 1px solid #E5E5E5;
+    border-radius: 4px 4px 4px 4px;
+    margin: 5px 0 10px;
+}
+.doc-inner, .doc-footer {
+    border-top: 1px solid #E5E5E5;
+    padding: 0;
+}
+.doc-footer .muted {
+    font-size: 10px;
+    line-height: 10px;
+    padding-top: 2px;
+}
+.doc-metadata {
+    margin: 2px 2px 5px 2px;
+}
+.thumbnail .file-caption {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+.embedded-thumbnails {
+    padding-top: 10px;
+}
+.low-padding-thumbnails li {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.drop-label {
+    padding-top: 10px;
+}
+.doc-header input.ck {
+    margin: 3px 5px;
+}
+.viewdoc-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.doc-data th, .doc-data td {
+    padding: 6px;
+}
+
+/* Images gallery */
+
+.image-grid {
+    float : left;
+    width : 140px;
+    height: 145px;
+    padding : 10px;
+    margin : 10px;
+    border: solid #f0f0f0 1px;
+    text-align: center;
+    position: relative;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.image-grid img {
+    max-height : 105px;
+    max-width: 140px;
+}
+.image-grid .image-commands {
+    margin-top: 7px;
+    position: absolute;
+    bottom: 3px;
+    font-size: 13px;
+}
+.image-grid .image-commands .filename {
+    font-size: 11px;
+}
+.image-grid .filename {
+    max-width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 18px;
+    /*direction: rtl; /* simulates left-side ellipsis - bad! inverts words order in some cases */
+}
+.image-grid a {
+    text-decoration: none;
+}
+
+/* Doc */
+input[type="checkbox"].selection {
+    float: left;
+    margin-right: 10px;
+}
+.accordion-heading h4 {
+    margin:0;
+}
+
+/* Wigdet : exportSql */
+#export-sql-panel {
+    margin-left: 40px;
+}
+
+/* Wigdet : settings (DB Settings) */
+#db-users-rights table {
+    width: 800px;
+}
+
+#db-settings {
+    margin-left: 40px;
+}
+
+/* Widget : map */
+#geoloc-view-map {
+    margin: 5px;
+    height: 700px;
+    width: 100%;
+}
+#geoloc-layers input[type="checkbox"] {
+    margin:0 2px;
+    vertical-align: text-bottom;
+}
+#geoloc-layers label.active {
+    font-weight: bold;
+}
+
+/* Modal: show map */
+.geoloc-show-map {
+    width: 530px;
+    height: 400px;
+}
+
+/* Modal: edit enum */
+.ta-enum-values {
+    width: 400px;
+    height: 250px
+}
+
+/* Modal: edit doc */
+.edit-doc-fieldset {
+    margin-top: 15px;
+}
+
+.red-star {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+}
+
+.edit-doc-meta-label {
+    color: grey;
+    width: 50px !important;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.field-label {
+    width: 100px;
+    color: grey;
+}
+.field-label-large {
+    width: 140px;
+    color: grey;
+}
+.field-label-very-large {
+    width: 190px;
+    color: grey;
+}
+
+.field-input {
+    display: inline;
+}
+
+.geoloc-edit-map {
+    width: 465px;
+    height: 400px;
+    margin-top: 10px;
+}
+.input-geoloc {
+    margin-left: 50px;
+}
+.input-geoloc label {
+    color: grey;
+}
+
+/* Modal: editFile */
+
+.form-label-fixed {
+    width: 110px;
+}
+
+.table-no-row-lines th, .table-no-row-lines td {
+    border-top: none;
+}
+
+.small-bottom-margin {
+    margin-bottom: 3px;
+}
+.no-bottom-margin {
+    margin-bottom: 0;
+}
+.small-left-margin {
+    margin-left: 3px;
+}
+.small-top-margin {
+    margin-top: 3px;
+}
+.medium-top-margin {
+    margin-top: 10px;
+}
+.medium-bottom-margin {
+    margin-bottom: 10px;
+}
+
+/* Modal: editQuery / editView */
+#chooser {
+    /*margin-bottom: 20px;*/
+}
+
+.dictionary-level {
+    width: auto;
+}
+
+.fields-selector {
+    list-style-type: none;
+}
+.fields-selector a {
+    cursor: pointer;
+}
+
+.tree-element {
+    padding-left: 18px;
+    color: #404040;
+}
+.tree-element:hover, .tree-element:focus {
+    text-decoration: none;
+    color: #404040;
+}
+.tree-state {
+    opacity: 0.4;
+}
+/*.open-tree {
+    background: url("../img/icons/collapse.png") no-repeat scroll left center transparent;
+}
+.closed-tree {
+    background: url("../img/icons/expand.png") no-repeat scroll left center transparent;
+}*/
+
+/* Modal: multiDoc */
+#multi-doc-modal #compare-container {
+    overflow-x: auto;
+}
+
+/* Widget : editModel */
+input.module-color {
+    border-width: 3px;
+    width: 60px;
+}
+
+/* Widget : editRevs */
+#view-revs thead tr:last-child th {
+    border-bottom: 2px solid;
+}
+#view-revs thead tr:first-child th {
+    border-bottom: 0;
+}
+#view-revs tfoot tr:first-child th {
+    border-top: 2px solid;
+}
+
+/* Widget: viewDuplicates */
+.duplicated-doc {
+    width: 350px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border: solid #eeeeee 1px;
+}
+
+/* view list */
+
+.doc-list .dl-horizontal dt {
+    width : 80px;
+    margin-left : 0px;
+}
+.doc-list .dl-horizontal dd {
+    margin-left : 90px;
+}
+
+.doc-list dl {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#list-view {
+    margin-left : 40px;
+}
+
+.margin-left {
+    margin-left : 40px;
+}

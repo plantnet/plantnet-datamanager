@@ -1,0 +1,40 @@
+<div class="navbar-inner">
+  <div class="{{#is_start}}container{{/is_start}}{{^is_start}}container-fluid{{/is_start}}">
+    <a class="brand" href="projects.html"
+      rel="tooltip"
+      data-placement="bottom" 
+      title="Return to databases management interface.">
+      <img src="img/logos/datamanager.png" alt="Pl@ntnet Logo"/>DataManager
+    </a>
+    <ul class="nav pull-left">
+      <li id="version-container"></li>
+      <li id="db-info-container">
+        <ul id="db-infos" class="nav">
+          {{^is_start}}
+          <li id="db-name" class="navbar-text has-tooltip" 
+              data-placement="bottom" title="Name of your database.">
+            {{db_name}}
+          </li>
+          {{/is_start}}
+          <li id="server-name"></li>
+          {{^is_start}}
+          <li id="db-docs-info" class="navbar-text"></li>
+          {{/is_start}}
+        </ul>
+      </li>
+    </ul>
+    <ul id="account-menu" class="nav pull-right"></ul>
+    {{^is_start}}
+    <ul id="db-menu" class="nav pull-right"></ul>
+    <ul id="db-menu" class="nav pull-right">
+      <li>
+        <a href="#/db-manager" class="has-tooltip" data-placement="left"
+          title="Return to database overview">
+          <i class="icon-dm-home-medium"></i>
+          Home
+        </a>
+      </li>
+    </ul>
+    {{/is_start}}
+  </div>
+</div>

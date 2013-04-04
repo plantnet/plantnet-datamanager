@@ -1,0 +1,31 @@
+<div id="export-csv-table-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="export-csv-table-modal-label" aria-hidden="true">
+  
+  <form class="form-inline">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="export-csv-table-modal-label">Export to CSV</h3>
+    </div>
+    
+    <div class="modal-body">
+      <div class="control-group">
+        <label for="csv-separator">CSV Separator</label>
+        <input id="csv-separator" class="input-mini" name="separator" type="text" value="," maxlength="1"/>
+      </div>
+
+      {{#isDictionary}}
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right" title="Adds 2 columns: $valid_name_id and $synonym_of">
+          <input id="csv-export-synonymy" name="export-synonymy" type="checkbox" checked/>
+          Exports synonymy
+        </label>
+      </div>
+      {{/isDictionary}}
+    </div>
+  
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary" type="submit">Export</button>
+    </div>
+  </form>
+</div>    

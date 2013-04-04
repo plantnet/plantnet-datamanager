@@ -1,0 +1,44 @@
+<h2>Manage users</h2>
+<h3>Users and <abbr title="Database">DB</abbr> rights management</h3>
+
+<form>
+  <div class="row">
+    <div class="span8">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th rowspan="2">Name</th>
+            <th colspan="2"><abbr title="Database">DB</abbr> rights</th>
+            <th class="span2" rowspan="2">Delete user</th>
+          </tr>
+          <tr>
+            <th>Create</th>
+            <th>Drop</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#users}}
+          <tr data-user="{{id}}">
+            <td>{{name}}</td>
+            <td title="Add the right to create a database to the user">
+              <input id="{{id}}-create" value="createdb" type="checkbox" {{#createdb}}checked{{/createdb}}/>
+            </td>
+            <td title="Add the right to delete a database to the user">
+              <input id="{{id}}-drop" value="dropdb" type="checkbox" {{#dropdb}}checked{{/dropdb}}/>
+            </td>
+            <td title="Delete the user">
+              <a href="#{{id}}" class="btn btn-danger command delete">Delete</a>
+            </td>
+          </tr>
+          {{/users}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <a href="projects.html" class="btn pull-left">Cancel</a>
+      <button type="submit" class="btn btn-primary pull-right">Save</button>
+    </div>
+  </div>
+</form>

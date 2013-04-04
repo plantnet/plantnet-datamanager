@@ -1,0 +1,52 @@
+<div id="export-sql-panel">
+  <h2 class="page-title">Export to SQL</h2>
+
+  <form class="form">
+    <fieldset>
+      <legend>Choose the structures to export</legend>
+      {{#mms}}
+      <label class="checkbox" for="mms-{{_id}}">
+        <input id="mms-{{_id}}" name="mms" type="checkbox" checked data-mm-id="{{_id}}"/>
+        {{name}}
+      </label>
+      {{/mms}}
+    </fieldset>
+
+    <fieldset>
+      <legend>Select any options</legend>
+
+      <label for="fk-mod" class="checkbox">
+        <input type="checkbox" name="fk-mod" id="fk-mod" checked />
+        Set foreign keys on modules hierarchy
+      </label>
+
+      <label for="fk-ref" class="checkbox">
+        <input type="checkbox" name="fk-ref" id="fk-ref" disabled />
+        Set foreign keys on "ref" fields
+      </label>
+
+      <label for="field-props" class="checkbox">
+        <input type="checkbox" name="field-props" id="field-props" checked />
+        Preserve field properties (mandatory, unique, default value)
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Choose the target database management systeme</legend>
+      <label for="target">
+        <abbr title="Data Base Management System">
+          DBMS
+        </abbr>
+      </label>
+      <select name="target">
+        <option value="mysql">MySQL</option>
+        <option value="postgresql">PostgreSQL</option>
+      </select>
+
+    </fieldset>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Export</button>
+    </div> 
+  </form>
+</div>

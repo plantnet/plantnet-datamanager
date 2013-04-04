@@ -1,0 +1,100 @@
+<div id="edit-file-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-file-modal-label" 
+    aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="edit-doc-modal-label">Edit attachments (Images, pdf etc.)</h3>
+    <br/>
+    <p class="alert alert-info small-bottom-margin">
+      Attached files are automatically saved
+    </p>
+  </div>
+
+  <div class="modal-body">
+
+    <table class="table table-striped table-condensed table-no-row-lines">
+      {{#attachments}}
+        <tr>
+          <td>
+            {{name}}
+          </td>
+          <td>
+            <img src="{{url_img}}" width="50px"/>
+          </td>
+          <td>
+            <button id="{{name}}" class="btn btn-danger delete-attach-cmd has-tooltip"
+              data-id="{{_id}}" data-rev="{{_rev}}" data-placement="left"
+              data-em="{{embedded}}" data-url="{{url}}"
+              title="Delete this attachment. Warning, you cannot undo that!">
+              x
+            </button>
+          </td>
+        </tr>
+      {{/attachments}}
+    </table>
+    <hr/>
+
+    {{#doc}}
+    <form id="upload_attachment" class="form-inline">
+      <h4>Embed files (images will be stored as thumbnails)</h4>
+
+      <input type="hidden" name="_id" value="{{_id}}" />
+      <input type="hidden" name="_rev" value="{{_rev}}" />
+
+      <div class="dropbox dropbox-inline">
+        <div class="drop-label muted has-tooltip"
+             title="Drop files (images, pdf...) here to attach them to the document">
+          Drop files here...
+        </div>
+      </div>
+
+      <label for="upload_file" class="form-label-fixed">or choose files</label>
+      <input id="upload_file" type="file" class="input-xlarge" name="_attachments" multiple="multiple"/> 
+    </form>
+    {{/doc}}
+    <hr/>
+
+    <form id="add_link" class="form-inline">
+      <h4>Add external link</h4>
+
+      <input type="hidden" name="_id" value="{{_id}}" />
+      <input type="hidden" name="_rev" value="{{_rev}}" />
+
+      <label class="form-label-fixed" for="url">URL</label>
+      <div class="input-append">
+        <input id="url" type="url" class="input-xlarge" name="_links"/>
+        <button class="btn btn-primary" type="submit">
+          Add
+        </button>
+      </div>
+    </form>
+    <hr/>
+
+    <form id="add_local" class="form-inline">
+      <h4>Add from local files</h4>
+
+      <input type="hidden" name="_id" value="{{_id}}" />
+      <input type="hidden" name="_rev" value="{{_rev}}" />
+
+      <label class="form-label-fixed" for="filename">Filename</label>
+      <div class="input-append">
+        <input id="filename" type="text" class="input-xlarge" name="_filename"/>
+        <button class="btn btn-primary" type="submit">
+          Add
+        </button>
+      </div>
+    </form>
+    <br/>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn pull-right edit-doc-cmd has-tooltip" data-id="{{_id}}"
+      title="Edit the document these files are linked to" data-placement="left">
+      <i class="icon-dm-edit"></i>
+      Edit doc.
+    </button>
+  </div>
+
+</div>

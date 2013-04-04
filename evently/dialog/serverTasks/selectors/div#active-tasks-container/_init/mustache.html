@@ -1,0 +1,78 @@
+{{#no_task}}
+  <p class="alert">No tasks are currently running. Newly launched tasks will appear in this panel in real time.</p>
+{{/no_task}}
+
+{{#has_tasks}}
+ <table id="active-tasks" class="table table-condensed table-striped">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Object</th>
+        <th>Progress</th>
+        <th>Status</th>
+        <th>Started</th>
+        <th>Updated</th>
+        <th>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#tasks}}
+      <tr>
+        <td>{{type}}</td>
+        <td>
+          {{#is_replication}}
+            <span class="has-tooltip" title="{{source}} to {{target}}">
+              <span class="txt-rtl-ellipsis">
+                {{source}} to 
+                <strong>
+                  {{target}}
+                </strong>
+              </span>
+            </span>
+          {{/is_replication}}
+          {{^is_replication}}
+            <strong>{{database}}</strong>
+          {{/is_replication}}
+        </td>
+        <td><strong>{{progress}} &#37;</strong></td>
+        <td>
+          {{#is_replication}}
+            Source sequences (checkpointed / total) : {{checkpointed_source_seq}} / <strong>{{source_seq}}</strong>. 
+            {{#doc_write_failures}} Doc write failures : {{doc_write_failures}}. {{/doc_write_failures}}
+          {{/is_replication}}
+          {{#is_indexer}}
+            Changes (done / total) : {{changes_done}} / <strong>{{total_changes}}</strong> for {{design_document}}.
+          {{/is_indexer}}
+          {{#is_view_compaction}}
+            Design document : {{design_document}}.
+          {{/is_view_compaction}}
+          {{#is_database_compaction}}
+            Changes (done / total) : {{changes_done}} / <strong>{{total_changes}}</strong>.
+          {{/is_database_compaction}}
+        </td>
+        <td>
+          {{#started_on_time}}
+          <span class="has-tooltip" data-placement="top" title="Started date : {{started_on_date}}">
+            {{started_on_time}}
+          </span>
+          {{/started_on_time}}
+        </td>
+        <td>
+          {{#updated_on_time}}
+          <span class="has-tooltip" data-placement="top" title="Updated date : {{updated_on_date}}">
+            {{updated_on_time}}
+          </span>
+          {{/updated_on_time}}
+        </td>
+        <td>
+          {{#duration}}
+          <span class="has-tooltip" data-placement="top" title="Duration format : (number of days) hours:minutes:seconds">
+            {{duration}}
+          </span>
+          {{/duration}}
+        </td>
+      </tr>
+    {{/tasks}}
+    </tbody>
+  </table>
+{{/has_tasks}}

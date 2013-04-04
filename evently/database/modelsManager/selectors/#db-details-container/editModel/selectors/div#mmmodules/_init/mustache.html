@@ -1,0 +1,24 @@
+<div class="row-fluid">
+
+  <div class="span2">
+    <h4>Modules</h4>
+    <ul id="model-editor-modules-tabs" class="nav nav-pills nav-stacked">
+      {{#modules}}
+        <li {{#active}}class="active"{{/active}}>
+          <a href="#{{_id}}" data-toggle="tab">{{name}}</a>
+        </li>
+      {{/modules}}
+    </ul>
+  </div>
+
+  <div class="span10">
+    <div id="model-editor-modules" class="tab-content">
+      {{#modules}}
+        <div class="tab-pane {{#active}}active{{/active}}" id="{{_id}}">
+          <div class="module editor" data-color="{{color}}" id="{{_id}}"></div>
+        </div>
+      {{/modules}}
+    </div>
+  </div>
+
+</div>

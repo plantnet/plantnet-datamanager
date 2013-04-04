@@ -1,0 +1,31 @@
+function(e, pathBinderParams) {
+    //$.log('Pathbinder : missingRef');
+    //$.log('Pathbinder params : ', pathBinderParams);
+
+    // Refresh/Actualise currentPath
+    var infos = $$(this).app.infos;
+    infos.model.activeView = 'missing-ref-view';
+    infos.model.id = pathBinderParams.mmId;
+    $.log('Current model id : ' + infos.model.id);
+    
+    // Check activation block
+    if ($('#db-details-container').length == 0) {
+        $('#app-main-container').trigger('modelsManager');
+    }
+
+    $('#db-details-container').trigger('missingRef', pathBinderParams);
+
+    // Breadcrumbs management
+    breadcrumbData = {trail: [{
+        name: 'Model', 
+        has_icon: true,
+        icon_class: 'icon-dm-model',
+        has_next: true
+    },{
+        name: 'Missing references', 
+        has_icon: true,
+        icon_class: 'icon-dm-link-break',
+        has_next: false
+    }]};
+    $('#breadcrumb-container').trigger('_init', breadcrumbData);;
+}

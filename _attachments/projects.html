@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pl@ntNet-DataManager</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Pl@ntNet-Datamanager : distributed data management system dedicated to botany." />
+    <meta name="keywords" content="Pl@ntnet, Datamanager, botany, management system" />
+    
+    <link rel="icon" type="image/png" href="img/favicons/datamanager.png"> 
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicons/datamanager.ico">
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style/shared.css" />
+    <link rel="stylesheet" href="style/projects.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="header" class="navbar navbar-fixed-top"></div>
+  
+      <div id="app-wrapper" class="container">
+        <div class="row">
+          <div id="breadcrumb-container" class="span12"></div>
+        </div>
+        <div id="app-main-container"></div>
+      </div>
+  
+      <footer id="footer" class="footer"></footer>    
+      <div id="dialog-bloc"></div>
+      <div id="msg-bloc"></div>
+      
+      <div id="busy-bloc" class="alert" data-startup="true">
+        <img src="img/animate/loader.gif" alt="Loading..." />
+        <span id="busy-msg">DataManager is starting</span>
+      </div>
+    </div>
+    
+    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/datamanager/loader.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var serverName = window.location.hostname;
+      if (serverName.indexOf('.') != -1) {
+          serverName = serverName.substring(0, serverName.indexOf('.'));
+      }
+      
+      // Boostrap actions
+      $(document).ready(function() {
+          $('#app').on('click', 'button[data-toggle="modal"], a[data-toggle="modal"]', openModal);
+          
+          $('#app').on('hover', 'a[rel="tooltip"], .has-tooltip', startTooltip);
+      });
+      
+      function startTooltip(event) {
+          if ($(this).data('original-title') == undefined) {
+              $(this).tooltip('show');
+          }
+      }
+      
+      function openModal(event) {
+          var targetId = $(this).is('button') ? $(this).attr('data-target') : $(this).attr('href'),
+              targetDialogName = convertTargetIdToDialogName(targetId)
+
+          $('#dialog-bloc').trigger(targetDialogName);
+          $(targetId + '-modal').modal('show');
+          
+          event.stopPropagation()
+          return false;
+      }
+      
+      function convertTargetIdToDialogName(id) {
+          id = id.slice(1);
+          id = id.replace(/-/g, ' ');
+          id = id.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+          id = id.charAt(0).toLowerCase() + id.substr(1);
+          id = id.replace(/ /g, '');
+          return id;
+      }
+      
+      $.couch.app(function(app) {
+        // load commons libs
+        app.libs = {}
+        app.libs.utils = app.require('vendor/datamanager/lib/utils');
+      
+        // Initialisation
+        document.title = app.db.name + ' @ ' + serverName;
+        app.libs.utils.hideBusyMsg('startup');
+        app.libs.utils.init_app(app, executeEvently);
+      });
+      
+      function executeEvently(app) {
+          // evently event connections
+          $('#header').evently('header', app, { conflicts: false });
+          $('#footer').evently('footer', app);
+          $('#breadcrumb-container').evently('breadcrumb', app);
+          
+          $('#app-main-container').evently('projects', app);
+          $('#dialog-bloc').evently('dialog', app);
+          
+          // run pathbinder on the url
+          $.pathbinder.begin('/dbs');
+      }
+    </script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-39479056-1']);
+      _gaq.push(['_trackPageview']);
+      
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

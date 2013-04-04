@@ -1,0 +1,12 @@
+[{
+  "from": "",
+  "to": "index.html"
+},
+{
+  "from": "vendor/*",
+  "to": "vendor/*"
+},
+{
+  "from": "_view/*",
+  "to": "_view/*"
+}]

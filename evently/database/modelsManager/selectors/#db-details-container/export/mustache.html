@@ -1,0 +1,35 @@
+<div class="margin-left">
+<h3 class="page-title">Export data of <span class="model-name">{{mm_name}}</span> to CSV</h3>
+<br/>
+
+<form class="form-inline" data-mm-id="{{mm_id}}">
+  <div class="control-group">
+    <label class="field-label">CSV Separator</label>
+    <input class="input-mini has-tooltip" name="separator" type="text" value="," maxlength="1" required
+      data-placement="right" title="Specify the column separator used in your CSV file. Only one character is allowed"/>
+  </div>
+
+  {{#isDictionary}}
+  <div class="control-group">
+    <label class="checkbox has-tooltip" data-placement="right" title="Adds 2 columns: $valid_name_id and $synonym_of">
+      <input id="csv-export-synonymy" name="export-synonymy" type="checkbox" checked/>
+      Exports synonymy
+    </label>
+  </div>
+  {{/isDictionary}}
+
+  <div class="control-group">
+    <label class="checkbox">
+      <input id="csv-expand-geoloc" name="expand-geoloc" type="checkbox"/>
+      Expand "geoloc" fields to 2 columns (lon / lat)
+    </label>
+  </div>
+
+  <div>
+    <button class="btn btn-primary" type="submit">
+      Export
+    </button>
+  </div>
+</form>
+</div>
+

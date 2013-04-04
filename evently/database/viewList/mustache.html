@@ -1,0 +1,178 @@
+<div id="list-view">
+<h3 class="page-title">
+  {{#isQuery}}Query: <span class="filter-name">{{/isQuery}}
+  {{title}}
+  {{#isQuery}}</span>{{/isQuery}}
+   - {{total_rows}} {{#isQuery}}results{{/isQuery}}{{^isQuery}}docs{{/isQuery}}
+</h3>
+
+<div class="btn-toolbar" data-spy="affix" data-offset="300">
+  <div class="btn-group">
+    <a title="Select or unselect all docs on this page" class="btn has-tooltip" data-placement="bottom">
+      <input class="toggle-all-cmd" type="checkbox">
+    </a>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn has-tooltip edit-doc-cmd btn-light-docs" data-container="body" data-placement="bottom" 
+        title="Edit selected doc. You can hold Ctrl and double-click on a doc's fields to edit it, too">
+      <i class="icon-dm-edit"></i>
+    </button>
+    <button type="button" class="btn has-tooltip edit-multi btn-light-docs" data-container="body" data-placement="bottom" 
+        title="Edit selected docs at once">
+      <i class="icon-dm-bulk-edit"></i>
+    </button>
+    <button title="Compare selected docs" class="compare-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
+      <i class="icon-dm-compare"></i>
+    </button>
+    <button title="Delete selected docs" class="delete-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
+      <i class="icon-dm-delete"></i>
+    </button>
+  </div>
+  
+  <div class="btn-group">
+    <button title="View revisions for one selected doc" class="view-revs-cmd btn has-tooltip" data-placement="bottom">
+      <i class="icon-dm-revision"></i>
+    </button>
+  </div>
+  
+  {{^isConflict}}
+    <div class="btn-group selections">
+      <!-- Construct by selector -->
+    </div>
+  {{/isConflict}}
+
+  <div class="btn-group">
+    <button type="button" class="btn has-tooltip show-images {{#show_images}}active{{/show_images}}" data-toggle="button"
+      data-placement="bottom"
+      title="Display attachments - warning: may require a lot of memory!">
+      <i class="icon-dm-pictures"></i>
+      <!-- Show images -->
+    </button>
+  </div>
+
+  {{#isSelection}}
+  <div class="btn-group">
+    <a class="btn has-tooltip sort-selection-cmd" data-placement="bottom"
+      title="Sort your selection by alphabetical order of the module names, then of the labels. Warning: this order will be maintained!">
+      <i class="icon-dm-sort-asc"></i>
+      <!-- Sort selection -->
+    </a>
+  </div>
+  {{/isSelection}}
+</div>
+
+{{^nb_rows}}
+  <p class="alert alert-info midwidth">
+  {{#isConflict}}
+      There are no conflicts.
+  {{/isConflict}}
+  {{#isSelection}}
+      Selection is empty.
+  {{/isSelection}}
+  {{#isQuery}}
+      Query returned no results.
+  {{/isQuery}}
+  </p>
+{{/nb_rows}}
+
+<div class="doc-list" data-list-id="{{param}}">
+  <ol>
+    {{#rows}}
+      <li>
+        <input class="ck" type="checkbox" value="{{id}}" data-idx="{{index}}"/>
+        <a href="#/{{link_action}}/{{id}}{{#isRevs}}/conflicts{{/isRevs}}{{^isRevs}}{{#old_id}}/{{old_id}}{{/old_id}}{{/isRevs}}"
+            class="{{cmd_class}}-cmd" title="UID : {{uid}}"> 
+          {{type}} - <i>{{label}}</i>
+        </a>
+        
+        {{#show_images}}
+          <ul class="thumbnails">
+            {{#attachments}}
+              <li>
+                {{#is_image}}
+                  <div class="thumbnail has-overlap">
+                    <div class="has-tooltip" title="Click to open a viewer for image {{name}}.">
+                      <a href="{{url}}" target="_blank" class="preview">
+                        <img src="{{img_url}}" alt="Image : {{name}}"/>
+                      </a>
+                    </div>
+                    {{#fn}}
+                      <a class="overlap-cmd" href="http://localhost:5990/{{fn}}">
+                        <i class="icon-dm-pictures-original"></i>
+                        original
+                      </a>
+                    {{/fn}}
+                  </div>
+                {{/is_image}}
+                {{^is_image}}
+                  <div class="thumbnail">
+                    <div class="has-tooltip" title="Click to open the file {{name}}.">
+                      <a href="{{url}}" target="_blank">
+                        <img class="file" src="img/icons/big-attachment.png" alt="file : {{name}}"/>
+                      </a>
+                    </div>
+                    <p class="caption muted file-caption">
+                      {{shortFn}}
+                    </p>
+                  </div>
+                {{/is_image}}
+              </li>
+            {{/attachments}}
+          </ul>
+        {{/show_images}}
+        
+        <dl class="dl-horizontal">
+          {{#content}}
+            <dt class="muted" title="{{title}}">{{key}}</dt>
+            <dd>{{{value}}}</dd>
+          {{/content}}
+        </dl>
+      </li>
+    {{/rows}}
+  </ol>
+</div>
+
+{{#show_pagination}}
+  <div class="pagination pagination-centered affix-bottom" data-offset-bottom="300" data-spy="affix">
+    <ul>
+      <li {{^prev}}class="disabled"{{/prev}}>
+        <a {{#prev}}href="#/viewlist/{{action}}/{{param}}/{{skip}}/{{title}}/{{show_images}}"{{/prev}}>
+          « Previous
+        </a>
+      </li>
+      {{#pagesBefore}}
+        <li title="Go to page {{pn}}">
+          <a href="#/viewlist/{{action}}/{{param}}/{{lskip}}/{{title}}/{{show_images}}">
+            {{pn}}
+          </a>
+        </li>
+      {{/pagesBefore}}
+        <li class="active">
+          <span>
+            <strong>
+              {{page}}
+            </strong>
+          </span>
+        </li>
+      {{#pagesAfter}}
+        <li title="Go to page {{pn}}">
+          <a href="#/viewlist/{{action}}/{{param}}/{{lskip}}/{{title}}/{{show_images}}">
+            {{pn}}
+          </a>
+        </li>
+      {{/pagesAfter}}
+      <li {{^next}}class="disabled"{{/next}}> 
+        <a {{#next}}href="#/viewlist/{{action}}/{{param}}/{{skip}}/{{title}}/{{show_images}}"{{/next}}>
+          Next » 
+        </a>
+      </li>
+      <li class="pagination-info disabled">
+        <span class="pagination-count">
+          Elements {{eltstart}} - {{eltend}} / <strong>{{total_rows}}</strong> ({{total_pages}} pages)
+        </span>
+      </li>
+    </ul>
+  </div>
+{{/show_pagination}}
+</div>

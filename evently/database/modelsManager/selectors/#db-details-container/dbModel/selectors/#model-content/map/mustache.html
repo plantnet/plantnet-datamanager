@@ -1,0 +1,63 @@
+<h3 class="page-title">Map for <span class="model-name">{{modelName}}</span></h3>
+
+<form>
+  <div id="geoloc-toolbar" class="btn-toolbar">
+    <div class="btn-group">
+      <button class="btn new-map-layer-cmd has-tooltip" data-placement="bottom" 
+          title="Open a form to add informations about a tiles layer. After that, you 'll be able to select 
+            the layer to see it on the map.">
+        <i class="icon-dm-map-layer-add"></i>
+        Add a map layer
+      </button>
+    </div>
+    
+    {{#has_layer}}
+      <div id="map-layers-select" class="btn-group">
+        <a class="btn dropdown-toggle has-tooltip" data-toggle="dropdown" data-placement="top" 
+            title="Select one or more layers for see them on the map.">
+          <i class="icon-dm-map-layer-select"></i>
+          Display a layer
+          <span class="caret"></span>
+        </a>
+        
+        <ul id="geoloc-layers" class="dropdown-menu">
+          {{#user_layers}}
+            <li>
+              <a>
+                <label class="has-tooltip" data-placement="right"
+                    title="Display/Un-display the layer '{{name}}'. Zoom : {{minZoom}} to {{maxZoom}}. Opacity :{{opacity}}. Url template : {{url}}">
+                  <input class="layer" type="checkbox" data-layer-id="{{id}}" />
+                  {{shortName}}
+                </label>
+              </a>
+            </li>
+          {{/user_layers}}
+        </ul>
+      </div>
+      
+      <div id="map-layers-delete" class="btn-group">
+        <a class="btn dropdown-toggle has-tooltip" data-toggle="dropdown" data-placement="top" 
+            title="Select a layer to delete.">
+          <i class="icon-dm-map-layer-delete"></i>
+          Delete a layer
+          <span class="caret"></span>
+        </a>
+        
+        <ul id="geoloc-layers-delete" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+          {{#user_layers}}
+            <li>
+              <a class="delete-layer-cmd has-tooltip" data-layer-id="{{id}}" data-placement="right" 
+                  title="Delete the layer from map and cookie.">
+                <i class="icon-dm-delete"></i>
+                {{shortName}}
+              </a>
+            </li>
+          {{/user_layers}}
+        </ul>
+      </div>
+    {{/has_layer}}
+  </div>
+</form>
+
+<div id="geoloc-view-map" class="google-map"></div>
+<div id="geoloc-list"></div>

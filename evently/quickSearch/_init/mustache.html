@@ -1,0 +1,28 @@
+<div class="btn-toolbar pull-right">
+  <div id="selections" class="btn-group selections {{#active_select_list_view}}active{{/active_select_list_view}}">
+    <!-- Construct by selector -->
+  </div>
+
+  <div class="btn-group">
+    <form id="quick-search">
+      <div class="input-prepend input-append">
+        <span class="add-on"><i class="icon-search"></i></span>
+        <input id="quicksearch-input-field" class="search-query has-tooltip" type="text" 
+               data-placement="bottom" data-trigger="focus" data-html="true" placeholder="Quick Search" name="q" 
+               title="Search by words: <br />Use * for incomplete words<br />Use &quot; &quot; to look for an exact sentence<br />
+                      Use - to exclude a word or sentence">
+        <select id="quicksearch-structure-selector">
+          <option value="" selected>Select a structure</option>
+          {{#mms}}
+            <option value="{{_id}}">{{name}}</option>
+          {{/mms}}
+        </select>
+        <select id="quicksearch-module-selector" style="display:none;">
+          <!-- constructed by selector -->
+        </select>
+        <button class="btn" type="submit">Search</button>
+      </div>
+    </form>
+
+  </div>
+</div>

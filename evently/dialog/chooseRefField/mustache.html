@@ -1,0 +1,31 @@
+<div id="choose-dictionary-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="choose-dictionary-modal-label" 
+    aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="choose-dictionary-modal-label">Choose a Dictionary to check</h3>
+    </div>
+    
+    <div class="modal-body">
+      {{^has_mms}}
+      <p class="alert">You have no references to any dictionary in <!-- any modules of --> your structure</p>
+      {{/has_mms}}
+      
+      {{#has_mms}}
+      <p>Find unreferenced values for :</p>
+      <ul>
+      {{#mms}}
+        <li>
+          <a href="#/missingref/{{mm_id}}/{{enc_id}}" class="open-missing-ref-cmd">
+            {{name}}
+          </a>
+        </li>
+      {{/mms}}
+      </ul>
+      {{/has_mms}}
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </form>
+</div>

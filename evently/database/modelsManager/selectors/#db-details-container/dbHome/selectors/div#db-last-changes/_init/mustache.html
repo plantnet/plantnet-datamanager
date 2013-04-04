@@ -1,0 +1,35 @@
+<h3>Last changes</h3>
+
+<table class="table table-striped table-hover table-condensed table-bordered">
+  <thead>
+    <tr>
+      <th>Doc</th>
+      <th>Author</th>
+      <th>Date</th>
+      <th>Diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#changes}}
+    <tr>
+      <td>
+        <a href="#/viewdoc/{{id}}">
+          {{label}}
+        </a>
+      </td>
+      <td>
+        {{author}}
+      </td>
+      <td>
+        {{time}}
+      </td>
+      <td>
+        <a class="btn btn-mini" href="#/viewrevs/{{id}}/0">
+          <i class="icon-dm-diff"></i>
+          Diff.
+        </a>
+      </td>
+    </tr>
+    {{/changes}}
+  </tbody>
+</table>

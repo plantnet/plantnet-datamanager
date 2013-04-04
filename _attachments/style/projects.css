@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* CUSTOMISING of DATAMANGER's STYLE */
+
+h2 {
+    font-size: 1.8em;
+    line-height: 30px;
+}
+
+.medium-top-margin {
+    margin-top: 10px;
+}
+
+/* LOGOS */
+.logos #logo-tela-botanica {
+    height: 40px;
+}
+
+/* SIGNUP */
+#login-form-bloc {
+    background : #EEE url("../img/backgrounds/green_wave.png") no-repeat center center;
+    background-size: contain;
+}
+
+/* LOGIN */
+.user-role {
+    font-size: 0.6em;
+}
+
+/* FOOTER */
+.bottom-space {
+    margin-bottom: 100px;
+}

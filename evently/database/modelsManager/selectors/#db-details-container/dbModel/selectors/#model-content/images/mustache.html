@@ -1,0 +1,93 @@
+<h3 class="page-title">
+  Pictures gallery
+  {{#isMod}} for <span class="module-name">{{moduleName}}</span>{{/isMod}}
+  {{#isParent}} for <span class="doc-label">{{label}}</span>{{/isParent}}
+  {{^id}} for <span class="model-name">{{modelName}}</span>{{/id}}
+</h3>
+  {{#id}}
+    <a class="btn has-tooltip all-images-cmd medium-top-margin" data-placement="right"
+      href="#/images/{{mm_id}}/0/0/0"
+      title="You are currently viewing images for {{#isMod}}module {{moduleName}}{{/isMod}}{{#isParent}}document {{label}}{{/isParent}}. Click here to show all images of all modules in the structure">
+      View images for the whole structure
+    </a>
+    <br/>
+  {{/id}}
+
+{{#noimage}}
+  <p class="alert alert-info medium-top-margin">
+    Nothing to display
+  </p>
+{{/noimage}}
+
+{{#urls}}
+<div class="image-grid">
+  <a href="{{url}}" class="preview has-tooltip" data-title="{{bn}}"
+    title="Open a viewer for image {{bn}}">
+    <img src="{{url}}" alt="Not an image"/>
+  </a>
+  <br/>
+  <div class="image-commands">
+    <a class="details-cmd has-tooltip" href="#/viewdoc/{{id}}"
+      title="View document details">
+      <i class="icon-dm-detail"></i>
+      view data
+    </a>
+    {{!appletRunning}}
+      {{#fn}}
+        <a class="source-img-cmd has-tooltip" href="http://localhost:5990/{{fn}}"
+          title="Open local file (requires local files applet to be running)">
+          <i class="icon-dm-pictures-original"></i>
+          source
+        </a>
+      {{/fn}}
+    {{!appletRunning}}
+    <br/>
+    <div class="filename has-tooltip" title="{{bn}}">
+      {{bn}}
+    </div>
+  </div>
+</div>
+{{/urls}}
+
+{{^noimage}}
+<div class="pagination pagination-centered clear affix-top" data-spy="affix" data-offset-bottom="300">
+  <ul>
+    <li {{^prevexists}}class="disabled"{{/prevexists}}>
+      <a {{#prevexists}}href="#/images/{{mm_id}}/{{prevskip}}/{{type}}/{{id}}"{{/prevexists}}>
+        « Previous
+      </a>
+    </li>
+    {{#pagesBefore}}
+    <li title="Go to page {{pn}}">
+      <a href="#/images/{{mm_id}}/{{lskip}}/{{type}}/{{id}}">
+        {{pn}}
+      </a>
+    </li>
+    {{/pagesBefore}}
+    <li class="active">
+      <span>
+        <strong>
+          {{page}}
+        </strong>
+      </span>
+    </li>
+    {{#pagesAfter}}
+    <li title="Go to page {{pn}}">
+      <a href="#/images/{{mm_id}}/{{lskip}}/{{type}}/{{id}}">
+        {{pn}}
+      </a>
+    </li>
+    {{/pagesAfter}}
+    <li {{^nextskip}}class="disabled"{{/nextskip}}> 
+      <a {{#nextskip}}href="#/images/{{mm_id}}/{{nextskip}}/{{type}}/{{id}}"{{/nextskip}}>
+        Next » 
+      </a>
+    </li>
+    <li class="pagination-info disabled">
+      <span class="pagination-count">
+        Elements {{eltstart}} - {{eltend}} / <strong>{{nbattachments}}</strong> ({{total_pages}} pages)
+      </span>
+    </li>
+  </ul>
+</div>
+{{/noimage}}

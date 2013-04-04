@@ -1,0 +1,28 @@
+<div id="server-tasks-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="server-tasks-modal-label" aria-hidden="true" >
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="server-tasks-modal-label">Active server tasks</h3>
+  </div>
+
+  <div class="modal-body">
+    <div id="active-tasks-container">
+      <!-- Generate by selectors -->
+    </div>
+  </div>
+    
+  <div class="modal-footer">
+    <button class="btn pull-left has-tooltip" data-dismiss="modal" aria-hidden="true" data-placement="right"
+      title="Hiding the panel won't stop currently running tasks">
+      Hide
+    </button>
+    {{#cancelButton}}
+      <button class="btn btn-error cancel-cmd has-tooltip" type="button" data-placement="left"
+        title="Stop replication. The databases will be left in the state they're in. Next replication will go on where this one stopped.">
+        Cancel replication
+      </button>
+    {{/cancelButton}}
+  </div>
+  
+</div>

@@ -1,0 +1,15 @@
+<div class="input-range">
+  <input 
+    id="{{name}}"
+    name="{{name}}"
+    class="editw range"
+    type="range" 
+    min="{{min}}" 
+    max="{{max}}" 
+    step="{{step}}" 
+    value="{{value}}"
+    {{#required}}required{{/required}}/>
+  <output class="input-range-min">{{min}}</output>
+  <output class="input-range-value" title="Actual value">{{value}}</output>
+  <output class="input-range-max">{{max}}</output>
+</div>

@@ -1,0 +1,22 @@
+<div class="btn-group">
+  <a class="btn dropdown-toggle has-tooltip" data-placement="top" data-toggle="dropdown"
+    data-title="Select one or more values">
+    Select value(s)
+    <span class="caret"></span>
+  </a>
+  <input id="{{name}}" class="editw" type="hidden" value="{{value}}"/>
+  <ul class="dropdown-menu">
+  {{#values}}
+    <li>
+      <a>
+        <label class="checkbox prevent-propagation" for="ck-{{name}}-{{value}}">
+          <input id="ck-{{name}}-{{value}}" type="checkbox" class="ck" value="{{value}}" name="ck-{{name}}"
+            {{#required}}data-required="true" data-label="{{label}}"{{/required}}
+            {{#selected}}checked{{/selected}}/>
+          {{value}}
+        </label>
+      </a>
+    </li>
+  {{/values}}
+  </ul>
+</div>

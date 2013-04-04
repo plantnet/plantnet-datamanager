@@ -1,0 +1,18 @@
+<div id="show-map-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="show-map-modal-label" 
+    aria-hidden="true">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-doc-modal-label">Location of {{label}}:</h3>
+    </div>
+
+    <div class="modal-body">
+      <input type="hidden" id="lon" value="{{lon}}"/>
+      <input type="hidden" id="lat" value="{{lat}}"/>
+      <div id="readonly-map" class="geoloc-show-map google-map"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>

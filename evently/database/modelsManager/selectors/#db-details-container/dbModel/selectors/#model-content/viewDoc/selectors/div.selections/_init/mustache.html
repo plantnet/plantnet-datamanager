@@ -1,0 +1,24 @@
+<button title="Create a new selection."
+    class="new-selection-cmd btn has-tooltip" data-placement="bottom">
+  <i class="icon-dm-selection-add"></i>
+</button>
+{{#has_selections}}
+  <button class="btn dropdown-toggle has-tooltip" data-toggle="dropdown"
+      title="Choose a selection to add the actualy selected entries.">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu right-aligned-dropdown selections">
+    {{#selections}}
+      {{#value}}
+        <li class="has-tooltip" 
+            data-placement="left"
+            title="Add the selected entries to '{{name}}'.">
+          <a class="add-selection-cmd" data-selection-id="{{id}}">
+            <i class="icon-dm-selection-add"></i>
+            Add to '{{name}}'
+          </a>
+        </li>
+      {{/value}}
+    {{/selections}}
+  </ul>
+{{/has_selections}}
