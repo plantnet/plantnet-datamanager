@@ -463,11 +463,6 @@ ul.selections > li > .delete-selection-cmd:hover {
     margin-right: 50px;
 }
 
-#db-last-changes {
-    width: 700px;
-    clear: both;
-}
-
 #models-catalog p.alert {
     width: 670px;
 }
@@ -508,6 +503,8 @@ ul.selections > li > .delete-selection-cmd:hover {
 
 /* Widget : dbHome (Last changes) */
 #db-last-changes {
+    width: 700px;
+    clear: both;
     margin: 0 0.2em 2em;
 }
 #db-last-changes table {
@@ -530,10 +527,10 @@ ul.selections > li > .delete-selection-cmd:hover {
 #db-last-changes table td, #db-last-changes table th {
     padding: 5px;
     margin: 0;
-    width: 165px;
+    width: 85px;
 }
 #db-last-changes table td:first-child, #db-last-changes table th:first-child {
-    width: 265px;
+    width: 350px;
 }
 #db-last-changes table td:nth-child(3), #db-last-changes table th:nth-child(3) {
     width: 145px;
