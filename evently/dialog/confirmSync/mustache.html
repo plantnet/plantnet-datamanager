@@ -1,0 +1,51 @@
+<div id="confirm-sync-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirm-sync-modal-label" 
+    aria-hidden="true">
+  
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="confirm-sync-modal-label">Synchronize Databases</h3>
+  </div>
+  
+  <div class="modal-body">
+    <p>
+      You are about to 
+      {{#get}}
+        <strong>GET</strong> data <strong>from</strong>
+      {{/get}}
+      {{#put}}
+        <strong>SEND</strong> data <strong>to</strong>
+      {{/put}}
+      the
+      <strong>
+        {{#local}}local{{/local}}
+        {{#remote}}remote{{/remote}}
+      </strong>
+      database at&nbsp;:<br/>
+      <a>
+        {{#get}}{{source}}{{/get}}
+        {{#put}}{{target}}{{/put}}
+      </a>
+      <br />
+      <strong>Are you sure&nbsp;?</strong>
+    </p>
+    
+    {{#put}}
+      {{#remote}}
+      <div class="alert">
+        <strong>Warning :</strong> you are <strong>sending</strong> documents to a remote database.
+        <ul>
+          <li>If you created new documents locally, they will be added to the remote base</li>
+          <li>If you deleted documents locally, they will be deleted on the remote base</li>
+        </ul>
+      </div>
+      {{/remote}}
+    {{/put}}
+  </div>
+  
+  <div class="modal-footer">
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary pull-right start-sync-cmd">
+      Start synchronization
+    </button>
+  </div>
+</div>

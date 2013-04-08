@@ -1,0 +1,34 @@
+<h3 class="page-title">Structure <span class="model-name">{{mm_name}}</span> : Missing links for dictionary <span class="model-name">{{mm_ref_name}}</span></h3>
+
+<div id="missing-references">
+  <a class="btn match-cmd">Try to repair the links (match by value)</a>
+  <br/><br/>
+  <table class="table table-striped table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Doc label</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#rows}}
+      <tr>
+        <td>
+          {{module}}.{{field}}
+        </td>
+        <td>
+          {{val}}
+        </td>
+        <td>
+          <a class="btn btn-mini edit-doc-cmd has-tooltip" data-id="{{_id}}"
+            title="Edit the document to manually fix the broken link" data-placement="left">
+            <i class="icon-dm-edit"></i>
+            edit
+          </a>
+        </td>
+      </tr>
+      {{/rows}}
+    </tbody>
+  </table>
+</div>

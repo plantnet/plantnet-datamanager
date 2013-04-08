@@ -1,0 +1,76 @@
+<h3>Available structures</h3>
+
+{{#hasModels}}
+  <table class="table table-striped table-condensed available-models">
+    <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Number of docs
+      </th>
+      <th>
+        Type
+      </th>
+      {{#is_admin}}
+      <th>
+        Edit
+      </th>
+      {{/is_admin}}
+    </tr>
+    </thead>
+    <tbody>
+    {{#models}}
+      <tr>
+        <td>
+          {{#isref}}
+            <i class="icon-dm-model-dictionary"></i>
+          {{/isref}}
+          {{^isref}}
+            <i class="icon-dm-model"></i>
+          {{/isref}}
+          <a href="#/tree/{{id}}/0/1">{{name}}</a>
+        </td>
+        <td>
+          {{desc}}
+        </td>
+        <td>
+          {{nbDocs}}
+        </td>
+        <td>
+          {{#isref}}
+            Dictionary
+          {{/isref}}
+          {{^isref}}
+            Data
+          {{/isref}}
+        </td>
+        {{#is_admin}}
+        <td>
+          <a href="#/editmm/{{id}}" class="has-tooltip" title="Open structure editor for structure {{name}}">
+            <i class="icon-dm-model-edit"></i>
+          </a>
+        </td>
+        {{/is_admin}}
+      </tr>
+    {{/models}}
+    </tbody>
+  </table>
+{{/hasModels}}
+
+{{^hasModels}}
+  <p class="alert alert-info">
+    There are no structures in the database.
+    {{#is_admin}}
+    <br/>
+    <button class="btn new-model-cmd" data-toggle="modal" data-target="#new-mm">
+      <i class="icon-dm-ui-tab-plus"></i>
+      Create a new structure
+    </button>
+    {{/is_admin}}
+  </p>
+{{/hasModels}}

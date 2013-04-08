@@ -1,0 +1,194 @@
+<h3 class="page-title">Original doc</h3>
+{{#only_one_doc}}
+  <p class="alert alert-warning">
+    Id migration of this doc has failed. Try to update it manually.
+  </p>
+{{/only_one_doc}}
+
+{{#odoc}}
+<div class="duplicated-doc">
+  <table class="table table-striped table-condensed small-bottom-margin">
+    <thead>
+      <tr>
+        <th>
+          <!-- <span class="module-name"> -->
+            {{modname}}
+          <!-- </span> -->
+        </th>
+        <th>
+          <a class="btn btn-mini pull-right edit-doc-cmd has-tooltip small-left-margin" data-id="{{_id}}" data-oid="{{original_doc_id}}"
+            title="Edit this document. Changing the value of a field involved in the index may resolve the conflict">
+            <i class="icon-dm-edit"></i>
+          </a>
+          <!-- <a class="btn btn-mini pull-right has-tooltip" data-id="{{_id}}"
+            href="#/viewdoc/{{_id}}/0" title="Show details">
+            <i class="icon-dm-detail"></i>
+          </a> -->
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#data}}
+      <tr>
+        <td>
+          {{#isLabel}}<i>{{/isLabel}}
+          {{key}}
+          {{#isLabel}}</i>{{/isLabel}}
+        </td> 
+        <td class="val {{#hastooltip}}has-tooltip{{/hastooltip}}"
+          {{#hastooltip}}
+            title="{{tooltip}}"
+          {{/hastooltip}}
+          >
+          {{#isLabel}}<span class="doc-label">{{/isLabel}}
+          {{val}}
+          {{#isLabel}}<span>{{/isLabel}}
+        </td>
+      </tr>
+      {{/data}}
+    </tbody>
+    {{#hasextra}}
+    <thead>
+      <tr>
+        <th>Extra Data</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#extradata}}
+      <tr>
+        <td>{{key}}</td>
+        <td class="val"> {{val}} </td>
+      </tr>
+      {{/extradata}}
+    </tbody>
+    {{/hasextra}}
+  </table>
+
+  {{#has_attachment}}
+  <h5>Files</h5>
+  
+  <ul class="thumbnails small-thumbnails no-bottom-margin">
+    {{#attachments}}
+    <li>
+      <div class="thumbnail small-thumbnail">
+      {{#is_image}}
+          <div class="has-tooltip" title="Click to open a viewer for image {{name}}.">
+            <a href="{{url}}" target="_blank" class="preview">
+              <img src="{{img_url}}" alt="Image : {{name}}"/>
+            </a>
+          </div>
+          {{#fn}}
+            <a class="overlap-cmd" href="http://localhost:5990/{{fn}}">
+              <i class="icon-dm-pictures-original"></i>
+              original
+            </a>
+          {{/fn}}
+      {{/is_image}}
+      {{^is_image}}
+          <div class="has-tooltip" title="Click to open the file {{name}}.">
+            <a href="{{url}}" target="_blank">
+              <img class="file" src="img/icons/big-attachment.png" alt="file : {{name}}"/>
+            </a>
+          </div>
+          <p class="file-caption">
+            {{shortFn}}
+          </p>
+      {{/is_image}}
+      </div>
+    </li>
+    {{/attachments}}
+  </ul>
+  
+  
+  <!-- <div id="attachments">
+    {{#attachments}}
+    <a href="{{url}}" rel="preview" title="{{name}}">
+      <img src="{{img_url}}" alt="Not an image" width="80px"/>
+    </a>
+    {{/attachments}}
+  </div> -->
+  {{/has_attachment}}
+
+</div>
+{{/odoc}}
+
+{{^only_one_doc}}
+<h3>Duplicated docs</h3>
+
+<div>
+  {{#docs}}
+  <div class="duplicated-doc pull-left">
+    <table class="table table-striped table-condensed small-bottom-margin">
+      <thead>
+        <tr>
+          <th>
+            <!-- <span class="module-name"> -->
+              {{modname}}
+            <!-- </span> -->
+          </th>
+          <th>
+            <a class="btn btn-mini btn-danger pull-right delete-doc-cmd has-tooltip small-left-margin" data-id="{{_id}}"
+              title="Delete this document">
+              X
+            </a>
+            <a class="btn btn-mini pull-right edit-doc-cmd has-tooltip" data-id="{{_id}}" data-oid="{{original_doc_id}}"
+              title="Edit this document. Changing the value of a field involved in the index may resolve the conflict">
+              <i class="icon-dm-edit"></i>
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#data}}
+        <tr>
+          <td>
+            {{#isLabel}}<i>{{/isLabel}}
+            {{key}}
+            {{#isLabel}}</i>{{/isLabel}}
+          </td> 
+          <td class="val {{#hastooltip}}has-tooltip{{/hastooltip}}"
+            {{#hastooltip}}
+              title="{{tooltip}}"
+            {{/hastooltip}}
+            >
+            {{#isLabel}}<span class="doc-label">{{/isLabel}}
+            {{val}}
+            {{#isLabel}}<span>{{/isLabel}}
+          </td>
+        </tr>
+        {{/data}}
+      </tbody>
+      {{#hasextra}}
+      <thead>
+        <tr>
+          <th>Extra Data</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#extradata}}
+        <tr>
+          <td>{{key}}</td>
+          <td class="val"> {{val}} </td>
+        </tr>
+        {{/extradata}}
+      </tbody>
+      {{/hasextra}}
+    </table>
+  
+    {{#has_attachment}}
+    <h5>Files</h5>
+    <div id="attachments">
+      {{#attachments}}
+      <a href="{{url}}" rel="preview" title="{{name}}">
+        <img src="{{img_url}}" alt="Not an image" width="80px"/>
+      </a>
+      {{/attachments}}
+    </div>
+    {{/has_attachment}}
+  </div>
+  {{/docs}}
+
+</div>
+{{/only_one_doc}}

@@ -1,0 +1,25 @@
+<button class="btn view-selection-btn dropdown-toggle has-tooltip {{#active}}active{{/active}}" 
+    data-toggle="dropdown" data-placement="top"
+    title="Choose a selection to see its entries.">
+  <i class="icon-dm-selection"></i>
+  <span class="caret"></span>
+</button>
+{{#has_selections}}
+<ul class="dropdown-menu selections">
+  {{#selections}}
+  {{#value}}
+  <li>
+    <a class="delete-selection-cmd has-tooltip pull-right" data-placement="right" data-id="{{id}}"
+      title="Delete the selection. The documents it contains won't be affected.">
+      <i class="icon-dm-delete"></i>
+    </a>
+    <a href="#/viewlist/select/{{id}}/0/_/0" class="view-selection-cmd has-tooltip" data-selection-id="{{id}}"
+      data-placement="right" title="Open a view list to see {{length}} entries for selection '{{name}}'.">
+      <i class="icon-dm-selection"></i>
+      View '{{name}}' ({{length}} entries)
+    </a>
+  </li>
+  {{/value}}
+{{/selections}}
+</ul>
+{{/has_selections}}

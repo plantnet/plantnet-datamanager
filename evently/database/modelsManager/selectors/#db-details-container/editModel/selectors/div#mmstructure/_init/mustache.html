@@ -1,0 +1,66 @@
+{{#has_modt}}
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <div class="input-append">
+        <select id="modt-to-add" name="modt">
+          {{#modts}}
+            <option value="{{modt}}">{{name}}</option>
+          {{/modts}}
+        </select>
+        <button class="btn btn-success new-modi-cmd has-tooltip"
+          title="Add a new instance of this module to the hierarchy: under the selected instance if there is one, under the root otherwise">
+        Add</button>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-danger delete-modi-cmd has-tooltip"
+        title="Delete the selected module instance from the hierarchy">
+      Delete instance</button>
+    </div>
+  </div>
+{{/has_modt}}
+
+{{#has_modis}}
+  <table class="table simple highlight">
+    <thead>
+      <tr>
+        <th class="ck-col"></th>
+        <th>Module</th>
+        <th>Title</th>
+        <th>Label template</th>
+        <th>Optional</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#modis}}
+      <tr data-removable="{{noson}}" data-modi="{{modi}}">
+        <td class="ck-col">
+          <input class="ck selected-field" type="checkbox" value="{{name}}"/>
+        </td>
+        <td>
+          <span class="module indent" data-indent="{{level}}">
+            <i class="icon-dm-bullet-arrow-down"></i>
+            {{name}}
+          </span>
+        </td>
+        <td>
+          <input id="{{modi}}_title" type="text" class="title input-large has-tooltip" value="{{title}}"
+            title="If specified, this title will appear instead of the module instance position (ie 'modx.mody.modz')"
+          />
+        </td>
+        <td>
+          <input id="{{modi}}_ltpl" type="text" class="tpl input-xxlarge has-tooltip" value="{{index_tpl}}"
+            title="If specified, the label template for this module instance will override the label template defined for the module"
+          />
+        </td>
+        <td>
+          <input id="{{modi}}_opt" type="checkbox" class="opt has-tooltip"
+            title="Make this module instance optional" {{#opt}}checked{{/opt}}
+          />
+        </td>
+      </tr>
+      {{/modis}}
+    </tbody>
+  </table>
+{{/has_modis}}

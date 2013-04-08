@@ -1,0 +1,118 @@
+{{#is_conflict}}
+<h3 class="page-title">Edit conflict</h3>
+<div id="view-revs">
+  <form data-origin="{{origin}}">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Revision #</th>
+          {{#revs_titles}}
+            <th class="txt-centered">
+              {{.}}
+            </th>
+          {{/revs_titles}}
+        </tr>
+        <tr>
+          {{#status}}
+            {{#is_field_name}}
+              <th>
+                {{{value}}}
+              </th>
+            {{/is_field_name}}
+            {{^is_field_name}}
+              <th class="txt-centered">
+                {{{value}}}
+              </th>
+            {{/is_field_name}}
+          {{/status}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#rows}}
+          <tr>
+            {{#values}}
+              {{#is_field_name}}
+                <th>
+                  {{{value}}}
+                </th>
+              {{/is_field_name}}
+              {{^is_field_name}}
+                <td>
+                  {{{value}}}
+                </td>
+              {{/is_field_name}}
+            {{/values}}
+          </tr>
+        {{/rows}}
+      </tbody>
+      
+      <tfoot>
+        <tr>
+          <th>
+            Select
+          </th>
+          {{#revs}}
+            <th class="txt-centered has-tooltip" data-container="body" title="Select the revision that you want to keep.">
+              <input type="radio" name="selection" value="{{.}}" checked />
+            </th>
+          {{/revs}}
+        </tr>
+      </tfoot>
+    </table>
+    
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">
+        Resolve
+      </button>
+    </div>
+  </form>
+</div>
+{{/is_conflict}}
+
+{{^is_conflict}}
+<h3>View changes</h3>
+<table id="view-revs" class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Revision #</th>
+      {{#revs_titles}}
+        <th class="txt-centered">
+          {{.}}
+        </th>
+      {{/revs_titles}}
+    </tr>
+    <tr>
+      {{#status}}
+        {{#is_field_name}}
+          <th>
+            {{{value}}}
+          </th>
+        {{/is_field_name}}
+        {{^is_field_name}}
+          <th class="txt-centered">
+            {{{value}}}
+          </th>
+        {{/is_field_name}}
+      {{/status}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#rows}}
+      <tr>
+        {{#values}}
+          {{#is_field_name}}
+            <th>
+              {{{value}}}
+            </th>
+          {{/is_field_name}}
+          {{^is_field_name}}
+            <td>
+              {{{value}}}
+            </td>
+          {{/is_field_name}}
+        {{/values}}
+      </tr>
+    {{/rows}}
+  </tbody>
+</table>
+{{/is_conflict}}

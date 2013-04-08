@@ -1,0 +1,84 @@
+<table class="table">
+
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th>Field</th>
+      <th>Operator</th>
+      <th>Value</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#criteria}}
+    <tr data-rowIndex="{{index}}">
+      <td>{{fname}}</td>
+      <td>{{label}}</td>
+      <td>
+        <select class="op">
+          {{#ops}}
+          <option value="{{value}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+          {{/ops}}
+        </select>
+      </td>
+      <td>
+        {{#select}}
+        <select class="value">
+          {{#values}}
+          <option value="{{v}}" {{#selected}}selected{{/selected}}>{{v}}</option>
+          {{/values}}
+        </select>
+        {{/select}}
+        {{#multi_select}}
+        <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown">
+            Select value(s)
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {{#values}}
+            <li>
+              <a>
+                <label for="ck-{{v}}" class="checkbox prevent-propagation">
+                  <input
+                    id="ck-{{v}}"
+                    name="ck-{{v}}"
+                    class="ck"
+                    type="checkbox"
+                    value="{{v}}"
+                    {{#selected}}checked="checked"{{/selected}}
+                  />
+                  {{v}}
+                </label>
+              </a>
+            </li>
+            {{/values}}
+          </ul>
+        </div>
+        {{/multi_select}}
+        {{#range}}
+        <span class="range">
+          <input type="{{inputtype}}" required class="min value {{type}} {{simpletype}}" value="{{min}}"
+          mmrefid-data="{{mm_ref_id}}" placeholder="from"/>
+          <input type="{{inputtype}}" required class="max value {{type}} {{simpletype}}" value="{{max}}"
+          mmrefid-data="{{mm_ref_id}}" placeholder="to"/>
+        </span>
+        {{/range}}
+        {{#simple}}
+        <input type="{{inputtype}}" required class="value {{type}} {{simpletype}}" value="{{value}}" 
+          mmrefid-data="{{mm_ref_id}}" 
+          placeholder="value"/>
+        {{/simple}}
+      </td>
+      <td>
+        <a class="btn btn-danger delete-criterion-cmd has-tooltip"
+          title="Delete this criterion from the query definition" data-placement="left">
+          Delete
+        <a/>
+      </td>
+    </tr>
+    {{/criteria}}
+  </tbody>
+
+</table>

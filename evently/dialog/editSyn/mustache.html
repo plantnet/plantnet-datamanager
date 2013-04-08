@@ -1,0 +1,99 @@
+<div id="edit-syn-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-syn-modal-label" 
+    aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="create-db-modal-label">Synonyms for {{label}}</h3>
+  </div>
+  
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span5">
+        <form id="add-syn" mm-data="{{mm}}" docid-data="{{active_id}}">
+          <label for="new-syn">
+            Add a synonym of <i>{{active_label}}</i>
+          </label>
+          <div class="input-append">
+            <input id="new-syn" class="autocomplete" type="text"/>
+            <input id="new-syn-id" class="id" type="hidden"/>
+            <button class="btn btn-primary"type="submit">
+              Add
+            </button>
+          </div>
+          
+        </form>
+      </div>
+      <div class="span2">
+        <strong>OR</strong> 
+      </div>
+      <div class="span5">
+        <form id="set-syn" mm-data="{{mm}}" docid-data="{{doc_id}}">
+          <label for="syn-of">
+            <i>{{label}}</i> is a synonym of 
+          </label>
+          <div class="input-append">
+            <input id="syn-of" class="autocomplete" type="text"/>
+            <input id="syn-of-id" class="id" type="hidden"/>
+            <button class="btn btn-primary"type="submit">
+              Set
+            </button>
+          </div>   
+        </form>
+      </div>
+    </div>
+    <hr/>
+    {{^has_syn}}
+      <p class="alert alert-info">
+        {{label}} has no synonym.
+      </p>
+    {{/has_syn}}
+    {{#has_syn}}
+      <form id="active-syn" class="form-horizontal">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Synonyms and valid label</th>
+              <th>Valid</th>
+              <th>Edit</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#rows}}
+              <tr{{#selected}} class="success"{{/selected}}>
+                <td data-syn="{{label}}" class="tajin">
+                  <label for="{{id}}"{{#selected}} class="selected"{{/selected}}{{#disabled}} disabled{{/disabled}}>
+                    {{label}}
+                  </label>
+                </td>
+                <td>
+                  <input id="{{id}}" class="active" name="syn" type="radio" {{#selected}} checked{{/selected}}/>
+                </td>
+                <td>
+                  <a class="btn btn-warning command edit" href="#{{id}}">
+                    <i class="icon-dm-edit"></i>
+                    Edit
+                  </a>
+                </td>
+                <td>
+                  {{^selected}} 
+                    <a class="btn btn-danger command delete" href="#{{id}}">
+                      <i class="icon-dm-delete"></i>
+                      Remove
+                    </a>
+                  {{/selected}}
+                </td>
+              </tr>
+            {{/rows}}
+          </tbody>
+        </table>
+      </form>
+      <hr/>
+    {{/has_syn}}
+  </div>
+    
+  <div class="modal-footer">
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+  

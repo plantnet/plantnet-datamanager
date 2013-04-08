@@ -1,0 +1,33 @@
+<div id="edit-multi-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-multi-modal-label" aria-hidden="true">
+  <form id="edit-multi" class="form form-inline">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-doc-modal-label">Bulk Edit</h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="control-group">
+        <label class="field-label">
+          Field name
+        </label>
+        <input id="field-name" type="text" name="field-name" class="has-tooltip" data-placement="bottom"
+          placeholder="Field name"
+          title="Choose a field to update its value in all the selected docs"/>
+        <br/>
+        <br/>
+        <label class="field-label">
+          Value
+        </label>
+        <input id="field-value" type="text" name="field-value" class="has-tooltip" data-placement="top"
+          placeholder="Value to be set"
+          title="This value will be written into the above field, for all selected documents"/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button type="submit" class="btn btn-primary">Confirm and close</button>
+    </div>
+  </form>
+</div>

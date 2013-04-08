@@ -1,0 +1,434 @@
+@charset "UTF-8";
+html, body, .app { height:100% }
+body {
+    padding-top: 60px;
+}
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* POSITIONING BLOCKS */
+
+#main-bloc {
+    padding: 60px 0;
+}
+
+#busy-bloc {
+    z-index : 10000;
+    position: absolute;
+    top: 25px;
+    left:50%;
+    width: 300px;
+    margin-left: -150px;
+}
+
+#msg-bloc {
+    z-index : 10000;
+    position: absolute;
+    top : 100px;
+    right : 20px;
+    width : 300px;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* CUSTOMISING of DATAMANGER's STYLE */
+
+#app {
+    min-height: 80%;
+    height: auto !important;
+    margin: 0 auto -70px;
+}
+
+/* LOGIN */
+.user-role {
+    font-size: 0.6em;
+}
+
+/* DB INFOS */
+#db-infos {
+  background-color:inherit;
+}
+
+.model-title {
+    visibility:hidden;: true;
+    font-size: 18px;
+    line-height: 20px;
+    padding-left: 15px;
+}
+.model-title.affix {
+    visibility:visible;
+    top: 45px;
+    left: 5px;
+}
+.model-title.affix-top {
+    visibility:hidden;
+}
+.model-menu {
+    margin-top:5px;
+}
+.model-menu.affix {
+    top:80px;
+}
+
+.nav-list li, .dropdown-menu li {
+  cursor: pointer;
+}
+
+.nav-title {
+  margin: 0;
+}
+
+.breadcrumb {
+  padding: 5px 15px;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+/* Toolbar */
+.btn-toolbar form {
+    margin-bottom: 0;
+}
+.btn-toolbar .input-append, .btn-toolbar .input-prepend {
+    margin-bottom: 0;
+}
+.btn-toolbar.model-toolbar {
+  margin: 0;
+}
+.model-toolbar .btn-group {
+  padding-top: 5px;
+}
+.model-toolbar .btn {
+  padding-top: 2px 8px;
+}
+div[data-spy="affix"].btn-toolbar.affix {
+    top: 35px;
+    left: 301px;
+    padding: 5px;
+    width:100%;
+    background-color: #F5F5F5;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+} 
+
+/* Tree */
+.treenode {
+    list-style-type: none;
+    border-left: 1px dotted Gainsboro;
+    margin-left: 13px;
+    padding-left: 20px;
+}
+#root.treenode {
+    margin-top: 10px;
+    border-left:none;
+}
+.tree-action {
+    color: #4C7C2B;
+    text-decoration: none;
+
+}
+.tree-action.close-tree, .tree-action.open-tree {
+    display: inline-block;
+    padding: 5px;
+    width: 16px;
+    border: 1px solid transparent;
+}
+.tree-action.close-tree:hover, .tree-action.open-tree:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+/* Main zone */
+.main-zone {
+    border:1px dotted Gainsboro;
+    margin-top: 5px;
+    padding: 5px;
+}
+.row-fluid .proximate {
+    margin-left: 1%;
+}
+
+/* Pagination */
+.pagination li a select {
+    margin-bottom: 4px;
+}
+div[data-spy="affix"].pagination.affix {
+    bottom: 0;
+    left: 301px;
+    padding: 5px;
+    margin: 0;
+    width:100%;
+    background-color: #F5F5F5;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+/* Table view */
+.colunm-sort-order {
+    padding-right: 20px;
+    font-style: italic;
+    font-weight: normal;
+}
+.sort-asc {
+    background: url("../img/icons/sort_asc.png") no-repeat right center;
+}
+.sort-desc {
+    background: url("../img/icons/sort_desc.png") no-repeat right center;
+}
+table.data {
+    width: 100%;
+}
+table.data tbody {
+    display:block;
+    overflow-y: auto;
+    height:400px;
+}
+table.data thead {
+    display:block;
+}
+table.data td, table.data th {
+    width:150px;
+}
+table.data td:first-child, table.data th:first-child {
+    width:25px;
+}
+
+/* Doc */
+input[type="checkbox"].selection {
+    float: left;
+    margin-right: 10px;
+}
+.accordion-heading h4 {
+    margin:0;
+}
+
+/* Footer */
+.footer {
+    background-color: #F5F5F5;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 70px;
+    padding: 70px 0;
+    height:70px;
+    position: relative;
+}
+.footer-links li {
+    display: inline;
+    padding: 0 2px;
+}
+.footer .container {
+    text-align: center;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* ICONES */
+[class^="icon-dm-"], [class*=" icon-dm-"] {
+    background-color: inherit;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin-top: 1px;
+    vertical-align: text-top;
+    width: 16px;
+}
+
+.icon-dm-add {
+  background: url(../img/icons/add.png) left center no-repeat !important;
+}
+.icon-dm-admin {
+    background: url(../img/icons/super_admin.png) left center no-repeat;
+}
+.icon-dm-app-update {
+    background: url(../img/icons/app_update.png) left center no-repeat;
+}
+.icon-dm-bullet-arrow-down {
+    background: url(../img/icons/bullet_arrow_down.png) left center no-repeat !important;
+}
+.icon-dm-bullet-black {
+    background: url(../img/icons/bullet_black.png) left center no-repeat !important;
+}
+.icon-dm-cog {
+    background: url(../img/icons/cog.png) left center no-repeat !important;
+}
+.icon-dm-db {
+    background: url(../img/icons/db.png) left center no-repeat;
+}
+.icon-dm-db-add {
+    background: url(../img/icons/db_add.png) left center no-repeat;
+}
+.icon-dm-db-app-update {
+    background: url(../img/icons/db_app_update.png) left center no-repeat;
+}
+.icon-dm-db-delete {
+    background: url(../img/icons/db_delete.png) left center no-repeat;
+}
+.icon-dm-db-export {
+    background: url(../img/icons/db_export.png) left center no-repeat !important;
+}
+.icon-dm-db-settings {
+    background: url(../img/icons/db_settings.png) left center no-repeat !important;
+}
+.icon-dm-db-sync {
+    background: url(../img/icons/db_sync.png) left center no-repeat !important;
+}
+.icon-dm-delete {
+    background: url(../img/icons/delete.png) left center no-repeat !important;
+}
+.icon-dm-detail {
+    background: url(../img/icons/detail.png) left center no-repeat !important;
+}
+.icon-dm-diff {
+    background: url(../img/icons/diff.png) left center no-repeat !important;
+}
+.icon-dm-docs-linked {
+    background: url(../img/icons/docs_linked.png) left center no-repeat !important;
+}
+.icon-dm-edit {
+    background: url(../img/icons/edit.png) left center no-repeat !important;
+}
+.icon-dm-exange {
+    background: url(../img/icons/exange.png) left center no-repeat;
+}
+.icon-dm-help {
+    background: url(../img/icons/help.png) left center no-repeat !important;
+}
+.icon-dm-home-medium {
+    background: url(../img/icons/home_medium.png) left center no-repeat !important;
+}
+.icon-dm-link-break {
+    background: url(../img/icons/link_break.png) left center no-repeat !important;
+}
+.icon-dm-logo-cirad {
+    background: url(../img/favicons/cirad.png) left center no-repeat;
+}
+.icon-dm-logo-datamanager {
+    background: url(../img/favicons/datamanager.png) left center no-repeat;
+}
+.icon-dm-logo-inra {
+    background: url(../img/favicons/inra.png) left center no-repeat;
+}
+.icon-dm-logo-inria {
+    background: url(../img/favicons/inria.png) left center no-repeat;
+}
+.icon-dm-logo-ird {
+    background: url(../img/favicons/ird.png) left center no-repeat;
+}
+.icon-dm-logo-tela-botanica {
+    background: url(../img/favicons/tela-botanica.png) left center no-repeat;
+}
+.icon-dm-logout {
+    background: url(../img/icons/logout.png) left center no-repeat !important;
+}
+.icon-dm-model {
+    background: url(../img/icons/model.png) left center no-repeat !important;
+}
+.icon-dm-model-copy {
+    background: url(../img/icons/model_copy.png) left center no-repeat !important;
+}
+.icon-dm-map {
+    background: url(../img/icons/map.png) left center no-repeat !important;
+}
+.icon-dm-model-edit {
+    background: url(../img/icons/model_edit.png) left center no-repeat !important;
+}
+.icon-dm-model-export {
+    background: url(../img/icons/model_export.png) left center no-repeat !important;
+}
+.icon-dm-model-import {
+    background: url(../img/icons/model_import.png) left center no-repeat !important;
+}
+.icon-dm-model-query {
+    background: url(../img/icons/model_query.png) left center no-repeat !important;
+}
+.icon-dm-model-structure {
+    background: url(../img/icons/model_structure.png) left center no-repeat !important;
+}
+.icon-dm-module {
+    background: url(../img/icons/module.png) left center no-repeat !important;
+}
+.icon-dm-module-edit {
+    background: url(../img/icons/module_edit.png) left center no-repeat !important;
+}
+.icon-dm-module-export {
+    background: url(../img/icons/module_export.png) left center no-repeat !important;
+}
+.icon-dm-module-import {
+    background: url(../img/icons/module_import.png) left center no-repeat !important;
+}
+.icon-dm-modules {
+    background: url(../img/icons/modules.png) left center no-repeat !important;
+}
+.icon-dm-node-tree {
+    background: url(../img/icons/node_tree.png) left center no-repeat !important;
+}
+.icon-dm-pictures {
+    background: url(../img/icons/pictures.png) left center no-repeat !important;
+}
+.icon-dm-query {
+    background: url(../img/icons/query.png) left center no-repeat !important;
+}
+.icon-dm-selection {
+    background: url(../img/icons/selection.png) left center no-repeat !important;
+}
+.icon-dm-selection-add {
+    background: url(../img/icons/selection_add.png) left center no-repeat !important;
+}
+.icon-dm-settings {
+    background: url(../img/icons/settings.png) left center no-repeat !important;
+}
+.icon-dm-synonyme-add {
+    background: url(../img/icons/synonyme_add.png) left center no-repeat !important;
+}
+.icon-dm-synonyme-show {
+    background: url(../img/icons/synonyme_show.png) left center no-repeat !important;
+}
+.icon-dm-ui-tab-plus {
+    background: url(../img/icons/ui_tab_plus.png) left center no-repeat !important;
+}
+.icon-dm-user {
+    background: url(../img/icons/user.png) left center no-repeat;
+}
+.icon-dm-user-edit {
+    background: url(../img/icons/user_edit.png) left center no-repeat !important;
+}
+.icon-dm-user-manager {
+    background: url(../img/icons/user_manager.png) left center no-repeat;
+}
+.icon-dm-user-settings {
+    background: url(../img/icons/user_settings.png) left center no-repeat !important;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* BOOSTRAP HACKING */
+
+.span12.pull-center {
+    text-align: center;
+}
+.nav {
+    margin: 0 auto;
+}
+
+.navbar .brand {
+    padding-top: 3px;
+}
+
+.modal form {
+    margin-bottom: 0;
+}
+.pagination {
+    margin: 5px 0;
+}

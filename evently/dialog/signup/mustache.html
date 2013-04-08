@@ -1,0 +1,38 @@
+<div id="signup-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signup-modal-label" 
+    aria-hidden="true">
+  <form id="signup-form" class="form-horizontal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="signup-modal-label">New account</h3>
+    </div>
+    
+    <div class="modal-body">
+      
+        <div class="control-group">
+          <label for="name" class="control-label">Login</label>
+          <div class="controls">
+            <input type="text" name="name" value="" autocapitalize="off" autocorrect="off" 
+              required autofocus />
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="password" class="control-label">Password</label>
+          <div class="controls">
+            <input type="password" name="password" value="" required />
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="email" class="control-label">Email</label>
+          <div class="controls">
+            <input type="email" name="email" value="" required />
+          </div>
+        </div>
+      
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button id="signup" class="btn btn-primary" type="submit">Signup</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,505 @@
+@charset "UTF-8";
+
+html, body, .app { height:100% }
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* POSITIONING BLOCKS */
+
+#app {
+    margin: 0 auto;
+    padding-top:50px;
+}
+
+#busy-bloc {
+    z-index : 10000;
+    position: fixed;
+    top: 5px;
+    left:50%;
+    width: 300px;
+    margin-left: -150px;
+}
+
+#msg-bloc {
+    z-index : 10000;
+    position: fixed;
+    top : 100px;
+    right : 20px;
+    width : 300px;
+}
+
+.footer {
+    text-align: center;
+    /*padding: 30px 0;*/
+    padding: 0;
+    margin-top: 70px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+}
+.footer-links {
+    /*margin: 10px 0;*/
+    margin: 5px 0 10px;
+}
+
+.footer-links li {
+    display: inline;
+    padding: 0 2px;
+}
+
+.footer-links li:first-child {
+    padding-left: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* BOOSTRAP HACKING */
+
+.span12.pull-center {
+    text-align: center;
+}
+.nav {
+    margin: 0 auto;
+}
+
+.navbar .brand {
+    padding-top: 3px;
+}
+
+.modal form {
+    margin-bottom: 0;
+}
+.pagination {
+    margin: 5px 0;
+}
+
+.popover {
+    font-size: 14px;
+    width: auto;
+}
+
+/* Dropdown in a button group hack*/
+.btn-group > .dropdown-toggle {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    margin-right: -1px;
+}
+.btn-group > .btn:last-child, .btn-group > .dropdown-toggle:nth-last-child(2) {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+/* Right-aligned dropdown for right-aligned toolbars */
+.right-aligned-dropdown.dropdown-menu:after {
+    left: auto;
+    right: 13px;
+}
+.right-aligned-dropdown.dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+/* Modal */
+@media (min-width: 1200px) { 
+    .modal-large {
+        width: 960px;
+        margin-left: -480px;
+    }
+    .modal-xxlarge {
+        width: 1100px;
+        margin-left: -550px;
+    }
+}
+@media (max-width: 1200px) {
+    .modal-large, .modal-xxlarge {
+        width: 760px;
+        margin-left: -380px;
+    }
+}
+@media (min-width: 1640px) { 
+    .modal-large {
+        width: 1210px;
+        margin-left: -605px;
+    }
+    .modal-xxlarge {
+        width: 1600px;
+        margin-left: -800px;
+    }
+}
+
+@media (min-height: 800px) { 
+    .modal-large .modal-body {
+        max-height: 500px;
+    }
+    .modal-xxlarge .modal-body {
+        max-height: 600px;
+    }
+}
+
+/* Tooltip */
+/* TODO : This .tooltip-inner css rule is for the tooltip positioning bug. Try without this rule with a new Bootstrap version. */
+.tooltip-inner {
+    width:250px;
+    white-space: pre-line;
+}
+.has-tooltip, a[rel="tooltip"] {
+    cursor: pointer;
+}
+
+/* Button toggle */
+.toggle-cmd {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #FFF;
+    margin: 0 5px;
+}
+.toggle-cmd:hover, .toggle-cmd:focus {
+    color: #000;
+    cursor: pointer;
+    opacity: 0.4;
+    text-decoration: none;
+}
+
+/* Adapt text inputs to btn-small widgets */
+input[type="text"].btn-small {
+   height: 16px;
+   font-size: 12px;
+   line-height: 16px;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* INTERFACE */
+
+/* DB info */
+.server-type.alert {
+    margin: 0;
+    padding: 0 0 0 10px;
+    text-shadow: none;
+} 
+#server-name a {
+    margin-bottom: 0;
+}
+#server-name a:hover {
+    background-color:inherit;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  margin: 0;
+  padding: 5px 15px;
+}
+
+/* Google map */
+.google-map img {
+    max-width:none;
+}
+
+/*+--------------------------------------------------------------------------------------------------------+*/
+/* ICONES */
+[class^="icon-dm-"], [class*=" icon-dm-"] {
+    background-color: inherit;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin-top: 1px;
+    vertical-align: text-top;
+    width: 16px;
+}
+
+/* FLAGS */
+.icon-dm-flag-fr {
+    background: url(../img/flags/fr.png) left center no-repeat;
+}
+.icon-dm-flag-gb {
+    background: url(../img/flags/gb.png) left center no-repeat;
+}
+
+/* General icons */
+.icon-dm-delete {
+    background: url(../img/icons/delete.png) left center no-repeat;
+}
+.icon-dm-exchange {
+    background: url(../img/icons/exchange.png) left center no-repeat;
+}
+.icon-dm-filter {
+    background: url(../img/icons/filter.png) left center no-repeat !important;
+}
+.icon-dm-help {
+    background: url(../img/icons/help.png) left center no-repeat !important;
+}
+.icon-dm-info {
+    background: url(../img/icons/info.png) left center no-repeat !important;
+}
+.icon-dm-logout {
+    background: url(../img/icons/logout.png) left center no-repeat !important;
+}
+.icon-dm-settings {
+    background: url(../img/icons/settings.png) left center no-repeat;
+}
+.icon-dm-link-external {
+    background: url(../img/icons/link_external.png) left center no-repeat;
+}
+
+/* Databases Index Management icons */
+.icon-dm-app-update {
+    background: url(../img/icons/app_update.png) left center no-repeat;
+}
+.icon-dm-db-add {
+    background: url(../img/icons/db_add.png) left center no-repeat;
+}
+.icon-dm-db-app-update {
+    background: url(../img/icons/db_app_update.png) left center no-repeat;
+}
+.icon-dm-db-delete {
+    background: url(../img/icons/db_delete.png) left center no-repeat;
+}
+.icon-dm-db-settings {
+    background: url(../img/icons/db_settings.png) left center no-repeat;
+}
+
+/* Logo icons */
+.icon-dm-logo-agropolis-fondation {
+    background: url(../img/favicons/agropolis-fondation.png) left center no-repeat;
+}
+.icon-dm-logo-cirad {
+    background: url(../img/favicons/cirad.png) left center no-repeat;
+}
+.icon-dm-logo-datamanager {
+    background: url(../img/favicons/datamanager.png) left center no-repeat;
+}
+.icon-dm-logo-inra {
+    background: url(../img/favicons/inra.png) left center no-repeat;
+}
+.icon-dm-logo-inria {
+    background: url(../img/favicons/inria.png) left center no-repeat;
+}
+.icon-dm-logo-ird {
+    background: url(../img/favicons/ird.png) left center no-repeat;
+}
+.icon-dm-logo-tela-botanica {
+    background: url(../img/favicons/tela-botanica.png) left center no-repeat;
+}
+
+/* DB Management icons */
+.icon-dm-add {
+  background: url(../img/icons/add.png) left center no-repeat !important;
+}
+.icon-dm-admin {
+    background: url(../img/icons/super_admin.png) left center no-repeat;
+}
+.icon-dm-app-update {
+    background: url(../img/icons/app_update.png) left center no-repeat;
+}
+.icon-dm-bullet-arrow-down {
+    background: url(../img/icons/bullet_arrow_down.png) left center no-repeat !important;
+}
+.icon-dm-bullet-arrow-up {
+    background: url(../img/icons/bullet_arrow_up.png) left center no-repeat !important;
+}
+.icon-dm-bullet-black {
+    background: url(../img/icons/bullet_black.png) left center no-repeat !important;
+}
+.icon-dm-cog {
+    background: url(../img/icons/cog.png) left center no-repeat !important;
+}
+.icon-dm-compare {
+    background: url(../img/icons/compare.png) left center no-repeat !important;
+}
+.icon-dm-db {
+    background: url(../img/icons/db.png) left center no-repeat;
+}
+.icon-dm-db-add {
+    background: url(../img/icons/db_add.png) left center no-repeat;
+}
+.icon-dm-db-app-update {
+    background: url(../img/icons/db_app_update.png) left center no-repeat;
+}
+.icon-dm-db-delete {
+    background: url(../img/icons/db_delete.png) left center no-repeat;
+}
+.icon-dm-db-export {
+    background: url(../img/icons/db_export.png) left center no-repeat !important;
+}
+.icon-dm-db-settings {
+    background: url(../img/icons/db_settings.png) left center no-repeat !important;
+}
+.icon-dm-db-sync {
+    background: url(../img/icons/db_sync.png) left center no-repeat !important;
+}
+.icon-dm-delete {
+    background: url(../img/icons/delete.png) left center no-repeat !important;
+}
+.icon-dm-detail {
+    background: url(../img/icons/detail.png) left center no-repeat !important;
+}
+.icon-dm-diff {
+    background: url(../img/icons/diff.png) left center no-repeat !important;
+}
+.icon-dm-docs-linked {
+    background: url(../img/icons/docs_linked.png) left center no-repeat !important;
+}
+.icon-dm-edit {
+    background: url(../img/icons/edit.png) left center no-repeat !important;
+}
+
+.icon-dm-bulk-edit {
+    background: url(../img/icons/bulkedit.png) left center no-repeat !important;
+}
+
+.icon-dm-home-medium {
+    background: url(../img/icons/home_medium.png) left center no-repeat !important;
+}
+.icon-dm-link-break {
+    background: url(../img/icons/link_break.png) left center no-repeat !important;
+}
+.icon-dm-local-directory {
+    background: url(../img/icons/local_directory.png) left center no-repeat !important;
+}
+.icon-dm-map {
+    background: url(../img/icons/map.png) left center no-repeat !important;
+}
+.icon-dm-map-layer-add {
+    background: url(../img/icons/map_layer_add.png) left center no-repeat !important;
+}
+.icon-dm-map-layer-delete {
+    background: url(../img/icons/map_layer_delete.png) left center no-repeat !important;
+}
+.icon-dm-map-layer-select {
+    background: url(../img/icons/map_layer_select.png) left center no-repeat !important;
+}
+.icon-dm-attachment {
+    background: url(../img/icons/attachment.png) left center no-repeat !important;
+}
+.icon-dm-model {
+    background: url(../img/icons/model.png) left center no-repeat !important;
+}
+.icon-dm-model-copy {
+    background: url(../img/icons/model_copy.png) left center no-repeat !important;
+}
+.icon-dm-model-dictionary {
+    background: url(../img/icons/model_dictionary.png) left center no-repeat !important;
+}
+.icon-dm-model-edit {
+    background: url(../img/icons/model_edit.png) left center no-repeat !important;
+}
+.icon-dm-model-export {
+    background: url(../img/icons/model_export.png) left center no-repeat !important;
+}
+.icon-dm-model-import {
+    background: url(../img/icons/model_import.png) left center no-repeat !important;
+}
+.icon-dm-model-query {
+    background: url(../img/icons/model_query.png) left center no-repeat !important;
+}
+.icon-dm-model-structure {
+    background: url(../img/icons/model_structure.png) left center no-repeat !important;
+}
+.icon-dm-module {
+    background: url(../img/icons/module.png) left center no-repeat !important;
+}
+.icon-dm-module-edit {
+    background: url(../img/icons/module_edit.png) left center no-repeat !important;
+}
+.icon-dm-module-export {
+    background: url(../img/icons/module_export.png) left center no-repeat !important;
+}
+.icon-dm-module-import {
+    background: url(../img/icons/module_import.png) left center no-repeat !important;
+}
+.icon-dm-modules {
+    background: url(../img/icons/modules.png) left center no-repeat !important;
+}
+.icon-dm-pictures {
+    background: url(../img/icons/pictures.png) left center no-repeat !important;
+}
+.icon-dm-pictures-original {
+    background: url(../img/icons/pictures_original.png) left center no-repeat !important;
+}
+.icon-dm-query {
+    background: url(../img/icons/query.png) left center no-repeat !important;
+}
+.icon-dm-query-add {
+    background: url(../img/icons/query_add.png) left center no-repeat !important;
+}
+.icon-dm-revision {
+    background: url(../img/icons/revision.png) left center no-repeat !important;
+}
+.icon-dm-selection {
+    background: url(../img/icons/selection.png) left center no-repeat !important;
+}
+.icon-dm-selection-add {
+    background: url(../img/icons/selection_add.png) left center no-repeat !important;
+}
+.icon-dm-selection-delete {
+    background: url(../img/icons/selection_delete.png) left center no-repeat !important;
+}
+.icon-dm-synonym-add {
+    background: url(../img/icons/synonym_add.png) left center no-repeat !important;
+}
+.icon-dm-synonym-show {
+    background: url(../img/icons/synonym_show.png) left center no-repeat !important;
+}
+.icon-dm-sync-get {
+    background: url(../img/icons/sync_get.png) left center no-repeat !important;
+}
+.icon-dm-sync-send {
+    background: url(../img/icons/sync_send.png) left center no-repeat !important;
+}
+.icon-dm-ui-tab-plus {
+    background: url(../img/icons/ui_tab_plus.png) left center no-repeat !important;
+}
+.icon-dm-model-view {
+    background: url(../img/icons/view.png) left center no-repeat !important;
+}
+.icon-dm-view-add {
+    background: url(../img/icons/view_add.png) left center no-repeat !important;
+}
+.icon-dm-view-list {
+    background: url(../img/icons/list.png) left center no-repeat !important;
+}
+.icon-dm-view-table {
+    background: url(../img/icons/view_table.png) left center no-repeat !important;
+}
+.icon-dm-view-tree {
+    background: url(../img/icons/view_tree.png) left center no-repeat !important;
+}
+.icon-dm-view-table {
+    background: url(../img/icons/view_table.png) left center no-repeat !important;
+}
+.icon-dm-sort-asc {
+    background: url("../img/icons/sort_asc.png") left center no-repeat !important;
+}
+.icon-dm-sort-desc {
+    background: url("../img/icons/sort_desc.png") left center no-repeat !important;
+}
+
+/* User menu icons */
+.icon-dm-admin {
+    background: url(../img/icons/super_admin.png) left center no-repeat;
+}
+.icon-dm-user {
+    background: url(../img/icons/user.png) left center no-repeat;
+}
+.icon-dm-user-edit {
+    background: url(../img/icons/user_edit.png) left center no-repeat !important;
+}
+.icon-dm-user-manager {
+    background: url(../img/icons/user_manager.png) left center no-repeat;
+}
+.icon-dm-user-settings {
+    background: url(../img/icons/user_settings.png) left center no-repeat !important;
+}
+.icon-dm-toggle-collapse {
+    background: url(../img/icons/toggle_collapse.png) left center no-repeat !important;
+}
+.icon-dm-toggle-expand {
+    background: url(../img/icons/toggle_expand.png) left center no-repeat !important;
+}

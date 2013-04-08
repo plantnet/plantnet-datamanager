@@ -1,0 +1,36 @@
+<div class="margin-left">
+<h3 class="page-title">Import data into <span class="model-name">{{mm_name}}</span> from CSV</h3>
+<br/>
+
+<form class="form-inline">
+  <div class="control-group">
+    <label class="field-label-large" for="csvfile">Choose a CSV file</label>
+    <input id="csvfile" type="file"/>
+  </div>
+
+  <div class="control-group">
+    <label class="field-label-large" for="sep">CSV separator</label>
+    <input id="sep" type="text" value="," maxlength="1" required class="input-mini has-tooltip"
+      data-placement="right" title="Specify the column separator used in your CSV file. Only one character is allowed"/>
+  </div>
+
+  <div class="control-group">
+    <label class="field-label-large" for="enc">Encoding</label>
+    <select id="enc">
+      <option value="UTF-8">UTF-8</option>
+      <option value="latin1">latin1</option>
+    </select>
+    <span class="help-inline">
+      (use this option if some characters like accents are not correctly imported)
+    </span>
+  </div>
+
+  <div id="import-cols">
+    <!-- Content generate by selectors -->
+  </div>
+  
+  <div id="import-error">
+    <!-- Content generate by selectors -->
+  </div>
+</form>
+</div>

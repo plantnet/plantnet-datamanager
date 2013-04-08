@@ -1,0 +1,33 @@
+<ul class="breadcrumb">
+  <li>
+    <i class="icon-dm-home-medium"></i>
+    {{^has_trail}}
+      {{#is_projects_home}}
+        Projects list
+      {{/is_projects_home}}
+      {{#is_database_home}}
+        Home
+      {{/is_database_home}}
+    {{/has_trail}}
+    {{#has_trail}}
+      {{#is_projects_home}}
+        <a href="#/dbs">Projects list</a>
+      {{/is_projects_home}}
+      {{#is_database_home}}
+        <a href="#/db-manager">Home</a>
+      {{/is_database_home}}
+      <span class="divider">></span>
+    {{/has_trail}}
+  </li>
+  {{#trail}}
+  <li>
+    {{#icon_class}}
+      <i class="{{icon_class}}"></i>
+    {{/icon_class}}
+    {{name}}
+    {{#has_next}}
+      <span class="divider">></span>
+    {{/has_next}}
+  </li>
+  {{/trail}}
+</ul>

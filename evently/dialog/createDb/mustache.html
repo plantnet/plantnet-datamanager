@@ -1,0 +1,32 @@
+<div id="create-db-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="create-db-modal-label" 
+    aria-hidden="true">
+  <form id="create-db-form" class="form-horizontal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="create-db-modal-label">Create a new Database</h3>
+    </div>
+    
+    <div class="modal-body">
+      
+        <div class="control-group">
+          <label for="db-name" class="control-label">Name</label>
+          <div class="controls">
+            <input id="db-name" type="text" name="dbname" value="" autocapitalize="off" autocorrect="off" 
+              required autofocus />
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="db-desc" class="control-label">Description</label>
+          <div class="controls">
+            <textarea id="db-desc" name="dbdesc" spellcheck="true" /></textarea>
+          </div>
+        </div>
+      
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button id="create-db-submit" class="btn btn-primary" type="submit">Create</button>
+    </div>
+  </form>
+</div>

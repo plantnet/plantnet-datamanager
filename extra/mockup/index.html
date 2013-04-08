@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Pl@ntNet-DataManager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pl@ntNet-Datamanager : distributed data management system dedicated to botany." />
+    <meta name="keywords" content="Pl@ntnet, Datamanager, botany, management system" />
+    
+    <!-- Le styles -->
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="style/index.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="icon" type="image/png" href="img/favicons/datamanager.png"> 
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicons/datamanager.ico">
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <a class="brand" href="start.html"
+              rel="tooltip"
+              data-placement="bottom" 
+              title="Return to database management interface.">
+              <img src="img/logos/datamanager.png" alt="Pl@ntnet Logo"/>DataManager
+            </a>
+            <ul class="nav pull-left">
+              <li>
+                <a id="version" href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/Changelog" 
+                  rel="tooltip" 
+                  data-placement="bottom"
+                  title="The version number for this installation of DataManager. Click to see the changelog."
+                  target="_blank">
+                  v0.7.6
+                </a>
+              </li>
+              <li>
+                <ul id="db-infos" class="nav alert-success">
+                  <li id="db-name" class="navbar-text has-tooltip" data-placement="bottom" title="Name of your database.">my-database</li>
+                  <li id="db-sn-separator" class="navbar-text">@</li>
+                  <li id="server-name" class="navbar-text">
+                    <strong class="server-type has-tooltip" data-placement="bottom" 
+                      title="The server name where this DataManager is installed.">
+                        my-server
+                    </strong>
+                  </li>
+                  <li id="doc-separator" class="navbar-text">&nbsp;/&nbsp;</li>
+                  <li class="navbar-text has-tooltip" data-placement="bottom" title="Number of documents in your database."><span id="doc-number">276</span> docs</li>
+                </ul>
+              </li>
+            </ul>
+
+            <ul id="account" class="nav pull-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="icon-dm-user"></i>
+                  JeanPascalMilcent
+                  <span class="user-role muted" title="You are admin for this database.">
+                    admin
+                  </span>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#change-pwd" class="change-pwd-cmd has-tooltip" data-toggle="modal" title="Change your password and email." data-placement="left">
+                        <i class="icon-dm-user-edit"></i>
+                        Change password
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#local-files" class="has-tooltip" data-placement="left" title="Edit your DataManager settings.">
+                      <i class="icon-dm-user-settings"></i>
+                      Preferences
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="logout-cmd has-tooltip" data-placement="left" title="Logout and close the application.">
+                      <i class="icon-dm-logout"></i>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            
+            <ul id="db-menu" class="nav pull-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="icon-dm-db"></i>
+                  Database menu
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="has-tooltip" data-placement="left" title="Open a view to synchronize the database with another.">
+                    <a href="#sync">
+                      <i class="icon-dm-db-sync"></i>
+                      Data synchronisation
+                    </a>
+                  </li>
+                  <li class="has-tooltip" data-placement="left" title="Open a view to manage the database settings.">
+                    <a href="#settings">
+                      <i class="icon-dm-db-settings"></i>
+                      Settings
+                    </a>
+                  </li>
+                  <li class="has-tooltip" data-placement="left" title="Open a dialog to export the database in a SQL file.">
+                    <a href="#export">
+                      <i class="icon-dm-db-export"></i>
+                      Export to SQL
+                    </a>
+                  </li>
+                  <li class="divider"> </li>
+                  <li class="has-tooltip" data-placement="left" title="Open a new browser window to see the documentation of DataManager.">
+                    <a href="#help">
+                      <i class="icon-dm-help"></i>
+                      Help
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div id="app-wrapper" class="container-fluid">
+        <div class="row-fluid">
+          <div class="span6">
+            <ul class="breadcrumb">
+              <li>
+                <i class="icon-dm-home-medium"></i> 
+                Home
+                <span class="divider">></span>
+              </li>
+              <li>
+                <a href="#/viewtable/mm_individu_bota/.individu/0:_id/10/0/0">individu</a>
+                <span class="divider">></span>
+              </li>
+              <li>
+                <a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/0/0">determination</a>
+              </li>
+            </ul>
+          </div>
+          <div class="span6">
+            <form id="quick-search" class="pull-right" method="post">
+              <div class="input-prepend input-append">
+                <span class="add-on"><i class="icon-search"></i></span>
+                <input name="q" type="text" placeholder="Quick Search" class="input-medium search-query has-tooltip" 
+                  data-html="true"
+                  data-trigger="focus"
+                  data-placement="bottom"
+                  title="Search by words: <br />Use * for incomplete words<br />Use &quot; &quot; to look for an exact sentence<br />Use - to exclude a word or sentence"/>
+                <select>
+                  <option selected>Select a model</option>
+                  <option value="modele1">Model 1</option>
+                  <option value="modele1">Model 1</option>
+                </select>
+                <button type="submit" class="btn">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div class="row-fluid">
+          <div class="span12">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#home" data-toggle="tab"><i class="icon-dm-home-medium"></i> Home</a></li>
+              <li><a href="#modele1" data-toggle="tab"><i class="icon-dm-model"></i> Model for writer</a></li>
+              <li><a href="#modele2" data-toggle="tab"><i class="icon-dm-model"></i> Model for admin (Structure)</a></li>
+              <li><a href="#modele3" data-toggle="tab"><i class="icon-dm-model"></i> Model for admin/writer (Query)</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="icon-dm-model"></i> Other models
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <li><a href="#modele4" data-toggle="tab"><i class="icon-dm-model"></i> Model 4</a></li>
+                  <li><a href="#modele5" data-toggle="tab"><i class="icon-dm-model"></i> Model 5</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="btn-group">
+                  <button class="btn has-tooltip"data-placement="bottom" title="Creatre a new empty model.">
+                    <i class="icon-dm-ui-tab-plus"></i> New Model
+                  </button>
+                  <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li class="has-tooltip" data-placement="right" title="Create a new model based on the structure of the currently selected model.">
+                      <a><i class="icon-dm-model-copy"></i> Copy selected model structure</a>
+                    </li>
+                    <li class="has-tooltip" data-placement="right" title="Create a new model based on the structure and data of the currently selected model.">
+                      <a><i class="icon-dm-model-copy"></i> Copy selected model structure &amp; data</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tab-content">
+        
+<!-- ***************************************************************************************************** -->
+<!-- HOME / WIKI / STATS -->
+          <div class="tab-pane" id="home">
+            <div class="row">
+              <div class="span6">
+                <h2>Home</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="span6">
+                <div class="editable_fieldset">
+                  <h3>DB Description</h3>
+                  <section id="wiki-desc" class="wiki has-tooltip" title="Click to edit content" contenteditable="true">
+                    <p>Une description en français</p>
+                  </section>
+                </div>
+                <div class="editable_fieldset">
+                  <h3>Notes / Comments</h3>
+                  <section id="wiki-comments" class="wiki has-tooltip" title="Click to edit content" contenteditable="true">
+                    <p>Un commentaire en français</p>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<!-- ***************************************************************************************************** -->
+<!-- TREE VIEW -->
+          <div class="tab-pane" id="modele1">
+            <div class="row-fluid">
+              <div class="span2">
+                <div class="accordion model-menu" id="accordion1">
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1-1">
+                        <h4 class="nav-title"><i class="icon-dm-model-structure"></i> Structure</h4>
+                      </a>
+                    </div>
+                    <div id="collapse1-1" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active">
+                            <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 1</a>
+                            <ul class="nav nav-list">
+                              <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 2</a></li>
+                              <li>
+                                <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 3</a>
+                                <ul class="nav nav-list">
+                                  <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 4</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 5</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1-2">
+                        <h4 class="nav-title"><i class="icon-dm-modules"></i> Modules</h4>
+                      </a>
+                    </div>
+                    <div id="collapse1-2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-module"></i> Module 1</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 2</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 3</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 4</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 5</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1-3">
+                        <h4 class="nav-title"><i class="icon-dm-model-query"></i> My queries/Views</h4>
+                      </a>
+                    </div>
+                    <div id="collapse1-3" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-query"></i> Query/View 1</a></li>
+                          <li><a><i class="icon-dm-query"></i> Query/View 2</a></li>
+                          <li><a><i class="icon-dm-query"></i> Query/View 3</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1-4">
+                        <h4 class="nav-title"><i class="icon-dm-selection"></i> My selections</h4>
+                      </a>
+                    </div>
+                    <div id="collapse1-4" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-selection"></i> My selection #01 <span class="has-tooltip" title="Number of documents in this selection">(2)</span></a></li>
+                          <li><a><i class="icon-dm-selection"></i> My selection #02 <span class="has-tooltip" title="Number of documents in this selection">(10)</span></a></li>
+                          <li><a><i class="icon-dm-selection"></i> My selection #03 <span class="has-tooltip" title="Number of documents in this selection">(325)</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="span9 proximate">
+                <div class="btn-toolbar model-toolbar">
+                  <div class="btn-group">
+                    <button class="btn has-tooltip" data-placement="bottom" title="Open a form to add a document to the selected module.">
+                      <i class="icon-dm-add"></i>
+                    </button>
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li class="has-tooltip" data-placement="right" title="Open a form to add a new doc to the module 1.">
+                        <a><i class="icon-dm-add"></i> New doc for Module 1</a>
+                      </li>
+                      <li class="has-tooltip" data-placement="right" title="Open a form to add a new doc to the module 5.">
+                        <a><i class="icon-dm-add"></i> New doc for Module 5</a>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button class="btn has-tooltip active"
+                      data-placement="bottom"
+                      title="Tree view">
+                      <i class="icon-dm-node-tree"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Map view">
+                      <i class="icon-dm-map"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Pictures gallery">
+                      <i class="icon-dm-pictures"></i>
+                    </button>
+                  </div>
+                  
+                   <div class="btn-group">
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Export data out of the model in a CSV file.">
+                      <i class="icon-dm-model-export"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class=" main-zone">
+                  <section id="tree-view">
+                    <h4>Tree view for model "test:taxo1" </h4>
+                      <div class="btn-toolbar model-toolbar">
+                        <div class="btn-group">
+                          <a class="btn has-tooltip" data-placement="bottom" title="Expand or collapse all tree entries">
+                            <input type="checkbox" value=""/>
+                          </a>
+                        </div>
+                        <div class="btn-group">
+                          <form id="tree-search" class="" >
+                            <div class="input-prepend input-append">
+                              <span class="add-on"><i class="icon-search"></i></span>
+                              <input name="q" type="text" placeholder="Search in tree" class="input-medium search-query has-tooltip" 
+                                data-placement="bottom"
+                                title="Filter entries in the tree"/>
+                            </div>
+                          </form>
+                        </div>
+                        
+                        <div class="btn-group">
+                          <button class="btn has-tooltip" data-placement="bottom" title="Open a dialog to compare all entries selected in the tree.">
+                            <i class="icon-dm-diff"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Delete all entries selected in the tree.">
+                              <i class="icon-dm-delete"></i>
+                          </button>
+                        </div>
+                        
+                        <div class="btn-group">
+                          <button class="btn has-tooltip" data-placement="bottom" title="View the details of the selected entry in the tree.">
+                            <i class="icon-dm-detail"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Show the synonyms of the selected entry in the tree.">
+                            <i class="icon-dm-synonym-show"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Show the pictures of the selected entry in the tree.">
+                            <i class="icon-dm-pictures"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Show the linked docs of the selected entry in the tree.">
+                            <i class="icon-dm-docs-linked"></i>
+                          </button>
+                        </div>
+                        <div class="btn-group">
+                          <button class="btn has-tooltip" data-placement="bottom" title="Add a new sub entry to the selected entry in the tree.">
+                            <i class="icon-dm-add"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Edit the selected entry in the tree.">
+                            <i class="icon-dm-edit"></i>
+                          </button>
+                          <button class="btn has-tooltip" data-placement="bottom" title="Add a synonym at the selected entry in the tree.">
+                            <i class="icon-dm-synonym-add"></i>
+                          </button>
+                        </div>
+                      </div>
+                    
+                    <div id="tree" class="highlight">
+                      <ul id="root" class="treenode">
+                        <li>
+                          <span class="droppable highlight">
+                            <a class="tree-action close-tree"><img src="img/icons/bullet_arrow_down.png" alt="+" /></a>
+                            <input value="" type="checkbox" />
+                            <span draggable="true" class="draggable">
+                              <i>model</i> - <b>test:taxo1</b>
+                            </span>
+                              (12)
+                          </span>
+                          <ul id="" class="treenode">
+                            <li>
+                              <span class="droppable highlight">
+                                <a class="tree-action close-tree"><img src="img/icons/bullet_arrow_down.png" alt="+" /></a>
+                                <input type="checkbox" value="" />
+                                <span draggable="true" class="draggable" data-modi=".famille" id="mm_taxo_ref##name::Amaranthaceae::">
+                                  <i>famille</i> - <b>Amaranthaceae</b>
+                                </span>
+                                  (2)
+                              </span>
+                              <ul id="" class="treenode">
+                                <li>
+                                  <span class="droppable highlight">
+                                    <a class="tree-action close-tree"><img src="img/icons/bullet_arrow_down.png" alt="+" /></a>
+                                    <input value="" type="checkbox" />
+                                    <span draggable="true" class="draggable">
+                                      <i>genre</i> - <b>Achyranthes</b>
+                                    </span>
+                                      (2)
+                                  </span>
+                                  <ul id="" class="treenode">
+                                    <li>
+                                      <span class="droppable highlight">
+                                        <a class="tree-action open-tree"><img src="img/icons/bullet_arrow_right.png" alt="+" /></a>
+                                        <input value="" type="checkbox" />
+                                        <span draggable="true" class="draggable">
+                                          <i>espece</i> - <b>Achyranthes vulgaris</b>
+                                        </span>
+                                          (2)
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <span class="droppable highlight" data-modi=".famille" id="mm_taxo_ref##name::Fabaceae::" parent-data="">
+                                <a class="tree-action open-tree" href="#mm_taxo_ref##name::Fabaceae::">&nbsp;</a>
+                                <input value="mm_taxo_ref##name::Fabaceae::" type="checkbox">
+                                <span draggable="true" class="draggable  " data-modi=".famille" id="mm_taxo_ref##name::Fabaceae::">
+                                  <i>famille</i> - <b>Fabaceae</b>
+                                </span>
+                                  (1)
+                              </span>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<!-- ***************************************************************************************************** -->
+<!-- TABLE VIEW -->
+          <div class="tab-pane active" id="modele2">
+            <div class="row-fluid">
+              <div class="span2">
+                <h4 class="model-title" data-spy="affix" data-offset-top="60">Model for admin (structure)</h4>
+                <div class="accordion model-menu" id="accordion2" data-spy="affix" data-offset-top="60">
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2-1">
+                        <h4 class="nav-title"><i class="icon-dm-model-structure"></i> Structure</h4>
+                      </a>
+                    </div>
+                    <div id="collapse2-1" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active">
+                            <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 1</a>
+                            <ul class="nav nav-list">
+                              <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 2</a></li>
+                              <li>
+                                <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 3</a>
+                                <ul class="nav nav-list">
+                                  <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 4</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 5</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2-2">
+                        <h4 class="nav-title"><i class="icon-dm-modules"></i> Modules</h4>
+                      </a>
+                    </div>
+                    <div id="collapse2-2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-module"></i> Module 1</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 2</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 3</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 4</a></li>
+                          <li><a><i class="icon-dm-module"></i> Module 5</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2-3">
+                        <h4 class="nav-title"><i class="icon-dm-model-query"></i> My queries/Views</h4>
+                      </a>
+                    </div>
+                    <div id="collapse2-3" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-query"></i> Query/View 1</a></li>
+                          <li><a><i class="icon-dm-query"></i> Query/View 2</a></li>
+                          <li><a><i class="icon-dm-query"></i> Query/View 3</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2-4">
+                        <h4 class="nav-title"><i class="icon-dm-selection"></i> My selections</h4>
+                      </a>
+                    </div>
+                    <div id="collapse2-4" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                          <li class="active"><a><i class="icon-dm-selection"></i> My selection #01 <span class="has-tooltip" title="Number of documents in this selection">(2)</span></a></li>
+                          <li><a><i class="icon-dm-selection"></i> My selection #02 <span class="has-tooltip" title="Number of documents in this selection">(10)</span></a></li>
+                          <li><a><i class="icon-dm-selection"></i> My selection #03 <span class="has-tooltip" title="Number of documents in this selection">(325)</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="span10 proximate">
+                <div class="btn-toolbar model-toolbar">
+                  <div class="btn-group">
+                    <button class="btn has-tooltip" data-placement="bottom" title="Open a form to add a document to the selected module.">
+                      <i class="icon-dm-add"></i>
+                    </button>
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li class="has-tooltip" data-placement="right" title="Open a form to add a new doc to the module 1.">
+                        <a>
+                          <i class="icon-dm-add"></i> New doc for Module 1
+                        </a>
+                      </li>
+                      <li class="has-tooltip" data-placement="right" title="Open a form to add a new doc to the module 5.">
+                        <a><i class="icon-dm-add"></i> New doc for Module 5
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn has-tooltip" data-placement="bottom" title="Delete all data for the selected module.">
+                      <i class="icon-dm-delete"></i>
+                    </a>
+                    <a class="btn dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a>
+                          <i class="icon-dm-delete"></i> Data for the Module 1
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <i class="icon-dm-delete"></i> Data for the Module 2
+                        </a>
+                      </li>
+                      <li>
+                        <a><i class="icon-dm-delete"></i> Data for the Module 5
+                      </li>
+                      <li class="divider"></li>
+                      <li class="has-tooltip" data-placement="right" title="Delete all the data of this model.">
+                        <a>
+                          <i class="icon-dm-delete"></i> Model's data
+                        </a>
+                      </li>
+                      <li class="has-tooltip" data-placement="right" title="Delete the model. All data and structure will be destroy.">
+                        <a><i class="icon-dm-delete"></i> Model's data &amp; structure</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Edit the modules and the structure of this model.">
+                      <i class="icon-dm-model-edit"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Open a view to find unreferenced values between a dictionary model and the current one.">
+                      <i class="icon-dm-link-break"></i>
+                    </button>
+                  </div>
+
+                  <div class="btn-group">
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Tree view">
+                      <i class="icon-dm-node-tree"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Map view">
+                      <i class="icon-dm-map"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Pictures gallery">
+                      <i class="icon-dm-pictures"></i>
+                    </button>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Import data in the model from a CSV file.">
+                      <i class="icon-dm-model-import"></i>
+                    </button>
+                    <button class="btn has-tooltip"
+                      data-placement="bottom"
+                      title="Export data out of the model in a CSV file.">
+                      <i class="icon-dm-model-export"></i>
+                    </button>
+                  </div>
+                  
+                </div>
+                <div class=" main-zone">
+                  
+                  <h4>Data for module instance :  individu > determination</h4>
+                
+                  <div class="btn-toolbar" data-spy="affix" data-offset-top="60">
+                    <div class="btn-group">
+                      <a class="btn has-tooltip" data-placement="bottom" title="Expand or collapse all rows on this page.">
+                        <input type="checkbox" value=""/>
+                      </a>
+                    </div>
+                    
+                    <div class="btn-group">
+                      <form id="tree-search" class="" >
+                        <div class="input-prepend input-append">
+                          <span class="add-on"><i class="icon-search"></i></span>
+                          <input name="q" type="text" placeholder="Filter this data" class="input-medium search-query has-tooltip" 
+                            data-placement="bottom"
+                            title="Filter entries in this module"/>
+                        </div>
+                      </form>
+                    </div>
+                    
+                    <div class="btn-group">
+                      <button class="btn has-tooltip" data-placement="bottom" title="Show details of the selected row.">
+                        <i class="icon-dm-detail"></i>
+                      </button>
+                      <button class="btn has-tooltip" data-placement="bottom" title="Add a new doc at this module.">
+                        <i class="icon-dm-add"></i>
+                      </button>
+                      <button class="btn has-tooltip" data-placement="bottom" title="Edit the selected row.">
+                        <i class="icon-dm-edit"></i>
+                      </button>
+                      <button class="btn has-tooltip" data-placement="bottom" title="Delete the selected row.">
+                        <i class="icon-dm-delete"></i>
+                      </button>
+                    </div>
+                    
+                    <div class="btn-group">
+                      <a class="btn has-tooltip" data-placement="bottom" title="Create a new selection or choose a selection to add the selected entries.">
+                        <i class="icon-dm-selection-add"></i>
+                      </a>
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li class="has-tooltip" data-placement="right" title="Add the selected entries to 'My seleciton #01'.">
+                          <a><i class="icon-dm-selection-add"></i> Add to 'My selection #01'</a>
+                        </li>
+                        <li class="has-tooltip" data-placement="right" title="Add the selected entries to 'My seleciton #02'.">
+                          <a><i class="icon-dm-selection-add"></i> Add to 'My selection #02'</a>
+                        </li>
+                        <li class="has-tooltip" data-placement="right" title="Add the selected entries to 'My seleciton #03'.">
+                          <a><i class="icon-dm-selection-add"></i> Add to 'My selection #03'</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                      <button class="btn has-tooltip" data-placement="bottom" title="Export all rows from all pages. If you want to export a subgroup, make a selection for export it.">
+                        <i class="icon-dm-module-export"></i>
+                      </button>
+                      <button class="btn has-tooltip" data-placement="bottom" title="Create a new query based on this module.">
+                        <i class="icon-dm-query"></i>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <table class="data table table-striped table-hover" style="clear : both">
+                    <thead>
+                      <tr>
+                        <th>
+                          &nbsp;
+                        </th>
+                        <th>
+                          <span class="sort-asc colunm-sort-order has-tooltip" title="Column sort order ascending.">1</span>
+                          <a class="header-sort" data-id="mm_individu_bota" data-modi=".individu.determination" data-corder="" data-encfield="date" data-limit="10" data-filter-id="0">
+                            Date
+                          </a>
+                        </th>
+                        <th>
+                          <span class="sort-desc colunm-sort-order has-tooltip" title="Column sort order descending.">2</span>
+                          <a class="header-sort" data-id="mm_individu_bota" data-modi=".individu.determination" data-corder="" data-encfield="taxon" data-limit="10" data-filter-id="0">
+                            Taxon
+                          </a>
+                        </th>
+                        <th>
+                          <a class="header-sort" data-id="mm_individu_bota" data-modi=".individu.determination" data-corder="" data-encfield="auteur" data-limit="10" data-filter-id="0">
+                            Auteur
+                          </a>
+                        </th>
+                        <th>
+                          <a class="header-sort" data-id="mm_individu_bota" data-modi=".individu.determination" data-corder="" data-encfield="position" data-limit="10" data-filter-id="0">
+                            Position
+                          </a>
+                        </th>
+                      </tr>
+                    </thead>
+                  
+                    <tbody>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008003314##4d0244fb8df231fb01cf498008004735" type="checkbox" />
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">SDK</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-112.57184, 29.2661</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008006159##4d0244fb8df231fb01cf498008006aae" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">JFM</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-20.90641, -50.65126</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008007a60##4d0244fb8df231fb01cf498008008a29" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">150.86084, 13.12232</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800a543##4d0244fb8df231fb01cf49800800b372" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">10.98217, -54.21077</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800be0a##4d0244fb8df231fb01cf49800800cb91" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia cultriformis</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">130.00215, -3.34095</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800d88e##4d0244fb8df231fb01cf49800800e951" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FG</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-120.72899, -48.14975</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800801010c##4d0244fb8df231fb01cf498008011782" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>   
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">38.08024, 17.70645</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008013502##4d0244fb8df231fb01cf498008014606" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-115.92939, 20.05003</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008015e24##4d0244fb8df231fb01cf4980080175bd" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">41.50493, 32.74776</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf4980080180bc##4d0244fb8df231fb01cf49800801946f" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">81.56062, 82.649</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008003314##4d0244fb8df231fb01cf498008004735" type="checkbox" />
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">SDK</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-112.57184, 29.2661</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008006159##4d0244fb8df231fb01cf498008006aae" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">JFM</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-20.90641, -50.65126</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008007a60##4d0244fb8df231fb01cf498008008a29" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">150.86084, 13.12232</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800a543##4d0244fb8df231fb01cf49800800b372" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">10.98217, -54.21077</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800be0a##4d0244fb8df231fb01cf49800800cb91" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia cultriformis</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">130.00215, -3.34095</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800d88e##4d0244fb8df231fb01cf49800800e951" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FG</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-120.72899, -48.14975</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800801010c##4d0244fb8df231fb01cf498008011782" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>   
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">38.08024, 17.70645</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008013502##4d0244fb8df231fb01cf498008014606" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-115.92939, 20.05003</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008015e24##4d0244fb8df231fb01cf4980080175bd" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">41.50493, 32.74776</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf4980080180bc##4d0244fb8df231fb01cf49800801946f" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">81.56062, 82.649</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008003314##4d0244fb8df231fb01cf498008004735" type="checkbox" />
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">SDK</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-112.57184, 29.2661</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008006159##4d0244fb8df231fb01cf498008006aae" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">JFM</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-20.90641, -50.65126</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008007a60##4d0244fb8df231fb01cf498008008a29" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">150.86084, 13.12232</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800a543##4d0244fb8df231fb01cf49800800b372" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">10.98217, -54.21077</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800be0a##4d0244fb8df231fb01cf49800800cb91" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia cultriformis</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">130.00215, -3.34095</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800d88e##4d0244fb8df231fb01cf49800800e951" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FG</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-120.72899, -48.14975</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800801010c##4d0244fb8df231fb01cf498008011782" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>   
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">38.08024, 17.70645</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008013502##4d0244fb8df231fb01cf498008014606" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-115.92939, 20.05003</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008015e24##4d0244fb8df231fb01cf4980080175bd" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">41.50493, 32.74776</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf4980080180bc##4d0244fb8df231fb01cf49800801946f" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">81.56062, 82.649</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008003314##4d0244fb8df231fb01cf498008004735" type="checkbox" />
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">SDK</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-112.57184, 29.2661</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008006159##4d0244fb8df231fb01cf498008006aae" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">JFM</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-20.90641, -50.65126</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008007a60##4d0244fb8df231fb01cf498008008a29" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">150.86084, 13.12232</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800a543##4d0244fb8df231fb01cf49800800b372" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">10.98217, -54.21077</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800be0a##4d0244fb8df231fb01cf49800800cb91" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia cultriformis</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">130.00215, -3.34095</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800800d88e##4d0244fb8df231fb01cf49800800e951" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-01-05</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia harpophylla</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FG</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-120.72899, -48.14975</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf49800801010c##4d0244fb8df231fb01cf498008011782" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>   
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">38.08024, 17.70645</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008013502##4d0244fb8df231fb01cf498008014606" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia mangium</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">PB</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">-115.92939, 20.05003</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf498008015e24##4d0244fb8df231fb01cf4980080175bd" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">2011-01-03</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Achyranthes aspera</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">BL</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">41.50493, 32.74776</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input class="ck" value="mm_individu_bota##4d0244fb8df231fb01cf4980080180bc##4d0244fb8df231fb01cf49800801946f" type="checkbox"/>
+                        </td>
+                        <td>
+                          <span class="val" data-type="date">1978-02-04</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="ref">Acacia denticulosa</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="enum">FT</span>
+                        </td>
+                        <td>
+                          <span class="val" data-type="geoloc">81.56062, 82.649</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="row-fluid">
+                    <div class="span12 pull-center">
+                      <div class="pagination" data-spy="affix" data-offset-bottom="300">
+                        <ul>
+                          <li class="disabled"><a>&lt;&lt; Previous</a></li>
+                          <li class="active"><a>1</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/10/0">2</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/20/0">3</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/30/0">4</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/40/0">5</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/50/0">6</a></li>
+                          <li><a href="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/10/0">Next &gt;&gt;</a></li>
+                          <li class="disabled">
+                            <a>
+                              52 rows on 6 pages of 
+                              <select id="rows-per-page" class="input-mini">
+                                <option selected="selected" value="#/viewtable/mm_individu_bota/.individu.determination/0:_id/10/0/0">10</option>
+                                <option value="#/viewtable/mm_individu_bota/.individu.determination/0:_id/25/0/0">25</option>
+                                <option value="#/viewtable/mm_individu_bota/.individu.determination/0:_id/50/0/0">50</option>
+                                <option value="#/viewtable/mm_individu_bota/.individu.determination/0:_id/100/0/0">100</option>
+                                <option value="#/viewtable/mm_individu_bota/.individu.determination/0:_id/200/0/0">200</option>
+                              </select>
+                              elements.
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<!-- ***************************************************************************************************** -->
+<!-- QUERY / VIEW -->
+        <div class="tab-pane" id="modele3">
+          <div class="row">
+            <div class="span3">
+              <div class="accordion model-menu" id="accordion3">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse3-1">
+                      <h4 class="nav-title"><i class="icon-dm-model-structure"></i> Structure</h4>
+                    </a>
+                  </div>
+                  <div id="collapse3-1" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active">
+                          <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 1</a>
+                          <ul class="nav nav-list">
+                            <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 2</a></li>
+                            <li>
+                              <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 3</a>
+                              <ul class="nav nav-list">
+                                <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 4</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 5</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse3-2">
+                      <h4 class="nav-title"><i class="icon-dm-modules"></i> Modules</h4>
+                    </a>
+                  </div>
+                  <div id="collapse3-2" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-module"></i> Module 1</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 2</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 3</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 4</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 5</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse3-3">
+                      <h4 class="nav-title"><i class="icon-dm-model-query"></i> My queries/Views</h4>
+                    </a>
+                  </div>
+                  <div id="collapse3-3" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-query"></i> Query/View 1</a></li>
+                        <li><a><i class="icon-dm-query"></i> Query/View 2</a></li>
+                        <li><a><i class="icon-dm-query"></i> Query/View 3</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse3-4">
+                      <h4 class="nav-title"><i class="icon-dm-selection"></i> My selections</h4>
+                    </a>
+                  </div>
+                  <div id="collapse3-4" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-selection"></i> My selection #01 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(2)</span></a></li>
+                        <li><a><i class="icon-dm-selection"></i> My selection #02 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(10)</span></a></li>
+                        <li><a><i class="icon-dm-selection"></i> My selection #03 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(325)</span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span9 proximate">
+              <div class="btn-toolbar model-toolbar">
+                <div class="btn-group">
+                  <button class="btn has-tooltip" data-placement="bottom" title="Open a form to add a new query.">
+                    <i class="icon-dm-add"></i>
+                  </button>
+                  <button class="btn has-tooltip" data-placement="bottom" title="Edit the selected query.">
+                    <i class="icon-dm-edit"></i>
+                  </button>
+                  <button class="btn has-tooltip" data-placement="bottom" title="Delete the selected query.">
+                    <i class="icon-dm-delete"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="main-zone">
+                <p>Contenu</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+<!-- ***************************************************************************************************** -->
+        <!-- DOC VIEW -->
+        <div class="tab-pane" id="modele4">
+          <div class="row">
+            <div class="span3">
+              <div class="accordion model-menu" id="accordion4">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse4-1">
+                      <h4 class="nav-title"><i class="icon-dm-model-structure"></i> Structure</h4>
+                    </a>
+                  </div>
+                  <div id="collapse4-1" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active">
+                          <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 1</a>
+                          <ul class="nav nav-list">
+                            <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 2</a></li>
+                            <li>
+                              <a><i class="icon-dm-bullet-arrow-down"></i> <i class="icon-dm-module"></i> Module 3</a>
+                              <ul class="nav nav-list">
+                                <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 4</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a><i class="icon-dm-bullet-black"></i> <i class="icon-dm-module"></i> Module 5</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse4-2">
+                      <h4 class="nav-title"><i class="icon-dm-modules"></i> Modules</h4>
+                    </a>
+                  </div>
+                  <div id="collapse4-2" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-module"></i> Module 1</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 2</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 3</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 4</a></li>
+                        <li><a><i class="icon-dm-module"></i> Module 5</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse4-3">
+                      <h4 class="nav-title"><i class="icon-dm-model-query"></i> My queries/Views</h4>
+                    </a>
+                  </div>
+                  <div id="collapse4-3" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-query"></i> Query/View 1</a></li>
+                        <li><a><i class="icon-dm-query"></i> Query/View 2</a></li>
+                        <li><a><i class="icon-dm-query"></i> Query/View 3</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse4-4">
+                      <h4 class="nav-title"><i class="icon-dm-selection"></i> My selections</h4>
+                    </a>
+                  </div>
+                  <div id="collapse4-4" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-dm-selection"></i> My selection #01 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(2)</span></a></li>
+                        <li><a><i class="icon-dm-selection"></i> My selection #02 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(10)</span></a></li>
+                        <li><a><i class="icon-dm-selection"></i> My selection #03 <span class="has-tooltip" data-placement="right" title="Number of documents in this selection">(325)</span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span9 proximate">
+              <div class="btn-toolbar model-toolbar">
+                <div class="btn-group">
+                  <button class="btn has-tooltip" data-placement="bottom" title="Open a form to add a new query.">
+                    <i class="icon-dm-add"></i>
+                  </button>
+                  <button class="btn has-tooltip" data-placement="bottom" title="Edit the selected query.">
+                    <i class="icon-dm-edit"></i>
+                  </button>
+                  <button class="btn has-tooltip" data-placement="bottom" title="Delete the selected query.">
+                    <i class="icon-dm-delete"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="main-zone">
+                
+                <h4>Model 'test:botanic1'</h4>
+                
+                <div class="btn-toolbar model-toolbar">
+                  <div class="btn-group">
+                    <a class="btn has-tooltip" data-placement="bottom" title="Expand or collapse all tree entries">
+                      <input type="checkbox" value=""/>
+                    </a>
+                  </div>
+                  <div class="btn-group">
+                    <form id="tree-search" class="" >
+                      <div class="input-prepend input-append">
+                        <span class="add-on"><i class="icon-search"></i></span>
+                        <input name="q" type="text" placeholder="Search in tree" class="input-medium search-query has-tooltip" 
+                          data-placement="bottom"
+                          title="Filter entries in the tree"/>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button class="btn has-tooltip" data-placement="bottom" title="Open a dialog to compare all entries selected in the tree.">
+                      <i class="icon-dm-diff"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Delete all entries selected in the tree.">
+                        <i class="icon-dm-delete"></i>
+                    </button>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button class="btn has-tooltip" data-placement="bottom" title="View the details of the selected entry in the tree.">
+                      <i class="icon-dm-detail"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Show the synonyms of the selected entry in the tree.">
+                      <i class="icon-dm-synonym-show"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Show the pictures of the selected entry in the tree.">
+                      <i class="icon-dm-pictures"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Show the linked docs of the selected entry in the tree.">
+                      <i class="icon-dm-docs-linked"></i>
+                    </button>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn has-tooltip" data-placement="bottom" title="Add a new sub entry to the selected entry in the tree.">
+                      <i class="icon-dm-add"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Edit the selected entry in the tree.">
+                      <i class="icon-dm-edit"></i>
+                    </button>
+                    <button class="btn has-tooltip" data-placement="bottom" title="Add a synonym at the selected entry in the tree.">
+                      <i class="icon-dm-synonym-add"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <div id="doc-view" class="accordion">
+                  <div class="accordion-group indent" data-indent="0">
+                    <div class="accordion-heading"  style="border-bottom: 5px solid #a9a9a9;">
+                      <input class="selection" checked="" type="checkbox" />
+                      <h4>
+                        <a class="accordion-toggle" data-toggle="collapse" data-target="#doc-module-1" href="#">.individu :</a>
+                      </h4>
+                    </div>
+                    <div id="doc-module-1" class="accordion-body collapse in">
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <th>Date</th> 
+                            <td class="val">2011-01-03</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <table class="data_table indent" data-indent="2">
+                    <thead>
+                      <tr>
+                        <th>
+                          <input class="toggle" checked="" type="checkbox"></th>
+                        <th>
+                          <a class="command" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7">.individu.determination :</a></th>
+                        <th>
+                          <a class="command doctitle" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7"></a>
+                
+                          <a class="command edit" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7" title="edit">&nbsp;</a> 
+                          
+                          <a class="command syn" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7" title="synonyms">&nbsp;</a>
+                          <a class="command delete doc" parent-data="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee" title="delete" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7">&nbsp;</a>          
+                          <span class="command select hasmenu">&nbsp;
+                            <ul class="menu selections" id="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7"><li><a class="command select" href="#new">New selection</a></li>
+                              <li><a class="command select" href="#eb7f686d44d0cdd0aeeff5de71001560">test</a></li>
+                            </ul>
+                          </span>
+                          <a href="#/viewrevs/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7" class="command diff" title="last changes">&nbsp;</a>
+                          <span class="command login hasmenu">&nbsp;
+                            <ul class="menu">
+                            </ul>
+                          </span>
+                          <a href="#/images/mm_individu_bota/0/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d42230039e7" class="command gallery" title="children pictures">&nbsp;</a>
+                      </th>
+                      </tr>
+                      <tr>
+                        <th class="colored" style="background-color:#4f8e26;" colspan="3">
+                      </th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="2">Date</td> 
+                        <td class="val">
+                          1978-01-05
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Taxon</td> 
+                        <td class="val">
+                          Achyranthes atollensis
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Auteur</td> 
+                        <td class="val">
+                          JFM
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Position</td> 
+                        <td class="val">
+                          -159.35932, -74.18223
+                        </td>
+                      </tr>
+                    </tbody>
+                    
+                  </table>
+                
+                  <table class="data_table indent" data-indent="2">
+                    <thead>
+                      <tr>
+                        <th>
+                          <input class="toggle" checked="" type="checkbox"></th>
+                        <th>
+                          <a class="command" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b">.individu.herbier :</a></th>
+                        <th>
+                          <a class="command doctitle" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b"></a>
+                
+                          <a class="command edit" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" title="edit">&nbsp;</a> 
+                          <a class="command attch" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" title="attachments">&nbsp;</a>
+                          <a class="command syn" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" title="synonyms">&nbsp;</a>
+                          <a class="command delete doc" parent-data="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee" title="delete" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b">&nbsp;</a>          
+                          <span class="command new hasmenu">&nbsp;
+                            <ul class="menu" docid-data="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" mmid-data="_design/mm_individu_bota">
+                              <li><a class="command new son" href="#.individu.herbier.determination" title="new doc">determination</a></li>
+                            </ul>
+                          </span>
+                          <span class="command select hasmenu">&nbsp;
+                            <ul class="menu selections" id="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b"><li><a class="command select" href="#new">New selection</a></li>
+                              <li><a class="command select" href="#eb7f686d44d0cdd0aeeff5de71001560">test</a></li>
+                            </ul>
+                          </span>
+                          <a href="#/viewrevs/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" class="command diff" title="last changes">&nbsp;</a>
+                          <span class="command login hasmenu">&nbsp;
+                            <ul class="menu">
+                            </ul>
+                          </span>
+                          <a href="#/images/mm_individu_bota/0/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" class="command gallery" title="children pictures">&nbsp;</a>
+                      </th>
+                      </tr>
+                      <tr>
+                        <th class="colored" style="background-color:#ff7500;" colspan="3">
+                      </th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="2">Nom</td> 
+                        <td class="val">
+                          unHerbier0
+                        </td>
+                      </tr>
+                    </tbody>
+                    
+                  </table>
+                
+                  <table class="data_table indent" data-indent="4">
+                    <thead>
+                      <tr>
+                        <th>
+                          <input class="toggle" checked="" type="checkbox"></th>
+                        <th>
+                          <a class="command" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3">.individu.herbier.determination :</a></th>
+                        <th>
+                          <a class="command doctitle" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3"></a>
+                
+                          <a class="command edit" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3" title="edit">&nbsp;</a> 
+                          
+                          <a class="command syn" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3" title="synonyms">&nbsp;</a>
+                          <a class="command delete doc" parent-data="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b" title="delete" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3">&nbsp;</a>          
+                          <span class="command select hasmenu">&nbsp;
+                            <ul class="menu selections" id="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3"><li><a class="command select" href="#new">New selection</a></li>
+                              <li><a class="command select" href="#eb7f686d44d0cdd0aeeff5de71001560">test</a></li>
+                            </ul>
+                          </span>
+                          <a href="#/viewrevs/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3" class="command diff" title="last changes">&nbsp;</a>
+                          <span class="command login hasmenu">&nbsp;
+                            <ul class="menu">
+                            </ul>
+                          </span>
+                          <a href="#/images/mm_individu_bota/0/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300458b##35d67c6c14377a7df63d0d42230054b3" class="command gallery" title="children pictures">&nbsp;</a>
+                      </th>
+                      </tr>
+                      <tr>
+                        <th class="colored" style="background-color:#4f8e26;" colspan="3">
+                      </th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="2">Date</td> 
+                        <td class="val">
+                          1978-02-04
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Taxon</td> 
+                        <td class="val">
+                          Acacia harpophylla
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Auteur</td> 
+                        <td class="val">
+                          BL
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+                  <table class="data_table indent" data-indent="2">
+                    <thead>
+                      <tr>
+                        <th>
+                          <input class="toggle" checked="" type="checkbox"></th>
+                        <th>
+                          <a class="command" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a">.individu.observation :</a></th>
+                        <th>
+                          <a class="command doctitle" href="#/viewdoc/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a"></a>
+                
+                          <a class="command edit" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a" title="edit">&nbsp;</a> 
+                          
+                          <a class="command syn" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a" title="synonyms">&nbsp;</a>
+                          <a class="command delete doc" parent-data="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee" title="delete" href="#mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a">&nbsp;</a>          
+                          <span class="command select hasmenu">&nbsp;
+                            <ul class="menu selections" id="mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a">
+                              <li><a class="command select" href="#new">New selection</a></li>
+                              <li><a class="command select" href="#eb7f686d44d0cdd0aeeff5de71001560">test</a></li></ul>
+                          </span>
+                          <a href="#/viewrevs/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a" class="command diff" title="last changes">&nbsp;</a>
+                          <span class="command login hasmenu">&nbsp;
+                            <ul class="menu">
+                            </ul>
+                          </span>
+                          <a href="#/images/mm_individu_bota/0/mm_individu_bota##35d67c6c14377a7df63d0d42230026ee##35d67c6c14377a7df63d0d422300366a" class="command gallery" title="children pictures">&nbsp;</a>
+                      </th>
+                      </tr>
+                      <tr>
+                        <th class="colored" style="background-color:#5b9af8;" colspan="3">
+                      </th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="2">Type biologique</td> 
+                        <td class="val">
+                          epiphyte
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Dominance</td> 
+                        <td class="val">
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><!--/container-->
+    </div><!--/app-->
+    <footer class="footer">
+        <div class="container">
+          <ul class="footer-links">
+            <li>
+              <a>&nbsp;&copy; 2011-2012</a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="http://www.cirad.fr/">
+                <i class="icon-dm-logo-cirad"></i>
+                CIRAD
+              </a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="http://www.inra.fr/">
+                <i class="icon-dm-logo-inra"></i>
+                INRA
+              </a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="http://www.inria.fr/">
+                <i class="icon-dm-logo-inria"></i>
+                INRIA
+              </a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="http://www.ird.fr/">
+                <i class="icon-dm-logo-ird"></i>
+                IRD
+              </a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="http://www.tela-botanica.org/">
+                <i class="icon-dm-logo-tela-botanica"></i>
+                Tela-Botanica
+              </a>
+            </li>
+            <li class="divider-vertical muted">|</li>
+            <li>
+              <a href="http://www.plantnet-project.org" rel="tooltip" title="DataManager is part of Pl@ntNet">
+                <i class="icon-dm-logo-datamanager"></i>
+                Pl@ntNet
+              </a>
+            </li>
+            <li class="divider-vertical muted">|</li>
+            <li>
+              <a href="terms.html">
+                Terms
+              </a>
+            </li>
+            <li class="muted">·</li>
+            <li>
+              <a href="terms_of_use.html">
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </footer>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+    <script src="script/index.js"></script>
+  </body>
+</html>
