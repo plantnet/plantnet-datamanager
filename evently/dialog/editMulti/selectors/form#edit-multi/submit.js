@@ -1,20 +1,19 @@
 function (e,a,b,c) {
     var app = $$(this).app,
-    utilsLib = app.getlib('utils');
+        utilsLib = app.getlib('utils');
 
     var ids = e.data.args[1],
-    trigger = e.data.args[2];
+        trigger = e.data.args[2];
 
     var field_name = $("#field-name", this).val().trim(),
-    field_value = $("#field-value", this).val().trim(),
-    fields = {};
+        field_value = $("#field-value", this).val().trim(),
+        fields = {};
 
     if (!field_name) {
         utilsLib.showError('Empty field name');
         return false;
     }
 
-    
     try {
         field_value = $.parseJSON(field_value);
     } catch (x) {
@@ -24,14 +23,11 @@ function (e,a,b,c) {
 
     utilsLib.showBusyMsg('Applying changes', 'bulkEdit');
 
-    
     function onSuccess (resp) {
-
         if (trigger) {
             trigger.trigger();
         } 
         utilsLib.showSuccess('Data saved');
-
         $('#edit-multi-modal').modal('hide');
     }
 
@@ -47,7 +43,6 @@ function (e,a,b,c) {
                 //$.log(err, Exception);
             }
         }
-        
         utilsLib.showError('Unable to save doc, please retry later (' + JSON.stringify(err) + ')');
     }
 
@@ -55,7 +50,6 @@ function (e,a,b,c) {
         doc_ids: [ids],
         fields: JSON.stringify(fields)
     }, null, onSuccess, onError);
-
 
     return false;
 }

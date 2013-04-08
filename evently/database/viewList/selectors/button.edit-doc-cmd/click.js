@@ -1,7 +1,7 @@
 function(e) {
     var app = $$(this).app,
         utilsLib = app.getlib('utils'),
-        ck = $('input.ck:checked'),
+        ck = $('.doc-list input.ck:checked'),
         terms = e.data.args[0],
         action = e.data.args[2],
         title = e.data.args[3],
