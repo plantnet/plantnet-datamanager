@@ -1,6 +1,7 @@
 function() {
     var app = $$(this).app,
         ck = $('ul.treenode input.ck:checked'),
+        cacheLib = app.getlib('cache'),
         time = JSON.stringify(new Date().getTime());
 
     ck.each(function() {
@@ -26,8 +27,11 @@ function() {
                         });
                         for (var i = 0; i < docs.length; i++) {
                             var doc = docs[i],
-                            label = doc.$label;
-                            ulRef.append('<li><a href="#/viewdoc/' + doc._id + '">&nbsp;' + label + '</a></li>');
+                                label = doc.$label;
+                                structname = cacheLib.get_cached_mm(app, doc.$mm).name,
+                                modname = cacheLib.get_name(app, doc.$mm, doc.$modi),
+                            ulRef.append('<li><a href="#/viewdoc/' + doc._id + '">&nbsp;'
+                                    + '[' + structname + ' - ' + modname + '] ' + label + '</a></li>');
                         }
                     }
                     ulRef.show();
