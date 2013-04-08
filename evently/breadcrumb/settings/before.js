@@ -1,4 +1,8 @@
 function() {
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils');
+    if (utilsLib.checkOpenStructureEditor(app)) return false;
+
     breadcrumbData = [{
         name: 'Settings', 
         has_icon: true,

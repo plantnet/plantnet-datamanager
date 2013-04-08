@@ -1,6 +1,9 @@
 function (e, pathBinderParams) {
     //$.log('Pathbinder : viewtable');
     //$.log('Pathbinder params : ', pathBinderParams);
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils');
+    if (utilsLib.checkOpenStructureEditor(app)) return false;
 
     // Refresh/Actualize currentPath
     var infos = $$(this).app.infos;

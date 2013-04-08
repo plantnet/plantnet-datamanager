@@ -69,10 +69,8 @@
   </div>
 
   <div class="form-actions">
-    <button type="submit" class="btn btn-primary">Save structure</button>
-    {{#mm}}
-      <a href="#/db-model/{{name}}/{{id}}" class="btn">Cancel</a>
-    {{/mm}}
+    <button id="save-structure-button" type="submit" class="btn btn-primary">Save structure</button>
+    <a href="{{#mm}}#/db-model/{{name}}/{{id}}{{/mm}}{{^mm}}#/db-manager{{/mm}}" class="btn cancel-cmd">Cancel</a>
   </div>
 </form>
 </div>

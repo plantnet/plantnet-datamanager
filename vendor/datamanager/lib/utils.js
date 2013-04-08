@@ -694,7 +694,7 @@ exports.toFixed = function (x) {
       }
     }
     return x;
-}
+};
 
 //converts a sort params list to a multisort URL parameter
 // @TODO separate "add a new sort field to existing params" and "convert to string"
@@ -742,7 +742,7 @@ exports.sortParamsToString = function (sortParams, newSortField, order, newmodi)
     }
 
     return multisort;
-}
+};
 
 // converts a multisort URL parameter to a sort params list
 exports.sortParamsFromString = function (string) {
@@ -776,7 +776,7 @@ exports.sortParamsFromString = function (string) {
     }
 
     return sort_params;
-}
+};
 
 // returns the normalized value of a widget, depending on the underlying <input class="editw">,
 // and the field type (see http://amap-dev.cirad.fr/projects/p2pnote/wiki/Data_format_in_widgets_by_type)
@@ -822,7 +822,7 @@ exports.readWidget = function (inputValue, fieldType, defaultValue) {
     }
 
     return ret;
-}
+};
 
 // sets the value "outputValue" in the widget identified by the <input class="editw">
 // pointed by "inputEditw", depending on the field type "fieldType"
@@ -864,7 +864,7 @@ exports.writeWidget = function (inputEditw, outputValue, fieldType) {
     } else {
         inputEditw.val(outputValue);
     }
-}
+};
 
 exports.objectEmpty = function(o) {
     for (var p in o) {
@@ -873,7 +873,7 @@ exports.objectEmpty = function(o) {
         }
     }
     return true;
-}
+};
 
 /*----------------------------------------------------------------------------------------------------------*/
 /* DATE and TIME manipulation */
@@ -890,4 +890,24 @@ exports.secondsToString = function(seconds) {
         (secondsNum ? this.pad(secondsNum) + ' s' : '');
     
     return timeString;
+};
+
+// checks if the structure editor is open, and proposes to save or discard the changes
+// must be placed in the "before" of all loadable pages
+exports.checkOpenStructureEditor = function(app) {
+    if (app.data.structureEditorOpen) {
+        if (confirm('Some changes in the structure have not been saved. Click "ok" to save structure now, or "cancel" to discard changes.')) {
+            var saveStructButton = $('#save-structure-button');
+            if (saveStructButton) {
+                $.log('clic!');
+                saveStructButton.trigger('click');
+            }
+            return true;
+        } else {
+            $.log('discard');
+            app.data.structureEditorOpen = false;
+            return false;
+        }
+    }
+    return false;
 }

@@ -1,6 +1,9 @@
 function (e, pathBinderParams) {
     //$.log('Pathbinder : exportSql');
     //$.log('Pathbinder params : ', pathBinderParams);
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils');
+    if (utilsLib.checkOpenStructureEditor(app)) return false;
     
     breadcrumbData = [{
         name: 'Export SQL', 

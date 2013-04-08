@@ -4,7 +4,6 @@ function(lastChanges) {
         cacheLib = app.getlib('cache');
 
     var changes = lastChanges.rows.map(function(e) {
-        $.log('e', e);
         return { 
             id: e.id,
             time: utilsLib.formatDateTime(e.value.time),

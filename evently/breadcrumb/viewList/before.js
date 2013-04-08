@@ -1,4 +1,7 @@
 function(e, pathBinderParams) {
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils');
+    if (utilsLib.checkOpenStructureEditor(app)) return false;
     
     // Refresh/Actualise currentPath
     var idUrl = pathBinderParams.id;

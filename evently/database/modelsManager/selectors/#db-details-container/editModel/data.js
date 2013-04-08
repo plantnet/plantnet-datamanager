@@ -1,7 +1,12 @@
 function(mm, mms) {
-	$$(this).app.data.mm = mm;
-    $$(this).app.data.orig_mm_json = JSON.stringify(mm); // deep copy
-    $$(this).app.data.mms = mms;
-    
-    return {mm: mm}; 
+    var app = $$(this).app;
+
+    app.data.mm = mm;
+    app.data.orig_mm_json = JSON.stringify(mm); // deep copy
+    app.data.mms = mms;
+
+    // marker to warn user before quitting structure editor
+    app.data.structureEditorOpen = true;
+
+    return {mm: mm};
 };

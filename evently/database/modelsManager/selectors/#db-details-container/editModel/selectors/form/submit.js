@@ -53,7 +53,9 @@ function() {
 
     app.db.dm("update_mm", {mm : doc._id}, doc, onSuccess, onError, 1000000, 
               function (res) {
+                  app.data.structureEditorOpen = false;
                   $.log('COMPLETE', res);
+                  $.pathbinder.go('#/tree/' + doc._id.slice(8) + '/0/1');
               });
 
     return false;
