@@ -195,7 +195,9 @@
           <td>
             {{^has_attachments}}
               <div class="val" data-type="{{type}}"  title="{{header}}">
+                {{#is_label}}<i>{{/is_label}}
                 {{{value}}}
+                {{#is_label}}</i>{{/is_label}}
               </div>
             {{/has_attachments}}
             

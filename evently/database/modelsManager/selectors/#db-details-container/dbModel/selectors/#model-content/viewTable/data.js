@@ -152,6 +152,7 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                         attachments_names: attachments_names
                     });
                 } else {
+                    // regular columns (not attachments)
                     if (utilsLib.is_array(formattedValue)) {
                         // @TODO simplifier ce test cracra
                         if (! ((type == 'geoloc' || type == 'multi-enum') && formattedValue.length > 0 && (! utilsLib.is_array(formattedValue[0])))) {
@@ -160,8 +161,9 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                             formattedValue = formattedValue.join('<br/>');
                         }
                     }
-                    row_data.push({ // for server-side views
+                    row_data.push({
                         value: formattedValue,
+                        is_label: (name == '$label') ? true : false,
                         type: type
                     });
                 }
@@ -245,6 +247,7 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                     header : fn,
                     type: type,
                     _id: r._id,
+                    is_label: (fn == '$label') ? true : false,
                     has_attachments: attachs.length != 0 ? true : false,
                     attachments: attachs,
                     attachments_names: attachments_names

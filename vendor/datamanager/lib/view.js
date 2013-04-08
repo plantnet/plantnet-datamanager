@@ -28,6 +28,14 @@ exports.filter_mm_async = function (app, mm, ids, mod, sort_params, skip, limit,
     // compute cols
     var cols = [],
         fields = mm.modules[modt].fields;
+
+    // show label as first col
+    cols.push({
+        field: '$label',
+        label: '_label'
+    });
+
+    // regular cols
     for (var i = 0, l = fields.length; i < l; i++) {
         var fieldName = fields[i].name,
             fieldLabel = fields[i].label;
@@ -89,6 +97,13 @@ exports.mm_async = function(app, mm, modi, sort_params, skip, limit, callback) {
         fields = mm.modules[modt].fields,
         withattchs = mm.modules[modt].withimg || mm.modules[modt].withattchs;
 
+    // show label as first col
+    cols.push({
+        field: '$label',
+        label: '_label'
+    });
+
+    // regular cols
     for (var i = 0, l = fields.length; i < l; i++) {
         var fieldName = fields[i].name,
             fieldLabel = fields[i].label;
