@@ -9,7 +9,6 @@ function(e, pathBinderParams) {
     var infos = $$(this).app.infos;
     infos.model.activeView = null;
     infos.model.id = pathBinderParams.id.slice(0, pathBinderParams.id.indexOf('##'));
-    $.log('Model id extract : ' + infos.model.id);
     infos.module.id = null;
     infos.module.instance.id = null;
     infos.filter_id = null;

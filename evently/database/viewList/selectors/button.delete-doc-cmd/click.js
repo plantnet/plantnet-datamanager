@@ -10,9 +10,9 @@ function(e) {
     });
     
     if (!ids.length) {
-        utilsLib.showWarning('Please select at least one doc for deleting.');
+        utilsLib.showWarning('Please select at least one doc');
     } else {
-        var answer = confirm('Delete selected doc and subdocs ?');
+        var answer = confirm('Delete selected docs and subdocs ?');
         if (answer) {
             var app = $$(this).app,
             onError = app.libs.utils.show_err;

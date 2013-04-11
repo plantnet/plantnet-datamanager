@@ -1,0 +1,97 @@
+<h3>Incoming</h3>
+
+{{^hasIncoming}}
+<p class="alert alert-info">
+  There are no incoming synchronizations at the moment
+</p>
+{{/hasIncoming}}
+
+{{#hasIncoming}}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>From</th>
+      <th>User</th>
+      <th>Launch date</th>
+      <th>Achievement</th>
+      <th>Mode</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#incoming}}
+    <tr>
+      <td>
+        {{from}}
+      </td>
+      <td>
+        {{user}}
+      </td>
+      <td>
+        {{date}}
+      </td>
+      <td>
+        <div class="progress progress-striped">
+          <div class="bar" style="width: {{progress}}%;"></div>
+        </div>
+      </td>
+      <td>
+        {{mode}}
+      </td>
+      <td>
+        <a class="btn btn-mini sync-details-cmd">?</a>
+      </td>
+    </tr>
+    {{/incoming}}
+  </tbody>
+</table>
+{{/hasIncoming}}
+
+<h3>Outgoing</h3>
+
+{{^hasOutgoing}}
+<p class="alert alert-info">
+  There are no outgoing synchronizations at the moment
+</p>
+{{/hasOutgoing}}
+
+{{#hasOutgoing}}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>To</th>
+      <th>User</th>
+      <th>Launch date</th>
+      <th>Achievement</th>
+      <th>Mode</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#outgoing}}
+    <tr>
+      <td>
+        {{to}}
+      </td>
+      <td>
+        {{user}}
+      </td>
+      <td>
+        {{date}}
+      </td>
+      <td>
+        <div class="progress progress-striped">
+          <div class="bar" style="width: {{progress}}%;"></div>
+        </div>
+      </td>
+      <td>
+        {{mode}}
+      </td>
+      <td>
+        <a class="btn btn-mini sync-details-cmd">?</a>
+      </td>
+    </tr>
+    {{/outgoing}}
+  </tbody>
+</table>
+{{/hasOutgoing}}

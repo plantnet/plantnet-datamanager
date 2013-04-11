@@ -866,6 +866,11 @@ div.doc-toolbar.affix[data-spy="affix"] {
     border-top: 1px solid #E5E5E5;
     padding: 0;
 }
+
+.doc-container ul.linked-docs {
+    list-style-type: square;
+}
+
 .doc-footer .muted {
     font-size: 10px;
     line-height: 10px;
@@ -975,6 +980,10 @@ input[type="checkbox"].selection {
     vertical-align: text-bottom;
 }
 #geoloc-layers label.active {
+    font-weight: bold;
+}
+.map-point label {
+    display: inline;
     font-weight: bold;
 }
 
@@ -1143,6 +1152,12 @@ input.module-color {
 .doc-list dl {
     margin-bottom: 5px;
     margin-top: 5px;
+}
+
+.doc-list ul.linked-docs {
+    list-style-type: square;
+    margin-bottom: 15px;
+    margin-left: 10px;
 }
 
 #list-view {

@@ -39,7 +39,7 @@
         title="Compare selected docs">
       <i class="icon-dm-compare"></i>
     </button>
-    <button class="btn has-tooltip delete-doc-cmd btn-light-docs" data-placement="bottom" title="Delete selected entries and subdocs">
+    <button class="btn has-tooltip delete-doc-cmd btn-danger" data-placement="bottom" title="Delete selected entries and subdocs">
       <i class="icon-dm-delete"></i>
     </button>
   </div>
@@ -49,6 +49,9 @@
     <button class="btn has-tooltip edit-syn-cmd" data-container="body" data-placement="bottom"
         title="Add or edit synonyms for selected entry">
       <i class="icon-dm-synonym-add"></i>
+    </button>
+    <button title="Show linked docs for selected docs" class="show-linked-docs-cmd btn has-tooltip" data-placement="bottom">
+      <i class="icon-dm-docs-linked"></i>
     </button>
   </div>
   {{/isRef}}
@@ -144,7 +147,7 @@
                 <td class="val">
                   {{#refid}}
                     <a class="ref-link{{#has_tooltip}} has-tooltip{{/has_tooltip}}"
-                        {{#has_tooltip}} data-placement="right" title="{{tooltip}}"{{/has_tooltip}} 
+                        {{#has_tooltip}} data-placement="right" title="{{tooltip}}"{{/has_tooltip}}
                         href="#/viewdoc/{{refid}}">
                   {{/refid}}
                       {{{val}}}
@@ -172,7 +175,9 @@
         </div>
       {{/hasextra}}
     </div>
-    
+
+    <ul class="linked-docs hide"></ul>
+
     {{#meta}}
       <div class="doc-footer">
         <p class="doc-metadata muted pull-right">

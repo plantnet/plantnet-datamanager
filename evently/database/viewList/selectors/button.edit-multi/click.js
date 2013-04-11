@@ -4,7 +4,7 @@ function() {
         ck = $('.doc-list input.ck:checked');
 
     if (ck.length < 1) {
-        utilsLib.showWarning('Please select one or more doc to edit.');
+        utilsLib.showWarning('Please select at least one doc');
     } else {
         var ids = [];
         ck.each(function (i, e) {

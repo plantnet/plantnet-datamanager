@@ -11,6 +11,5 @@ function(id) {
 
     // go to doc anchor, or custom anchor if specified
     var anchorId = htmlLib.getAnchor(id);
-    $.log('Anchor id :'+'#'+anchorId);
     htmlLib.scrollTo('#' + anchorId, 70); // add offset for affix toolbar
 }

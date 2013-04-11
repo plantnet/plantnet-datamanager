@@ -106,14 +106,14 @@ exports.delete_with_sons = function (db, ids, onSuccess, onError) {
 // otherwise all fields in the doc
 exports.to_html = function (doc, useStructureInfo, app) {
 
-    var ret ="<p>";
+    var ret ='<p class="map-point">';
 
     function iterate() {
         for (var key in doc) {
             if (key[0] === '$' || key[0] === '_') {
                 continue;
             }
-            ret += key + " : " + doc[key] + "<br/>";
+            ret += '<label>' + key + '</label> : ' + doc[key] + '<br/>';
         }
     }
 
@@ -123,7 +123,7 @@ exports.to_html = function (doc, useStructureInfo, app) {
             var fields = mm.modules[doc.$modt].fields;
             for (var i = 0, l = fields.length; i < l; i++) {
                 if(doc[fields[i].name]) {
-                    ret += fields[i].name + ' : ' + doc[fields[i].name] + '<br/>';
+                    ret += '<label>' + fields[i].name + '</label> : ' + doc[fields[i].name] + '<br/>';
                 }
             }
         } else {

@@ -334,6 +334,9 @@ input[type="text"].btn-small {
 .icon-dm-db-sync {
     background: url(../img/icons/db_sync.png) left center no-repeat !important;
 }
+.icon-dm-db-sync-add {
+    background: url(../img/icons/db_sync_add.png) left center no-repeat !important;
+}
 .icon-dm-delete {
     background: url(../img/icons/delete.png) left center no-repeat !important;
 }

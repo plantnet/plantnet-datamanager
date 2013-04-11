@@ -6,11 +6,11 @@ function() {
         var id = $(this).val();
         if (id) {
             ids.push(id);
-        } 
+        }
     });
     
     if (!ids.length) {
-        utilsLib.showWarning('Please select at least one doc for comparing.');
+        utilsLib.showWarning('Please select at least two docs for comparing.');
     } else {
         $('#dialog-bloc').trigger('multiDoc', [ids]);
     }

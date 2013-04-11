@@ -1,10 +1,10 @@
 function(callback, e, params) {
-    var dbId = params.db_id,
-        app = $$(this).app,
+    var app = $$(this).app,
+        dbId = params.db_id,
         db = app.db,
         mmLib = app.getlib('mm');
-    
-    mmLib.get_mms(db, function(mms) {
+
+    /*mmLib.get_mms(db, function(mms) {
          db.view('datamanager/selections', {
              success: function(selections) {
                  db.view('datamanager/views_queries', {
@@ -16,5 +16,6 @@ function(callback, e, params) {
                  });
              }
          });
-    });
+    });*/
+    callback();
 }
