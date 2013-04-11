@@ -15,7 +15,9 @@
       {{#models}}
       <li {{#is_selected}}class="active"{{/is_selected}}>
         <a {{#desc}}class="has-tooltip" data-placement="right" title="{{mm_name}} - {{desc}}"{{/desc}}
-          data-mm-name="{{mm_name}}" data-mm-id="{{mm_id}}" href="#/tree/{{mm_id}}/0/1"
+          data-mm-name="{{mm_name}}" data-mm-id="{{mm_id}}"
+          {{#is_ref}}href="#/tree/{{mm_id}}/0/1"{{/is_ref}}
+          {{^is_ref}}href="#/viewtable/{{mm_id}}/0/_id/0/0/0/0/0"{{/is_ref}}
           data-is-ref="false">
           <i class="{{#is_ref}}icon-dm-model-dictionary{{/is_ref}}{{^is_ref}}icon-dm-model{{/is_ref}}"></i>
           {{mm_name}}

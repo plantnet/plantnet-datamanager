@@ -761,6 +761,11 @@ ul.treenode {
     margin-left: 1%;
 }
 
+/* Widget: synchronization */
+#sync-list-panel .progress {
+    margin-bottom: 0;
+}
+
 /* Widget : viewTable */
 table.data {
     max-width : 10000%;

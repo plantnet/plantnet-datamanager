@@ -29,11 +29,12 @@
         <td>
           {{#isref}}
             <i class="icon-dm-model-dictionary"></i>
+            <a href="#/tree/{{id}}/0/1">{{name}}</a>
           {{/isref}}
           {{^isref}}
             <i class="icon-dm-model"></i>
+            <a href="#/viewtable/{{id}}/0/_id/0/0/0/0/0">{{name}}</a>
           {{/isref}}
-          <a href="#/tree/{{id}}/0/1">{{name}}</a>
         </td>
         <td>
           {{desc}}
