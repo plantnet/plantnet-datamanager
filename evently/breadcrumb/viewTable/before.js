@@ -1,6 +1,4 @@
 function (e, pathBinderParams) {
-    //$.log('Pathbinder : viewtable');
-    //$.log('Pathbinder params : ', pathBinderParams);
     var app = $$(this).app,
         utilsLib = app.getlib('utils');
     if (utilsLib.checkOpenStructureEditor(app)) return false;
@@ -18,10 +16,8 @@ function (e, pathBinderParams) {
     }
 
     // Refresh blocs
-    if ($('#db-details-container').length == 0) {
-        $('#app-main-container').trigger('modelsManager');
-    }
-    
+    $('#app-main-container').trigger('modelsManager');
+
     $('#models-toolbar-container').trigger('_init');
     
     if ($('#model-content').length == 0) {
