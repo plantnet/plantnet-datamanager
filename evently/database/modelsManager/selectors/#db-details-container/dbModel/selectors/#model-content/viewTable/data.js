@@ -231,7 +231,7 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                 }
                 v = utilsLib.escape(v);
                 if (type != undefined) {
-                    v = utilsLib.formatFieldValue(v, type);
+                    v = utilsLib.formatFieldValue(v, type, false); // fancy display step 1
                 }
 
                 var attachments_names = '';
@@ -242,15 +242,32 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                     }
                 }
 
+                // add ref data
+                var refid = null,
+                    tooltip = [];
+                if (r.$ref && r.$ref[fn]) {
+                    for (refmodi in r.$ref[fn]) {
+                        if (refmodi === '_id') {
+                            refid = r.$ref[fn]._id;
+                            continue;
+                        }
+                        tooltip.push(r.$ref[fn][refmodi]);
+                    }
+                }
+
                 row.push({
                     value: v,
                     header : fn,
                     type: type,
                     _id: r._id,
                     is_label: (fn == '$label') ? true : false,
+                    is_url: (type == 'url') ? true : false,
                     has_attachments: attachs.length != 0 ? true : false,
                     attachments: attachs,
-                    attachments_names: attachments_names
+                    attachments_names: attachments_names,
+                    ref_id: refid,
+                    tooltip: tooltip,
+                    has_tooltip: tooltip && tooltip.length
                 });
             }
 

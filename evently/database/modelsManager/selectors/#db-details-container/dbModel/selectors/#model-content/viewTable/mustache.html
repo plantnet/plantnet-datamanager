@@ -195,9 +195,29 @@
           <td>
             {{^has_attachments}}
               <div class="val" data-type="{{type}}"  title="{{header}}">
-                {{#is_label}}<i>{{/is_label}}
-                {{{value}}}
-                {{#is_label}}</i>{{/is_label}}
+                {{#is_label}}
+                  <i>
+                {{/is_label}}
+                {{#ref_id}}
+                  <a class="ref-link{{#has_tooltip}} has-tooltip{{/has_tooltip}}"
+                    {{#has_tooltip}} data-placement="top" title="{{tooltip}}"{{/has_tooltip}}
+                    href="#/viewdoc/{{ref_id}}">
+                {{/ref_id}}
+                {{#is_url}}
+                  <a href="{{value}}">
+                {{/is_url}}
+
+                {{value}}
+
+                {{#is_url}}
+                  </a>
+                {{/is_url}}
+                {{#ref_id}}
+                  </a>
+                {{/ref_id}}
+                {{#is_label}}
+                  </i>
+                {{/is_label}}
               </div>
             {{/has_attachments}}
             

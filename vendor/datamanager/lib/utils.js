@@ -545,10 +545,12 @@ exports.shorten = function(s, width) {
     return shortened;
 };
 
-exports.formatFieldValue = function(value, type) {
+exports.formatFieldValue = function(value, type, doSomeHTML) {
     var returnValue = value,
         hasValue = exports.isNotEmpty(value, type);
-    
+
+    if (doSomeHTML == undefined) doSomeHtml = true;
+
     if (hasValue) {
         if (type == 'boolean') {
             if (value === true) {
@@ -559,7 +561,9 @@ exports.formatFieldValue = function(value, type) {
                 returnValue = '';
             }
         } else if (type == 'url') {
-            returnValue = '<a href="' + value + '" target="_blank">' + value + '</a>';
+            if (doSomeHTML) {
+                returnValue = '<a href="' + value + '" target="_blank">' + value + '</a>';
+            }
         } else if (type == 'multi-enum') {
             returnValue = value.toString().replace(/,/g, ', ');
         } else if (type == 'geoloc') {
@@ -567,8 +571,8 @@ exports.formatFieldValue = function(value, type) {
         } else if (type == '$meta') {
             returnValue = JSON.stringify(value, null, 2);
         }
-        }
-    
+    }
+
     return returnValue;
 };
 
