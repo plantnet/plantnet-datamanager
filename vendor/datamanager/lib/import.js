@@ -88,16 +88,18 @@ exports.import_csv = function (db, csv_data, mm, col_map, withConflicts, onSucce
     }
 
     var attchs_err = [];
+
     function save_all () {
 
         if(attchs_err.length > 0) {
-            onError ("Missing attachments", "", "", attchs_err);
-            return;
+            //onError ("Missing attachments", "", "", attchs_err);
+            //return;
+            showMsg('Warning: ' + attchs_err.length + ' attachments could not be imported!');
         }
-        
+
         // save data
         showMsg("Uploading data...");
-        
+
         db.bulkSave({docs : docs, 'all_or_nothing' : withConflicts}, {
             success : function (results) {
                 showMsg("Updating meta data...");
@@ -110,7 +112,6 @@ exports.import_csv = function (db, csv_data, mm, col_map, withConflicts, onSucce
             },
             error : onError
         });
-     
     }
 
     // organise doc by attch
@@ -130,31 +131,30 @@ exports.import_csv = function (db, csv_data, mm, col_map, withConflicts, onSucce
         save_all();
     } else {
          attchs.asyncForEach( function (a, next) {
-                             showMsg("Get attachment " + a);
-                             
-                             AtLib.get_local_file(
-                                 a, function(data) {
-                                     // encode
-                                     data.data = AtLib.arrayBufferTobase64(data.data);
-                                     // store attachment in doc
-                                     for (var id = 0; id < attch_docs[a].length; id++) {
-                                         var d = attch_docs[a][id];
-                                         d._attachments = d._attachments || {};
-                                         d._attachments[a] = {
-                                             content_type : data.type,
-                                             data : data.data
-                                         };
-                                     }
-                                                                          
-                                     next();
-                                 }, function (a) {
-                                     attchs_err.push(a);
-                                     next();
-                                 });
-                             
-                         }, function () {
-                             save_all();
-                         });
+             showMsg("Get attachment " + a);
+
+             AtLib.get_local_file(
+                 a, function(data) {
+                     // encode
+                     data.data = AtLib.arrayBufferTobase64(data.data);
+                     // store attachment in doc
+                     for (var id = 0; id < attch_docs[a].length; id++) {
+                         var d = attch_docs[a][id];
+                         d._attachments = d._attachments || {};
+                         d._attachments[a] = {
+                             content_type : data.type,
+                             data : data.data
+                         };
+                     }
+                     next();
+                 }, function (a) {
+                     attchs_err.push(a);
+                     next();
+                 });
+             
+         }, function () {
+             save_all();
+         });
     }
 };
 
