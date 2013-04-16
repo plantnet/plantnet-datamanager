@@ -602,7 +602,8 @@ var _validate_templates = function (mm, app) {
 // by parent modi - the "active" parameter is set to true if the found modi equals refModi
 exports.getPossibleModis = function(mm, refModt, refModi) {
 
-    var possibleModis = {};
+    var possibleModis = {},
+        alreadyTreated = {};
     addGoodModis('', '_root', true); // start at root modules
 
     function addGoodModis(parent, firstParent, processChildren) {
@@ -623,7 +624,8 @@ exports.getPossibleModis = function(mm, refModt, refModi) {
                 if (mm.structure[modi][2]) { // is optional
                     addGoodModis(modi, firstParent, false); // thou shalt not process children twice!
                 }
-                if (processChildren) {
+                if (processChildren && (! (modi in alreadyTreated))) { // patch préventif
+                    alreadyTreated[modi] = true;
                     addGoodModis(modi, modi, true);
                 }
             }
@@ -658,11 +660,9 @@ var _getChildrenModtByModi = function(mm) {
                 if (mm.structure[modi][2]) { // is optional
                     addGoodModts(modi, parentModi, false); // thou shalt not process children twice!
                 }
-                if (processChildren) {
-                    if (! (modi in alreadyTreated)) { // sometimes leads to infinite recursion!
-                        alreadyTreated[modi] = true;
-                        addGoodModts(modi, modi, true);
-                    }
+                if (processChildren && (! (modi in alreadyTreated))) { // sometimes leads to infinite recursion!
+                    alreadyTreated[modi] = true;
+                    addGoodModts(modi, modi, true);
                 }
             }
         }
