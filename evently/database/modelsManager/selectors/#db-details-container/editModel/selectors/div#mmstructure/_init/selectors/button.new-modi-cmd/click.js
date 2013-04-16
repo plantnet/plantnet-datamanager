@@ -25,9 +25,10 @@ function(e) {
         if(mm.structure[new_id]) {
             utilsLib.showError('Link already exists !');
         } else {
-            mm.structure[new_id] = [modt, pmodi];
+            mm.structure[new_id] = [modt, pmodi ? pmodi : ''];
             $("#mmstructure").trigger("_init");
         }
     }
+
     return false;
 }
