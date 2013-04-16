@@ -636,8 +636,12 @@ exports.getPossibleModis = function(mm, refModt, refModi) {
 // returns the modts that a modi may accept as (direct or indirect) children,
 // grouped by modi
 var _getChildrenModtByModi = function(mm) {
+    //$.log('gcmbm');
+    //$.log(mm);
+    //return false;
 
-     var cmbm = {};
+     var cmbm = {},
+         alreadyTreated = {};
      addGoodModts('', '', true); // start at root modules
 
     function addGoodModts(parent, parentModi, processChildren) {
@@ -655,7 +659,10 @@ var _getChildrenModtByModi = function(mm) {
                     addGoodModts(modi, parentModi, false); // thou shalt not process children twice!
                 }
                 if (processChildren) {
-                    addGoodModts(modi, modi, true);
+                    if (! (modi in alreadyTreated)) { // sometimes leads to infinite recursion!
+                        alreadyTreated[modi] = true;
+                        addGoodModts(modi, modi, true);
+                    }
                 }
             }
         }
