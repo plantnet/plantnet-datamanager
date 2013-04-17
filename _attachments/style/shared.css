@@ -113,8 +113,8 @@ html, body, .app { height:100% }
 }
 @media (max-width: 1200px) {
     .modal-large, .modal-xxlarge {
-        width: 760px;
-        margin-left: -380px;
+        width: 860px;
+        margin-left: -330px;
     }
 }
 @media (min-width: 1640px) { 
