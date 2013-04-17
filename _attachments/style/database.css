@@ -987,10 +987,12 @@ input[type="checkbox"].selection {
 #geoloc-layers label.active {
     font-weight: bold;
 }
+
 .map-point label {
     display: inline;
     font-weight: bold;
 }
+
 
 /* Modal: show map */
 .geoloc-show-map {
@@ -1044,9 +1046,13 @@ input[type="checkbox"].selection {
     height: 400px;
     margin-top: 10px;
 }
+
+
+
 .input-geoloc {
     margin-left: 50px;
 }
+
 .input-geoloc label {
     color: grey;
 }

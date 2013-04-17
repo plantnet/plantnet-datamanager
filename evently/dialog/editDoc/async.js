@@ -143,7 +143,6 @@ function(callback, e, id, new_doc, trigger) {
     }
 
     function loadGoogleMapLib() {
-
         $.getScript('http://www.google.com/jsapi', function() {
             // Step 2: Once the core is loaded, use the google loader to bring in the maps module.
             if(google.maps) {

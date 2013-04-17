@@ -59,6 +59,13 @@ function() {
         $(that).trigger('update_loc', [lat, lng]);
     });
 
-    app.data[idMap].map.setCenter(pos);
-    google.maps.event.trigger(app.data[idMap].map, 'resize');
+    var map = app.data[idMap].map;
+
+    function resize() {
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(pos);
+    }
+    resize();
+
+    setTimeout(resize, 300);
 };
