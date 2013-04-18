@@ -29,7 +29,7 @@ function(id, mm, related, synLabels) {
         pth = pth.map(function (e) {
             var d = subDocs[e];
             if(e) {
-                return mm.modules[d.$modt].name + d.$label + e;
+                return e + mm.modules[d.$modt].name + d.$label;
             } else {
                 return "##";
             }
@@ -41,10 +41,10 @@ function(id, mm, related, synLabels) {
         }
 
         // compute pth to order module. works even if a parent is null (optional parent)
-        for (var i = sp_modi.length - 2; i > 0; i--) {
-            var modt = sp_modi[i];
-            pth = mm.modules[modt].name + subDoc.$path[i - 1] +  pth;
-        }
+        // for (var i = sp_modi.length - 2; i > 0; i--) {
+        //     var modt = sp_modi[i];
+        //     pth = mm.modules[modt].name + subDoc.$path[i - 1] +  pth;
+        // }
 
         var module = mm.modules[subDoc.$modt],
             msons = moduleSons[subDoc.$modi];
@@ -194,6 +194,7 @@ function(id, mm, related, synLabels) {
 
     // sort by path
     docs.sort(function(a,b) {
+        $.log(a.path, b.path);
         return a.path < b.path ? -1 : 1;
     });
 
