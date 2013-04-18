@@ -21,18 +21,17 @@ function resolve_all_conflict(db) {
                             _deleted : true
                         });
                     }
-
-                    db.bulkDocs({docs:to_delete}, function (err, data) {
-
-                        if (err) {
-                            q.send_error(err);
-                            return;
-                        }
-                        else {
-                            q.send_json({status:"ok"});
-                        }
-                    });;
                 }
+                db.bulkDocs({docs:to_delete}, function (err, data) {
+
+                    if (err) {
+                            q.send_error(err);
+                        return;
+                    }
+                    else {
+                        q.send_json({status:"ok"});
+                    }
+                });;
             });
 
 }

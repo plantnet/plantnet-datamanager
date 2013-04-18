@@ -1,8 +1,10 @@
 function(doc) {
+
     // return conflict revisions
     if(doc._id.slice(0, 8) === "_design/") {
         return;
     }
+
     if (doc._conflicts) {
         emit(doc._id, [doc._rev].concat(doc._conflicts));
         return;
