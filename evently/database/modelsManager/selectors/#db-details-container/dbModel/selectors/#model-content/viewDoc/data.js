@@ -20,10 +20,21 @@ function(id, mm, related, synLabels) {
     // build view data
     for (var subId in subDocs) {
         var subDoc = subDocs[subId],
-            pth =  mm.modules[subDoc.$modt].name + subDoc.$label,
             level = subDoc.$path.length,
             parent_id = subDoc.$path.last(),
+            pth = subDoc.$path.concat([subDoc._id]),
             sp_modi = subDoc.$modi.split('.');
+
+        // create a string to sort correly docs
+        pth = pth.map(function (e) {
+            var d = subDocs[e];
+            if(e) {
+                return mm.modules[d.$modt].name + d.$label + e;
+            } else {
+                return "##";
+            }
+        });
+        pth = pth.join('');
 
         if(subDoc.$meta) {
             pth += subDoc.$meta.created_at;
