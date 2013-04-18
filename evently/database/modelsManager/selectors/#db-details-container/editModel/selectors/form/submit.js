@@ -1,16 +1,14 @@
 function() {
     var utilsLib = $$(this).app.getlib('utils');
-    
+
     utilsLib.showBusyMsg('Updating structure...', 'editMm');
     $('#dialog-bloc').trigger('busy', 'Updating structure...');
     $('#busy-modal').modal('show');
     // Trigger save is the first thing to do
     $('#mmmodules').trigger('save');
-    
-    
+
     var app = $$(this).app,
         doc = app.data.mm,
-        original_json = app.data.orig_mm_json,
         MM = app.getlib('mm'),
         msg = 'Structure updated';
 
@@ -45,17 +43,15 @@ function() {
         return false;
     }
 
-    if (original_json == JSON.stringify(doc)) {
-        msg = 'Nothing to save';
-        onSuccess();
-        return false;
-    }
-
     app.db.dm("update_mm", {mm : doc._id}, doc, onSuccess, onError, 1000000, 
               function (res) {
                   app.data.structureEditorOpen = false;
                   $.log('COMPLETE', res);
-                  $.pathbinder.go('#/tree/' + doc._id.slice(8) + '/0/1');
+                  if (doc.isref) {
+                      $.pathbinder.go('/tree/' + doc._id.slice(8) + '/0/1');
+                  } else {
+                      $.pathbinder.go('/viewtable/' + doc._id.slice(8) + '/0/_id/0/0/0/0/0');
+                  }
               });
 
     return false;
