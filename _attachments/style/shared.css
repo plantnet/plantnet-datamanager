@@ -79,6 +79,10 @@ html, body, .app { height:100% }
     width: auto;
 }
 
+.datepicker {
+    z-index: 2050;
+}
+
 /* Dropdown in a button group hack*/
 .btn-group > .dropdown-toggle {
     border-bottom-right-radius: 0;
@@ -101,6 +105,12 @@ html, body, .app { height:100% }
 }
 
 /* Modal */
+@media (max-width: 1200px) {
+    .modal-large, .modal-xxlarge {
+        width: 860px;
+        margin-left: -330px;
+    }
+}
 @media (min-width: 1200px) { 
     .modal-large {
         width: 960px;
@@ -109,12 +119,6 @@ html, body, .app { height:100% }
     .modal-xxlarge {
         width: 1100px;
         margin-left: -550px;
-    }
-}
-@media (max-width: 1200px) {
-    .modal-large, .modal-xxlarge {
-        width: 860px;
-        margin-left: -330px;
     }
 }
 @media (min-width: 1640px) { 
