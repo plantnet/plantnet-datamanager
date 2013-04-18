@@ -766,6 +766,14 @@ ul.treenode {
     margin-bottom: 0;
 }
 
+#sync-panel p.alert {
+    margin-bottom: 0;
+}
+
+#sync-panel .tab-pane {
+    padding-top: 10px;
+}
+
 /* Widget : viewTable */
 table.data {
     max-width : 10000%;
@@ -1084,6 +1092,9 @@ input[type="checkbox"].selection {
 }
 .medium-bottom-margin {
     margin-bottom: 10px;
+}
+.no-top-border, .no-top-border td {
+    border-top: none;
 }
 
 /* Modal: editQuery / editView */

@@ -1,3 +1,4 @@
+// !! stub, doesn't work at the moment
 var delete_mm_docs = function(db, mm_id, cb) {
     var docs;
     

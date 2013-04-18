@@ -137,6 +137,46 @@ exports.delete_mm_docs = function(db, mm_id, onSuccess, onError, includeViewsAnd
     });
 };
 
+//deletes all views and queries for a mm
+exports.delete_mm_vq = function(db, mm_id, onSuccess, onError) {
+
+ var docs = [],
+     ids;
+
+ db.view("datamanager/views_queries", {
+     startkey : ["v", mm_id],
+     endkey : ["v", mm_id, {}],
+     include_docs: true,
+     success : function (views) {
+         docs = views.rows.map(function(row) {
+             return row.doc;
+         });
+         db.view("datamanager/views_queries", {
+             startkey : ["q", mm_id],
+             endkey : ["q", mm_id, {}],
+             include_docs: true,
+             success : function (queries) {
+                 for (var i=0, l=queries.rows.length; i < l; i++) {
+                     docs.push(queries.rows[i].doc);
+                 }
+                 db.bulkRemove({
+                     docs: docs,
+                     'all_or_nothing': true
+                 }, {
+                     success: onSuccess,
+                     error: function() {
+                         onError('error while deleting views and queries');
+                     }
+                 });
+             }, error: function() {
+                 onError('could not read queries');
+             }
+         });
+     }, error: function() {
+         onError('could not read views');
+     }
+ });
+};
 
 exports.delete_modi_docs = function(db, mm_id, modi, onSuccess, onError) {
     var docs, ids;
