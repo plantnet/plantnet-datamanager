@@ -24,7 +24,7 @@ function(e) {
     var label = mm.modules[mm.structure[modi][0]].name;
 
     if (! isRemovable) {
-        utilsLib.showError('Module "' + label + '" contains documents; you cannot remove it.');
+        utilsLib.showError('Module "' + label + '" has sons or/and contains documents; delete them first');
         return false;
     }
 
