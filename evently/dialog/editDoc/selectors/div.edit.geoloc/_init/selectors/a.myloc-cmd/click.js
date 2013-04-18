@@ -1,8 +1,7 @@
 function() {
-    $.log($(this));
     var app = $$(this).app,
         utilsLib = app.getlib('utils'),
-        idMap = $(this).parents('.input-geoloc').data('geoloc-id'),
+        idMap = $(this).parent().parent().find('.input-geoloc').data('geoloc-id'),
         mapData = app.data[idMap];
         that = $(this),
         latInput = $('#input-geoloc-' + idMap + ' input.lat'),

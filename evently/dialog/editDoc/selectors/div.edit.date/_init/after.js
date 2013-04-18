@@ -1,7 +1,7 @@
 function() {
-    $.datepicker.getDate = function() { // wtf?
+    /*$.datepicker.getDate = function() { // wtf?
         return '2001-09-11';
-    }
+    }*/
     $("input.date", this).datepicker({
         dateFormat: 'yy-mm-dd',
         showOtherMonths: true,

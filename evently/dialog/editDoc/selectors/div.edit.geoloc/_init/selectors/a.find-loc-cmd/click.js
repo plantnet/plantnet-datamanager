@@ -1,10 +1,11 @@
 function() {
     var app = $$(this).app,
         utilsLib = app.getlib('utils'),
-        idMap = $(this).parents('.input-geoloc').data('geoloc-id'),
+        idMap = $(this).parent().parent().find('.input-geoloc').data('geoloc-id'),
         idInputGeoloc = '#input-geoloc-' + idMap,
-        location = $(idInputGeoloc + ' .location-str').val();
-    
+        locationInput = $(idInputGeoloc).parent().find('input.location-str'),
+        location = locationInput.val();
+
     if (location) {
         var that = $(this),
             geocoder = new google.maps.Geocoder(),
