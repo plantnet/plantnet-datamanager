@@ -297,7 +297,7 @@ exports.show_err = function(msg) {
 exports.showBusyMsg = function(msg, busyById, excludeOther) {
     var busyElement = $('#busy-bloc'),
         busyMsgElement = $('#busy-msg');
-    
+
     busyMsgElement.html(msg);
     if (excludeOther) {
         busyElement.removeData();
@@ -308,9 +308,9 @@ exports.showBusyMsg = function(msg, busyById, excludeOther) {
 
 exports.hideBusyMsg = function(busyById) {
     var busyElement = $('#busy-bloc');
-    
+
     busyElement.removeData(busyById);
-    if (!$.hasData(busyElement)) {
+    if (exports.objectEmpty(busyElement.data())) {
         busyElement.hide();
     }
     return exports;

@@ -109,13 +109,15 @@ function (callback, e, params) {
             success: function(view) {
                 stored_mm_or_view = view;
                  // server-side view, includes filter processing
-                 viewLib.view_async(app, view, modi, sort_params, skip, limit, filter_id, group, extra_callback);
-    
+                viewLib.view_async(app, view, modi, sort_params, skip, limit, filter_id, group, extra_callback);
+
                 // update app infos and reload model-menu
                 app.infos.model.id = view.$mm.slice(8);
                 app.infos.view.id = id;
                 app.infos.view.name = view.name;
                 $('#model-menu').trigger('_init');
+
+                utilsLib.showBusyMsg('Loading view...', 'viewLoading');
             },
             error: function(a,b,c) {
                 $.log(a,b,c);
@@ -127,6 +129,8 @@ function (callback, e, params) {
     function extra_callback(p_mm_id, p_name, p_$mm, p_cols,
             p_modi, p_data, p_skip, p_limit, p_length,
             p_sort_params, p_total_rows, p_filter, p_query) {
+
+        utilsLib.hideBusyMsg('viewLoading');
 
         callback(p_mm_id, p_name, p_$mm, p_cols, 
                 p_modi, p_data, p_skip, p_limit, p_length,
