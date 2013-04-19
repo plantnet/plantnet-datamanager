@@ -1,6 +1,6 @@
 function(nbDocs) {
     var app = $$(this).app,
-        dbName = $$(this).app.db.name,
+        dbName = app.db.name, // app is undefined! WTF ++ ??
         cacheLib = app.getlib('cache'),
         utilsLib = app.getlib('utils'),
         models = [],
