@@ -1,28 +1,262 @@
 <div class="margin-left">
-  <h2 class="page-title">Data synchronization</h2>
+<h2 class="page-title">Data synchronization</h2>
 
-  <ul id="sync-nav-tabs" class="nav nav-tabs">
-    <li class="active">
-      <a href="#sync-list-panel" data-toggle="tab">
-        <i class="icon-dm-db-sync"></i>
-        Current synchronizations
-      </a>
-    </li>
-    <li>
-      <a href="#new-sync-panel" data-toggle="tab">
-        <i class="icon-dm-db-sync-add"></i>
-        New synchronization
-      </a>
-    </li>
-  </ul>
+<ul id="sync-nav-tabs" class="nav nav-tabs">
+  <li class="active">
+    <a href="#get-data-panel" data-toggle="tab">
+      <i class="icon-dm-sync-get"></i>
+      Get data
+    </a>
+  </li>
+  <li>
+    <a href="#send-data-panel" data-toggle="tab">
+      <i class="icon-dm-sync-send"></i>
+      Send data
+    </a>
+  </li>
+</ul>
 
-  <div id="sync-panel" class="tab-content">
-    <div id="sync-list-panel" class="tab-pane active">
-      <!-- Built by selector -->
-    </div>
-
-    <div id="new-sync-panel" class="tab-pane">
-      <!-- Built by selector -->
-    </div>
+<div id="sync-panel" class="tab-content">
+  <div id="get-data-panel" class="tab-pane active" data-sync-action="pull" data-sync-type="get">
+    <form>
+      <h4>1. Choose a database where to get data</h4>
+      <div class="row-fluid">
+        <div class="span6">
+          <div class="input-prepend input-append">
+            <span class="add-on">
+              <i class="icon-dm-sync-get"></i>
+              From
+            </span>
+            
+            <select id="get-ex-url" class="has-tooltip ex-url"
+                data-placement="top"
+                title="Choose a database where get some data.">
+              <!-- Generate by selectors -->
+            </select>
+            
+            <a class="has-tooltip db-edit-cmd btn"
+                data-placement="right"
+                title="Add or edit external databases links.">
+              <i class="icon-dm-edit"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="get-db-login" class="db-login hide row-fluid">
+        <div class="span2">
+          <fieldset>
+            <legend>Login into selected database</legend>
+            
+            <label for="get-db-login-name">Login</label>
+            <input id="get-db-login-name" name="db_login" type="text"/>
+            <label for="get-db-login-passwd">Password</label>
+            <input id="get-db-login-passwd" name="db_pwd" type="password"/>
+          </fieldset>
+        </div>
+      </div>
+  
+      <h4>2. Select data to get</h4>
+      
+      <div>
+        <h6>Global</h6>
+        <div class="row-fluid">
+          <div class="span2">
+            <fieldset class="filter">
+              <legend>General</legend>
+              
+              <label class="selected checkbox">
+                <input id="ex-all" class="ex-all" name="filter" type="checkbox" value="all" checked>
+                All Data & Meta Data
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h6>Or choose parts that you want to get</h6>
+        <div class="row-fluid">
+          <div class="span2">
+            <fieldset class="filter" name="mms">
+              <legend>Structure Data</legend>
+      
+              {{#mms}}
+                <label for="ex-{{_id}}" class="checkbox">
+                  <input id="ex-{{_id}}" name="filter" type="checkbox" value="{{_id}}"/>
+                  Data from "{{name}}"
+                </label>
+              {{/mms}}
+            </fieldset>
+          </div>
+          <div class="span2">
+            <fieldset class="filter">
+              <legend>User Selections</legend>
+      
+              {{#selections}}
+              {{#value}}
+                <label for="ex-{{id}}" class="checkbox">
+                  <input id="ex-{{id}}" name="selection" type="checkbox" value="{{id}}"/>
+                  {{name}}
+                </label>
+              {{/value}}
+              {{/selections}}
+            </fieldset>
+          </div>
+          <div class="span2">
+            <fieldset class="filter" name="type">
+              <legend>Meta Data</legend>
+              
+              <label for="ex-mms" class="checkbox">
+                <input id="ex-mms" name="filter" type="checkbox" value="mm"/>
+                Structure layouts
+              </label>
+              <label for="ex-views" class="checkbox">
+                <input id="ex-views" name="filter" type="checkbox" value="view"/>
+                View definitions
+              </label>
+              <label for="ex-selections" class="checkbox">
+                <input id="ex-selections" name="filter" type="checkbox" value="selection"/>
+                Doc selections
+              </label>
+              <label for="ex-app" class="checkbox">
+                <input id="ex-app" name="filter" type="checkbox" value="app"/>
+                DatMmanager application
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <p class="info"></p>
+      
+      <div class="row-fluid">
+        <div class="form-actions span6">
+          <button class="btn btn-primary" type="submit">Launch</button>
+        </div>
+      </div>
+    </form>
   </div>
+  
+  <div id="send-data-panel" class="tab-pane" data-sync-action="push" data-sync-type="send">
+    <form>
+      <h4>1. Choose a database where send data</h4>
+      <div class="row-fluid">
+        <div class="span6">
+          <div class="input-prepend input-append">
+            <span class="add-on">
+              <i class="icon-dm-sync-send"></i>
+              To
+            </span>
+            
+            <select id="send-ex-url" class="has-tooltip ex-url"
+                data-placement="top"
+                title="Choose a database where send some data.">
+              <!-- Generate by selectors -->
+            </select>
+            
+            <a class="has-tooltip db-edit-cmd btn"
+                data-placement="right"
+                title="Add or edit external databases links.">
+              <i class="icon-dm-edit"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="send-db-login" class="db-login row-fluid">
+        <div class="span2">
+          <fieldset>
+            <legend>Login into selected database</legend>
+            
+            <label for="send-db-login-name">Login</label>
+            <input id="send-db-login-name" name="db_login" type="text"/>
+            <label for="send-db-login-passwd">Password</label>
+            <input id="send-db-login-passwd" name="db_pwd" type="password"/>
+          </fieldset>
+        </div>
+      </div>
+  
+      <h4>2. Select data to send</h4>
+      
+      <div>
+        <h6>Global</h6>
+        <div class="row-fluid">
+          <div class="span2">
+            <fieldset class="filter">
+              <legend>General</legend>
+              
+              <label for="send-ex-all" class="selected checkbox">
+                <input id="send-ex-all" class="ex-all" name="filter" type="checkbox" value="all" checked>
+                All Data & Meta Data
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h6>Or choose parts that you want to send</h6>
+        <div class="row-fluid">
+          <div class="span2">
+            <fieldset class="filter" name="mms">
+              <legend>Structure Data</legend>
+      
+              {{#mms}}
+                <label for="ex-{{_id}}" class="checkbox">
+                  <input id="ex-{{_id}}" name="filter" type="checkbox" value="{{_id}}"/>
+                  Data from "{{name}}"
+                </label>
+              {{/mms}}
+            </fieldset>
+          </div>
+          <div class="span2">
+            <fieldset class="filter">
+              <legend>User Selections</legend>
+      
+              {{#selections}}
+              {{#value}}
+                <label for="ex-{{id}}" class="checkbox">
+                  <input id="ex-{{id}}" name="selection" type="checkbox" value="{{id}}"/>
+                  {{name}}
+                </label>
+              {{/value}}
+              {{/selections}}
+            </fieldset>
+          </div>
+          <div class="span2">
+            <fieldset class="filter" name="type">
+              <legend>Meta Data</legend>
+              
+              <label for="ex-mms" class="checkbox">
+                <input id="ex-mms" name="filter" type="checkbox" value="mm"/>
+                Structure layouts
+              </label>
+              <label for="ex-views" class="checkbox">
+                <input id="ex-views" name="filter" type="checkbox" value="view"/>
+                View definitions
+              </label>
+              <label for="ex-selections" class="checkbox">
+                <input id="ex-selections" name="filter" type="checkbox" value="selection"/>
+                Doc selections
+              </label>
+              <label for="ex-app" class="checkbox">
+                <input id="ex-app" name="filter" type="checkbox" value="app"/>
+                PlantNote application
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <p class="info"></p>
+      
+      <div class="row-fluid">
+        <div class="form-actions span6">
+          <button class="btn btn-primary" type="submit">Launch</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </div>
