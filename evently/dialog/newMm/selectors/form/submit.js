@@ -29,6 +29,7 @@ function() {
             success: function(newMm) {
                 utilsLib.showSuccess('New structure created');
                 $('#db-nav-container').trigger('_init');
+                $.pathbinder.go('/editmm/' + newMm.id.slice(8));
             },
             error: function() {
                 utilsLib.showError('Cannot create new structure');
