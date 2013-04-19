@@ -20,6 +20,17 @@ var create_node = function (doc, parent, count, root) {
     return s;
 };
 
+// sort nodes by module label, then doc label
+function moduleThenLabel(a, b) {
+    if (a.type_label < b.type_label) {
+        return -1;
+    } else if (a.type_label > b.type_label) {
+        return 1;
+    } else {
+        return a.label < b.label ? -1 : 1;
+    }
+}
+
 // fill tree struct with docs_by_parent
 var _expand_struct = function (docs_by_parent, current_struct, count, root) {
 
@@ -50,7 +61,9 @@ var _expand_struct = function (docs_by_parent, current_struct, count, root) {
         _expand_struct(docs_by_parent, s, count, root);
     }
     // sort sons
-    current_struct.sons.sortBy('label');
+    //current_struct.sons.sortBy('label');
+    // sort sons by module name then label
+    current_struct.sons.sort(moduleThenLabel);
 };
 
 
@@ -229,8 +242,8 @@ exports.expand_node = function (db, tree_struct, parent_id, onSuccess, onError, 
                             s.sons = existing_docs[s._id].sons;
                         }
                     }
-                    // sort sons
-                    parent.sons.sortBy('label');
+                    // sort sons by module name then label
+                    parent.sons.sort(moduleThenLabel);
                     parent.count = parent.sons.length;
                     onSuccess();
                 }
@@ -304,7 +317,9 @@ exports.move = function (ts, src_id, dst_id) {
             // !! refresh node
             dst.sons.push(src);
             dst.count++;
-            dst.sons.sortBy("label");
+            //dst.sons.sortBy("label");
+            // sort sons by module name then label
+            dst.sons.sort(moduleThenLabel);
         }
     }
 };
