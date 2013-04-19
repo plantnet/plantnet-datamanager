@@ -1,4 +1,5 @@
 function() {
+    // deletes all data - and possibly views and queries definitions - for the given structure
     var mmName = $('.nav-tabs li.active ul li.active a').data('mm-name'),
         answer = confirm('Delete data for structure "'+mmName+'" ?');
     if (answer) {

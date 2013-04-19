@@ -1,4 +1,5 @@
 function() {
+    // deletes the whole structure, data, queries and views definitions
     var mmName = $('.nav-tabs li.active ul li.active a').data('mm-name'),
         answer = confirm('Delete data and layout for the structure "'+mmName+'" ?');
     if (answer) {
