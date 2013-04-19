@@ -37,7 +37,7 @@
       
       <div id="msg-bloc"></div>
       
-      <div id="busy-bloc" class="alert" data-startup="true">
+      <div id="busy-bloc" class="alert">
         <img src="img/animate/loader.gif" alt="Loading..." />
         <span id="busy-msg">DataManager is starting</span>
       </div>
@@ -144,7 +144,6 @@
 
           // run pathbinder on the url
           $.pathbinder.begin('/db-manager');
-          app.libs.utils.hideBusyMsg('startup');
       }
     </script>
         <script type="text/javascript">

@@ -29,7 +29,7 @@
       <div id="dialog-bloc"></div>
       <div id="msg-bloc"></div>
       
-      <div id="busy-bloc" class="alert" data-startup="true">
+      <div id="busy-bloc" class="alert">
         <img src="img/animate/loader.gif" alt="Loading..." />
         <span id="busy-msg">DataManager is starting</span>
       </div>
@@ -86,7 +86,6 @@
       
         // Initialisation
         document.title = app.db.name + ' @ ' + serverName;
-        app.libs.utils.hideBusyMsg('startup');
         app.libs.utils.init_app(app, executeEvently);
       });
       
