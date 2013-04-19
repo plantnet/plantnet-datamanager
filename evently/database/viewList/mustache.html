@@ -57,6 +57,15 @@
     </button>
   </div>
 
+  {{#isConflict}}
+    <div class="btn-group">
+      <button type="button" class="btn has-tooltip resolve-all-conflicts-cmd"
+        data-placement="bottom" title="Automatically resolve all conflicts">
+        Resolve all conflicts
+      </button>
+    </div>
+  {{/isConflict}}
+
   {{#isSelection}}
   <div class="btn-group">
     <a class="btn has-tooltip sort-selection-cmd" data-placement="bottom"
