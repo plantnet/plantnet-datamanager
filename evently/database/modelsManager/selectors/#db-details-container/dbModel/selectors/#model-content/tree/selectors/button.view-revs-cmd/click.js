@@ -2,7 +2,7 @@ function(e) {
     var utilsLib = $$(this).app.getlib('utils'),
         ids = [];
 
-    $('ul.treenode input.ck:checked').each(function() {
+    $('ul.treenode input.ck[value!=""]:checked').each(function() {
         var id = $(this).val();
         if (id) {
             ids.push(id);

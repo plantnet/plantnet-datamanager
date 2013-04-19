@@ -3,7 +3,7 @@ function() {
         utilsLib = app.getlib('utils'),
         ids = [];
     
-    $('ul#root input[type="checkbox"]:checked').each(function() {
+    $('ul#root input.ck[value!=""]:checked').each(function() {
         var id = $(this).val();
         ids.push(id); 
     });

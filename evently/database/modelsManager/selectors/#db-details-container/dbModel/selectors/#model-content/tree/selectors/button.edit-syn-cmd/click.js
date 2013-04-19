@@ -1,7 +1,7 @@
 function() {
     var app = $$(this).app,
         utilsLib = app.getlib('utils'),
-        ck = $('ul.treenode input.ck:checked'),
+        ck = $('ul.treenode input.ck[value!=""]:checked'),
         treeStructure = app.data.tree;
     
     if (ck.length != 1) {

@@ -1,6 +1,6 @@
 function() {
     var app = $$(this).app,
-        ck = $('ul.treenode input.ck:checked'),
+        ck = $('ul.treenode input.ck[value!=""]:checked'),
         cacheLib = app.getlib('cache'),
         time = JSON.stringify(new Date().getTime());
 

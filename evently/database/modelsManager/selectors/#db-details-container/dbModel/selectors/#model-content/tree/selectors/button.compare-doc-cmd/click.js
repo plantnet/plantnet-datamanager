@@ -4,7 +4,7 @@ function() {
         treeView = $('ul#root'),
         ids = [];
     
-    $('input[type=checkbox]:checked', treeView).each(function() {
+    $('input.ck[value!=""]:checked', treeView).each(function() {
         var id = $(this).val();
         if (id) {
             ids.push(id);
