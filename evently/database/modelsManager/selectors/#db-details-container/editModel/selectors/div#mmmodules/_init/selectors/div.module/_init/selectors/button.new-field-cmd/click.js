@@ -44,6 +44,13 @@ function() {
         $('.fields.editor', $(this).parents('.fields-bloc:first')).trigger('_init');
         nameInput.val('');
         utilsLib.showSuccess('New field added');
+
+        // automatic default label template when adding first field
+        if (mm.modules[modt].fields.length == 1) {
+            var defaultLabelTemplate = '${' + normalizedName + '}';
+            $('#' + modt + 'label_tpl').val(defaultLabelTemplate);
+            utilsLib.showInfo('A default label template was created: ' + defaultLabelTemplate);
+        }
     }
 
     return false;
