@@ -249,7 +249,7 @@
       
       <div id="msg-bloc"></div>
       
-      <div id="busy-bloc" class="alert" data-startup="true">
+      <div id="busy-bloc" class="alert">
         <img src="img/animate/loader.gif" alt="Loading..." />
         <span id="busy-msg">Terms of use is loading</span>
       </div>
@@ -299,7 +299,6 @@
           app.libs.utils = app.require('vendor/datamanager/lib/utils');
         
           // Initialisation DataManager
-          app.libs.utils.hideBusyMsg('startup');
           app.libs.utils.init_app(app, executeEvently);
       });
       
