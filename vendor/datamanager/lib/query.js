@@ -322,7 +322,16 @@ exports.getIds = function (db, q, success, error, limit, mm_id) {
        url: url,
        dataType: 'json',
        success: function(result) {
-           var ids = result.rows.map(function (r) { return r.id; });
+           var ids = [];
+           if (Utils.is_array(result)) { // search with "," leads to multiple result sets
+               for (var i=0; i<result.length; i++) {
+                   var tmpIds = result[i].rows.map(function (r) { return r.id; });
+                   ids = ids.concat(tmpIds);
+               }
+               ids = ids.unique();
+           } else {
+               ids = result.rows.map(function (r) { return r.id; });
+           }
            success(ids); 
        },
        error : error
