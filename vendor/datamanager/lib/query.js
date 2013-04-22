@@ -55,7 +55,7 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
             subClause = buildClause(f, qe);
         } else {
             for (var i=0, l=qe.value.length; i < l; i++) {
-                sqe = qe;
+                sqe = JSON.parse(JSON.stringify(qe)); // deep copy
                 sqe.value = qe.value[i];
                 sc = buildClause(f, sqe);
                 if (subClause == '') {
@@ -65,9 +65,8 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
                 }
             }
             subClause += ')';
-        }
-        //$.log('sub clause returned', subClause);
         return subClause;
+        }
     }
 
     // builds a Lucene search clause based on the field type and the operator
@@ -195,7 +194,7 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
                     v = quoteValue(qe.value, type, op);
             }
         } else {
-        // normalize field name
+            // normalize field name
             if(nf[0] == "$") { // convert leading $ to _
                 nf = "_" + nf.slice(1);
                 v = qe;
@@ -206,7 +205,6 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
             } else if (nf[0] == '_') { // simple criterion on _modi or _modt, coming from libView
                 v = qe;
             }
-            
         }
         nf = _remove_chars(nf);
         cl += neg + nf + th + ':' + v;

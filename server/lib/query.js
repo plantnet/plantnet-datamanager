@@ -56,7 +56,7 @@ exports.lucene_query = function (client, db, callback, q, skip, limit, include_d
             subClause = buildClause(f, qe);
         } else {
             for (var i=0, l=qe.value.length; i < l; i++) {
-                sqe = qe;
+                sqe = JSON.parse(JSON.stringify(qe));
                 sqe.value = qe.value[i];
                 sc = buildClause(f, sqe);
                 if (subClause == '') {
