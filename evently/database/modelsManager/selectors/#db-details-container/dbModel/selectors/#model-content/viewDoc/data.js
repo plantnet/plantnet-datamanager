@@ -194,7 +194,7 @@ function(id, mm, related, synLabels) {
 
     // sort by path
     docs.sort(function(a,b) {
-        $.log(a.path, b.path);
+        //$.log(a.path, b.path);
         return a.path < b.path ? -1 : 1;
     });
 
