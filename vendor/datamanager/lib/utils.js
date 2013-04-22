@@ -507,12 +507,13 @@ exports.no_accent = function(s) {
         .replace(/ /gi, '_');
 };
 
-exports.escape = function(inputString) {
+// if keepAmps is true, will not transform "&" into "&amp;"
+exports.escape = function(inputString, keepAmps) {
     if (inputString && typeof(inputString) === 'string') {
         inputString = inputString.replace(/&(?!\w+;)|["<>\\]/g, function(character) {
             switch(character) {
                 case '&': 
-                    return '&amp;';
+                    return keepAmps ? '&' : '&amp;';
                 case '\\':
                     return '\\\\';
                 case '"':
