@@ -402,7 +402,7 @@ exports.query = function(db, query, onSuccess, onError) {
                     var ids = [];
                     var i, l;
                     for (i = 0, l = related.rows.length; i < l; i++) {
-                        var id = related.rows[i].id;
+                        var id = related.rows[i].value._id;
                         // @TODO if related doc's modt is the same as target modt, exclude it (case of modt under itself)
                         //$.log ('related modt', rmodt, rmodi, 'target modt', target_modt);
                         ids.push(id);
@@ -516,7 +516,7 @@ exports.sort_selection = function (app, ids, mm_id, sort_mod, isView, sort_param
                 keys : keys,
                 success : function (related) {
                     keys = related.rows.map(function (e) {
-                        return e.id;
+                        return e.value._id;
                     });
                     keys = keys.unique();
                     // sorted _and

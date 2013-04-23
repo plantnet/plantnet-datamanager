@@ -1,26 +1,26 @@
 <div id="choose-view-modal" class="modal hide fade" tabindex="-1" role="dialog" 
     aria-labelledby="choose-view-modal-label" aria-hidden="true">
-  
+
   <form>
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="choose-view-modal-label">Choose a view</h3>
     </div>
-    
+
     <div class="modal-body">
       <input id="query-id" name="query_id" type="hidden" value="{{query_id}}"/>
-      
-      <label>
+
+      <label class="radio">
         <input name="type" type="radio" value="{{mm_id}}/{{select_modt}}" data-type="table" checked/>
         Table
       </label>
-      
-      <label>
+
+      <label class="radio">
         <input name="type" type="radio" value="list" data-type="list"/>
         List
       </label>
-      
-      <label>
+
+      <label class="radio display-inline-block">
         <input name="type" type="radio" value="view" data-type="view"/>
         View :
       </label>
@@ -33,7 +33,7 @@
     </div>
   
     <div class="modal-footer">
-      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</a>
       <button class="btn btn-primary" type="submit">OK</button>
     </div>
   </form>
