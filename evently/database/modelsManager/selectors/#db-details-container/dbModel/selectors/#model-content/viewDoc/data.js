@@ -44,12 +44,6 @@ function(id, mm, related, synLabels) {
             pth += subDoc.$meta.created_at;
         }
 
-        // compute pth to order module. works even if a parent is null (optional parent)
-        // for (var i = sp_modi.length - 2; i > 0; i--) {
-        //     var modt = sp_modi[i];
-        //     pth = mm.modules[modt].name + subDoc.$path[i - 1] +  pth;
-        // }
-
         var module = mm.modules[subDoc.$modt],
             msons = moduleSons[subDoc.$modi];
 

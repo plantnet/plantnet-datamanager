@@ -20,9 +20,8 @@ function (doc) {
     emit([doc._id, doc.$modi], { _attchs : attchs, _id: doc._id});
     emit([doc._id, doc.$modt], { _id: doc._id }); // are _attchs useful here?
 
-    var modis = doc.$modi.split(".");
-
-    var path = doc.$path; 
+    var modis = doc.$modi.split("."),
+    path = doc.$path; 
 
     if (path) {
         var cmodi = "." + modis[1];
@@ -33,7 +32,7 @@ function (doc) {
                 // sons modi
                 emit([parent_id, doc.$modi], { _attchs : attchs, _id: doc._id});
                 // parents modi
-                emit([doc._id, cmodi], {_id: parent_id, _attchs : attchs});
+                emit([doc._id, cmodi], {_id:parent_id, _attchs:attchs});
 
                 // sons modt
                 emit([parent_id, doc.$modt], { _id: doc._id });

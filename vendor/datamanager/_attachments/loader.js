@@ -5,7 +5,7 @@ function loadLib(scripts) {
 };
 
 loadLib([
-    'vendor/jquery-ui/jquery-ui-1.10.2.custom.min.js',
+    'vendor/jquery-ui/jquery-ui-1.9.2.custom.min.js',
     'vendor/jquery/form/jquery.form.js',
     'vendor/jquery/autocomplete/jquery.autocomplete.min.js',
     'vendor/jquery/colorbox/jquery.colorbox.min.js',
