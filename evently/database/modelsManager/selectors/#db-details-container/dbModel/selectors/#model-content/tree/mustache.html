@@ -42,7 +42,8 @@
         <span class="add-on">
           <i class="icon-search"></i>
         </span>
-        <input class="search-query has-tooltip tree-search-input" type="text" data-placement="bottom" data-trigger="focus"            data-html="true" placeholder="Filter the tree" name="q" title="">
+        <input class="search-query has-tooltip tree-search-input" type="text" data-placement="bottom" data-trigger="focus"
+          data-html="true" placeholder="Filter the tree" name="q" title="">
         <button class="btn" type="submit">
           Filter
         </button>
@@ -79,10 +80,12 @@
         title="Compare selected docs">
       <i class="icon-dm-compare"></i>
     </button>
+    {{#is_writer}}
     <button class="btn has-tooltip delete-doc-cmd btn-danger" data-container="body" data-placement="bottom" 
         title="Delete selected docs">
       <i class="icon-dm-delete"></i>
     </button>
+    {{/is_writer}}
   </div>
 
   <div class="btn-group">

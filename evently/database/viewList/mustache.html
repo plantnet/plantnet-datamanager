@@ -25,9 +25,11 @@
     <button title="Compare selected docs" class="compare-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
       <i class="icon-dm-compare"></i>
     </button>
+    {{#is_writer}}
     <button title="Delete selected docs" class="delete-doc-cmd btn has-tooltip btn-danger" data-placement="bottom">
       <i class="icon-dm-delete"></i>
     </button>
+    {{/is_writer}}
   </div>
 
   <div class="btn-group">

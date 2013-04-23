@@ -5,6 +5,10 @@ function(id, mm, related, synLabels) {
         subDocs = {},
         mmLib = app.getlib('mm'),
         cacheLib = app.getlib('cache'),
+        userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
+        isSuperAdmin = (app.userCtx && app.userCtx.isSuperAdmin) ? app.userCtx.isSuperAdmin : null,
+        isAdmin = (isSuperAdmin || userRole == 'admin') ? true : false,
+        isWriter = (userRole == 'writer' || isAdmin) ? true : false,
         moduleSons = mmLib.get_modis_by_parent(mm);
 
     app.data.moduleSons = moduleSons;
@@ -205,6 +209,7 @@ function(id, mm, related, synLabels) {
         mm_key: mm._id.replace('_design/', ''),
         mm_name: mm.name,
         docs: docs,
-        isRef: mm.isref
+        isRef: mm.isref,
+        is_writer: isWriter
     };
 };
