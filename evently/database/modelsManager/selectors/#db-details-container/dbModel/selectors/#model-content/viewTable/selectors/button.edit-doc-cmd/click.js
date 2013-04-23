@@ -4,7 +4,7 @@ function() {
     ck = $('table.data input.ck:checked');
     
     if (ck.length != 1) {
-        utilsLib.showWarning('Please select only one row to edit.')
+        utilsLib.showWarning('Please select only one row, or hold Ctrl and double-click the row to edit it');
     } else {
         var idDoc = ck.val(),
             trigger = new app.libs.utils.Trigger(null, null, null, true);

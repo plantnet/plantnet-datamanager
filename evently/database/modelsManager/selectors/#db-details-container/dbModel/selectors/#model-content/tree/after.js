@@ -27,6 +27,7 @@ function(e, p, q) {
     }
 
     function onSuccess() {
+        utilsLib.hideBusyMsg('viewTree');
         $('ul#root').trigger('_init'); 
     };
 

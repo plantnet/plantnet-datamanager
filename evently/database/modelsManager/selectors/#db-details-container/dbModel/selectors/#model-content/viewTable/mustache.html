@@ -3,7 +3,16 @@
     Table view
   </h3>
   <p class="alert alert-info">
-    This structure is empty. Add some modules first, or ask an administrator to do so.
+    This structure is empty:
+    {{#is_admin}}
+      <a class="btn" href="#/editmm/{{mm_id}}">
+        <i class="icon-dm-model-edit"></i>
+        Add some modules
+      </a>
+    {{/is_admin}}
+    {{^is_admin}}
+      ask an administrator to edit the structure.
+    {{/is_admin}}
   </p>
 {{/modelEmpty}}
 
@@ -49,31 +58,35 @@
     {{/add_doc_possible}}
       <i class="icon-dm-add"></i>
     </button>
-    <button class="btn has-tooltip compare-doc-cmd btn-light-docs" data-container="body" data-placement="bottom" 
+    <button class="btn has-tooltip compare-doc-cmd btn-light-docs" data-container="body" data-placement="bottom"
         title="Compare selected docs">
       <i class="icon-dm-compare"></i>
     </button>
+    {{#is_writer}}
     <button title="Delete the selected row" class="delete-doc-cmd btn has-tooltip btn-danger" data-placement="bottom">
       <i class="icon-dm-delete"></i>
     </button>
+    {{/is_writer}}
   </div>
 
   <div class="btn-group">
     <button title="View revisions for one selected doc" class="view-revs-cmd btn has-tooltip" data-placement="bottom">
       <i class="icon-dm-revision"></i>
     </button>
-  </div>
 
   <input type="hidden" id="mm-is-ref" value="{{isRef}}"/>
 
   {{#isRef}}
-  <div class="btn-group">
-    <button class="btn has-tooltip edit-syn-cmd" data-container="body" data-placement="bottom" 
+    <button class="btn has-tooltip edit-syn-cmd" data-container="body" data-placement="bottom"
         title="Add or edit synonyms for selected entry">
       <i class="icon-dm-synonym-add"></i>
     </button>
-  </div>
+    <button title="Show linked docs for selected doc" class="show-linked-docs-cmd btn has-tooltip" data-placement="bottom">
+      <i class="icon-dm-docs-linked"></i>
+    </button>
   {{/isRef}}
+
+  </div>
 
   <div class="btn-group selections">
     <!-- Construct by selector -->

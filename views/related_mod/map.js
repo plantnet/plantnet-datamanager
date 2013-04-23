@@ -17,8 +17,8 @@ function (doc) {
     }
 
     // source doc
-    emit([doc._id, doc.$modi], { _attchs : attchs});
-    emit([doc._id, doc.$modt], null); // are _attchs useful here?
+    emit([doc._id, doc.$modi], { _attchs : attchs, _id: doc._id});
+    emit([doc._id, doc.$modt], { _id: doc._id }); // are _attchs useful here?
 
     var modis = doc.$modi.split(".");
 
@@ -31,12 +31,12 @@ function (doc) {
             if (parent_id) {
 
                 // sons modi
-                emit([parent_id, doc.$modi], { _attchs : attchs});
+                emit([parent_id, doc.$modi], { _attchs : attchs, _id: doc._id});
                 // parents modi
                 emit([doc._id, cmodi], {_id: parent_id, _attchs : attchs});
 
                 // sons modt
-                emit([parent_id, doc.$modt], null);
+                emit([parent_id, doc.$modt], { _id: doc._id });
                 // parents modt
                 emit([doc._id, modis[i+1]], {_id: parent_id});
             }

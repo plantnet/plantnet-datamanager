@@ -1,7 +1,11 @@
 function(title, isQuery, action, id, docs, skip, limit, total_rows, nb_rows, showImages) {
 
     var app = $$(this).app,
-        cache = app.getlib('cache');
+        cache = app.getlib('cache'),
+        userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
+        isSuperAdmin = (app.userCtx && app.userCtx.isSuperAdmin) ? app.userCtx.isSuperAdmin : null,
+        isAdmin = (isSuperAdmin || userRole == 'admin') ? true : false,
+        isWriter = (userRole == 'writer' || isAdmin) ? true : false;
 
     var rows = [];
 
@@ -191,6 +195,7 @@ function(title, isQuery, action, id, docs, skip, limit, total_rows, nb_rows, sho
         pagesAfter: pagesAfter,
         action: action,
         show_pagination: (total_rows / limit) > 1,
-        show_images: showImages
+        show_images: showImages,
+        is_writer: isWriter
     };
 }

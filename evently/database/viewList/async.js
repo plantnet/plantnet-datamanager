@@ -5,6 +5,7 @@ function(callback, e, params) {
         label = params.label,
         show_images = (params.show_images === 'true'),
         app = $$(this).app,
+        utilsLib = app.getlib('utils'),
         limit = app.config.page_size,
         db = app.db;
 
@@ -61,6 +62,12 @@ function(callback, e, params) {
                 q = id;
             query.getDocs(db, q, skip, limit,
                     function(result) {
+                        if (utilsLib.is_array(result)) { // some nasty boy searched for a ',' which leads to several result sets
+                            if (result.length > 1) {
+                                utilsLib.showWarning('Do not use "," in queries (except in a phrase between " ") - you may get unexpected results');
+                            }
+                            result = result[0];
+                        }
                         callback(label, true, action, id, 
                                 result, skip, limit, 
                                 result.total_rows, result.rows.length, show_images);

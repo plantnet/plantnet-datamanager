@@ -1,0 +1,47 @@
+<div id="linked-docs-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="new-mm-modal-label" 
+    aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="new-mm-modal-label">Linked docs for <span class="doc-label">{{docLabel}}</span></h3>
+  </div>
+
+  <div class="modal-body">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <td>Structure</td>
+          <td>Module</td>
+          <td>Document</td>
+        </tr>
+      </thead>
+      <tbody>
+        {{^atLeastOne}}
+          <tr>
+            <td colspan="3">
+              <p class="alert alert-info">
+                No linked docs
+              </p>
+            </td>
+          </tr>
+        {{/atLeastOne}}
+        {{#linkedDocs}}
+          <tr>
+            <td>{{structname}}</td>
+            <td>{{modname}}</td>
+            <td>
+              <a data-id="{{_id}}" href="#" class="open-link-cmd">
+                {{$label}}
+              </a>
+            </td>
+          </tr>
+        {{/linkedDocs}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+
+</div>

@@ -44,13 +44,19 @@ exports.filter_mm_async = function (app, mm, ids, mod, sort_params, skip, limit,
             label: fieldLabel || fieldName
         });
     }
+    $.log('go to sort', ids.length, mm._id, mod, sort_params);
+    $.log(ids[0]);
+    $.log(ids[1]);
+    $.log(ids[2]);
 
     Query.sort_selection(app, ids, mm._id, mod, false, sort_params, 
         function(sorted_ids) {
             //$.log('sorted ids', sorted_ids.length);
             var total_rows = sorted_ids.length; 
             // select page
+            $.log('sid length', sorted_ids.length);
             sorted_ids = sorted_ids.slice(skip, skip + limit);
+            $.log('sid length', sorted_ids.length);
             // get view data
             app.db.allDocs({
                 keys: sorted_ids,

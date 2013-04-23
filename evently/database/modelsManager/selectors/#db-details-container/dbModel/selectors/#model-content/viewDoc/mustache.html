@@ -39,9 +39,11 @@
         title="Compare selected docs">
       <i class="icon-dm-compare"></i>
     </button>
+    {{#is_writer}}
     <button class="btn has-tooltip delete-doc-cmd btn-danger" data-placement="bottom" title="Delete selected entries and subdocs">
       <i class="icon-dm-delete"></i>
     </button>
+    {{/is_writer}}
   </div>
 
   {{#isRef}}

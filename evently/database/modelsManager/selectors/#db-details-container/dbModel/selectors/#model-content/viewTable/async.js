@@ -57,8 +57,9 @@ function (callback, e, params) {
                                 query: filter,
                                 name: filter.name
                             };
+                            //$.log('step1: ' + ids.length + ' for ' + filter.$select);
                             // call viewLib
-                            viewLib.filter_mm_async(app, mm, ids, modi, sort_params, 
+                            viewLib.filter_mm_async(app, mm, ids, modi, sort_params,
                                 skip, limit, filter, extra_callback);
                         }, function(err) {
                             utilsLib.showError(err);

@@ -322,7 +322,16 @@ exports.getIds = function (db, q, success, error, limit, mm_id) {
        url: url,
        dataType: 'json',
        success: function(result) {
-           var ids = result.rows.map(function (r) { return r.id; });
+           var ids = [];
+           if (Utils.is_array(result)) { // search with "," leads to multiple result sets
+               for (var i=0; i<result.length; i++) {
+                   var tmpIds = result[i].rows.map(function (r) { return r.id; });
+                   ids = ids.concat(tmpIds);
+               }
+               ids = ids.unique();
+           } else {
+               ids = result.rows.map(function (r) { return r.id; });
+           }
            success(ids); 
        },
        error : error
@@ -379,27 +388,29 @@ exports.query = function(db, query, onSuccess, onError) {
                 var id = data.rows[i].id;
                 keys.push([id, query.$select]); 
             }
-            //$.log('received keys', keys.length/*, keys*/);
+            $.log('received keys from lq', keys.length/*, keys*/);
             // target modt
             var target_modt = query.$select;
             if (target_modt[0] == '.') {
                 target_modt = target_modt.split('.').last();
             }
 
+            $.log('launching related_mod for mod', query.$select);
             db.view("datamanager/related_mod", {
                 cache : cache,
                 keys : keys,
                 success : function (related) {
                     var ids = [];
                     var i, l;
+                    var longueurs = {}; // debug
                     for (i = 0, l = related.rows.length; i < l; i++) {
-                        var id = related.rows[i].id;
+                        var id = related.rows[i].value._id;
                         // @TODO if related doc's modt is the same as target modt, exclude it (case of modt under itself)
                         //$.log ('related modt', rmodt, rmodi, 'target modt', target_modt);
                         ids.push(id);
                     } 
                     ids = ids.unique();
-                    //$.log('related unique ids', ids.length/*, ids*/);
+                    $.log('related unique ids', ids.length, ids);
 
                     // combine results
                     if (!result) {
@@ -449,23 +460,28 @@ exports.query = function(db, query, onSuccess, onError) {
 
     //$.log('q by mod', q_by_mod);
     for (var qmod in q_by_mod) {
+        $.log('launch lq for', q_by_mod[qmod]);
         exports.lucene_query(db, process_q, q_by_mod[qmod], 0, 999999);
     }
 };
 
 
-// return element present in ids and sorted_ids in the order of sorted_ids
+// return elements present in ids and sorted_ids in the order of sorted_ids
 exports._and = function (ids, sorted_ids) {
     //$.log('and...', ids.length, sorted_ids.length);
-    var res = [];
-    var index = {};
-    var i, l;
+    var res = [],
+        index = {},
+        i,
+        l;
+
     for (i = 0, l = ids.length; i < l; i++) {
         index[ids[i]] = 1;
     }
     for (i = 0, l = sorted_ids.length; i < l; i++) {
         var id = sorted_ids[i];
-        if (index[id]) { res.push(id); }
+        if (index[id]) {
+            res.push(id); 
+        }
         // TODO tester la longueur de res p/r à index et/ou sorted_ids, et
         // arrêter de pusher si on a déjà le nombre max de lignes
     }
@@ -492,22 +508,23 @@ exports.sort_selection = function (app, ids, mm_id, sort_mod, isView, sort_param
         var sorted_ids = data.rows.map(function (e) {
             return e.id;
         }).unique();
+        $.log('sid.l in prq', sorted_ids.length);
         var keys = [],
             i,
             l;
-        for (i = 0, l = ids.length; i < l; i++) {
-            keys.push([ids[i], sort_mod]);
-        }
-        //$.log('new keys', keys.length);
 
         // for views, when sorting on related doc field
         if (isView) {
+            for (i = 0, l = ids.length; i < l; i++) {
+                keys.push([ids[i], sort_mod]);
+            }
+            $.log('new keys', keys.length);
             app.db.view("datamanager/related_mod", {
                 cache : cache,
                 keys : keys,
                 success : function (related) {
                     keys = related.rows.map(function (e) {
-                        return e.id;
+                        return e.value._id;
                     });
                     keys = keys.unique();
                     // sorted _and
@@ -516,7 +533,17 @@ exports.sort_selection = function (app, ids, mm_id, sort_mod, isView, sort_param
                 }
             });
         } else { // for mm only (no related docs)
+            $.log('anding', ids.length, sorted_ids.length);
+            /*$.log('NOW', 'IDS');
+            for (var i=0; i<ids.length; i++) {
+                $.log(ids[i]);
+            }
+            $.log('NOW', 'SORTED_IDS');
+            for (var i=0; i<sorted_ids.length; i++) {
+                $.log(sorted_ids[i]);
+            }*/
             ids = exports._and(ids, sorted_ids);
+            $.log('ids anded', ids.length);
             onSuccess(ids);
         }
     };

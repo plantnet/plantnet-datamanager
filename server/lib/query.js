@@ -339,6 +339,7 @@ exports.query = function(client, db, query, onSuccess) {
                 target_modt = target_modt[target_modt.length - 1]; // .last() doesn't work ..
             }
 
+            log('launching related_mod for mod', query.$select);
             db.view('datamanager', 'related_mod', {
                 cache: cache,
                 keys: keys,
@@ -350,13 +351,13 @@ exports.query = function(client, db, query, onSuccess) {
                     var ids = [];
                     var i, l;
                     for (i = 0, l = related.rows.length; i < l; i++) {
-                        var id = related.rows[i].id;
+                        var id = related.rows[i].value._id;
                         // @TODO if related doc's modt is the same as target modt, exclude it (case of modt under itself)
                         //$.log ('related modt', rmodt, rmodi, 'target modt', target_modt);
                         ids.push(id);
                     }
                     ids = commons.unique(ids);
-                    //$.log('related unique ids', ids.length/*, ids*/);
+                    log('related unique ids', ids.length, ids);
                     // combine results
                     if (! result) {
                         result = ids;
@@ -458,23 +459,6 @@ exports.sort_selection = function (client, db, ids, mm_id, sort_mod, isView, sor
         if (isView) {
             // @TODO if the sort criterion (there should be only one at this time!)
             // is not on the query's modi/modt, call manual sort
-
-            /*db.view('datamanager', 'related_mod', {
-                cache : cache,
-                keys : keys
-            }, function (err, related) {
-                if (err) {
-                    q.send_error('err 639 ' + err);
-                    return;
-                }
-                keys = related.rows.map(function (e) {
-                    return e.id;
-                });
-                keys = commons.unique(keys);
-                // sorted _and
-                ids = exports._and(keys, sorted_ids);
-                onSuccess(ids);
-            });*/
         } else { // for mm only (no related docs) */
             ids = exports._and(ids, sorted_ids);
             onSuccess(ids);
