@@ -229,9 +229,7 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
                     var type = cacheLib.get_field_type(app, mm_id, r.$modt, fn);
                     v = r[fn];
                 }
-                $.log('v avant', v);
                 v = utilsLib.escape(v, true);
-                $.log('v après', v);
                 if (type != undefined) {
                     v = utilsLib.formatFieldValue(v, type, false); // fancy display step 1
                 }
