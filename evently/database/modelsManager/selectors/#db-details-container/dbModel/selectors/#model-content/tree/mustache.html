@@ -2,7 +2,16 @@
 {{#modelEmpty}}
 <h3 class="page-title">Tree view</h3>
 <p class="alert alert-info">
-  This structure is empty. Add some modules first, or ask an administrator to do so.
+    This structure is empty:
+    {{#is_admin}}
+      <a class="btn" href="#/editmm/{{short_mm_id}}">
+        <i class="icon-dm-model-edit"></i>
+        Add some modules
+      </a>
+    {{/is_admin}}
+    {{^is_admin}}
+      ask an administrator to edit the structure.
+    {{/is_admin}}
 </p>
 {{/modelEmpty}}
 

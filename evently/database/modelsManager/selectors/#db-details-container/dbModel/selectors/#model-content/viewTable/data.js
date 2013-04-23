@@ -3,20 +3,26 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
     //      'nb_rows', nb_rows, 'sort_params', sort_params, 'total_rows', total_rows, 'filter', filter,
     //      'mm_or_view', mm_or_view, 'showImages', showImages);
 
-    if (modi === null) {
-        return {
-            modelEmpty: true
-        };
-    }
-
     var app = $$(this).app,
         utilsLib = app.getlib('utils'),
         cacheLib = app.getlib('cache'),
+        userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
+        isSuperAdmin = (app.userCtx && app.userCtx.isSuperAdmin) ? app.userCtx.isSuperAdmin : null,
+        isAdmin = (isSuperAdmin || userRole == 'admin') ? true : false,
+        isWriter = (userRole == 'writer' || isAdmin) ? true : false,
         headers = [],
         rows = [],
         hasParents = false,
         hasColumnAttachs = false,
         enc_id = utilsLib.encode_design_id(_id);
+
+    if (modi === null) {
+        return {
+            modelEmpty: true,
+            is_admin: isAdmin,
+            mm_id: mm_or_view._id.slice(8) // mm_id given in the function contains the mm object :( Wtf?
+        };
+    }
 
     var addDocPossible = false;
     if (mm_or_view.$type == 'mm') {
@@ -411,6 +417,8 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
         eltstart: eltstart,
         eltend: eltend,
         exactPagination: ((isView && group) || (! isView)),
-        isRef: (mm_or_view.isref ? true : false)
+        isRef: (mm_or_view.isref ? true : false),
+        is_admin: isAdmin,
+        is_writer: isWriter
     };
 }
