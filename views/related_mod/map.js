@@ -30,14 +30,14 @@ function (doc) {
             if (parent_id) {
 
                 // sons modi
-                emit([parent_id, doc.$modi], { _attchs : attchs, _id: doc._id});
+                emit([parent_id, doc.$modi], {_id: doc._id, _attchs:attchs});
                 // parents modi
                 emit([doc._id, cmodi], {_id:parent_id, _attchs:attchs});
 
                 // sons modt
-                emit([parent_id, doc.$modt], { _id: doc._id });
+                emit([parent_id, doc.$modt], {_id:doc._id});
                 // parents modt
-                emit([doc._id, modis[i+1]], {_id: parent_id});
+                emit([doc._id, modis[i+1]], {_id:parent_id});
             }
 
             // rebuild modi for current parent

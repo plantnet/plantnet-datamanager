@@ -28,9 +28,9 @@ function (doc) {
                     continue;
                 }
                 // sons
-                emit(id, { path: doc.$path, _attchs : attchs});
+                emit(id, {path:doc.$path, _id:doc._id, _attchs:attchs});
                 // parents
-                emit(doc._id, { path: doc.$path, _id: id, _attchs : attchs});
+                emit(doc._id, {path:doc.$path, _id:id, _attchs:attchs});
             }
         }
     }
