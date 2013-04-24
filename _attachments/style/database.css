@@ -774,6 +774,11 @@ ul.treenode {
     padding-top: 10px;
 }
 
+#sync-selections-selection, #sync-queries-selection {
+    list-style-type: none;
+    margin-top: 15px;
+}
+
 /* Widget : viewTable */
 table.data {
     max-width : 10000%;
@@ -1053,9 +1058,8 @@ input[type="checkbox"].selection {
     width: 465px;
     height: 400px;
     margin-top: 10px;
+    margin-left: -70px;
 }
-
-
 
 .input-geoloc {
     margin-left: 50px;
