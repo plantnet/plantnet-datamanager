@@ -34,11 +34,11 @@
   <target name="minify" depends="build">
     <apply executable="java" dest="${build-dir}" failonerror="true"> 
       <arg value="-jar"/> 
-      <arg value="${build-dir}/extra/yuicompressor.jar"/> 
+      <arg value="${build-dir}/extra/jar/yuicompressor.jar"/> 
       <srcfile/> 
       <arg value="-o"/> 
       <targetfile/> 
-      <fileset dir="${build-dir}" includes="**/*.js"/> 
+      <fileset dir="${build-dir}" includes="**/*.js" excludes="extra/**"/> 
       <mapper type="glob" from="*.js" to="*.min"/>
     </apply> 
 

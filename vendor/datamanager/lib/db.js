@@ -156,11 +156,11 @@ function _get_dbs(roles, cb) {
                      var dbName = dbs[i];                     
                      if (dbName[0] !== '_' && dbName !== 'datamanager') {
                          d = { name : dbName, 
-                               public : dbName.indexOf('public') >= 0,
+                               publicdb : dbName.indexOf('public') >= 0,
                                user : isAdmin || roles.indexOf(dbName) >=0
-                         };
+                             };
                          
-                         if (d.public || d.user) {
+                         if (d.publicdb || d.user) {
                              all_dbs.push(d);
                              dbsLength ++;
                              _process_db(d, end); 
