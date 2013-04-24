@@ -3,8 +3,8 @@ function (e, query) {
     // for each row save op and value(s)
     $('#criteria tbody tr').each(function(i, row) {
         var c = query.$criteria[i],
-            scrollCheckboxes = $(this).find('div.scroll-checkboxes'),
-            multiopts = $('.dropdown-menu').find('input.ck'),
+            //scrollCheckboxes = $(this).find('div.scroll-checkboxes'),
+            multiopts = $('.dropdown-menu', this).find('input.ck'),
             cvalue = null;
 
         c.op = $('select.op', row).val();

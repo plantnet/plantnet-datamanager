@@ -65,8 +65,8 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
                 }
             }
             subClause += ')';
-        return subClause;
         }
+        return subClause;
     }
 
     // builds a Lucene search clause based on the field type and the operator
@@ -220,7 +220,6 @@ exports.lucene_query = function (db, callback, q, skip, limit, include_docs, sor
         }
         // multiple clauses on each field
         for (var i=0; i < qf.length; i++) {
-            //$.log('launching buildClause on', field, qf[i]);
             var v;
             if (Utils.is_array(qf[i].value)) {
                 v = buildOrSubclause(field, qf[i]);
