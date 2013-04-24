@@ -7,21 +7,26 @@
     </div>
     
     <div class="modal-body">
-      
-        <div class="control-group">
-          <label for="db-name" class="control-label">Name</label>
-          <div class="controls">
-            <input id="db-name" type="text" name="dbname" value="" autocapitalize="off" autocorrect="off" 
-              required autofocus />
-          </div>
+      <div class="control-group">
+        <label for="db-name" class="control-label">Name</label>
+        <div class="controls">
+          <input id="db-name" type="text" name="dbname" value="" autocapitalize="off" autocorrect="off" 
+                 required autofocus />
         </div>
-        <div class="control-group">
-          <label for="db-desc" class="control-label">Description</label>
-          <div class="controls">
-            <textarea id="db-desc" name="dbdesc" spellcheck="true" /></textarea>
-          </div>
+      </div>
+      <div class="control-group">
+        <label for="db-desc" class="control-label">Description</label>
+        <div class="controls">
+          <textarea id="db-desc" name="dbdesc" spellcheck="true"/>
         </div>
-      
+      </div>
+      <div class="control-group">
+        <label for="db-fork" class="control-label">Fork existing DB</label>
+        <div class="controls">
+          <select id="db-fork" name="dbfork">
+          </select>
+        </div>
+      </div>
     </div>
     
     <div class="modal-footer">
