@@ -1,7 +1,7 @@
 function (doc, req) {
         
     doc = doc || {};
-    var author = req.userCtx.name,
+    var author = req.userCtx.name || "_admin",
     time = new Date().toString(),
     savedoc = JSON.parse(req.body), 
     ret;
@@ -13,6 +13,7 @@ function (doc, req) {
         status : "ok",
         time : time,
         author : author,
+        peer : req.peer,
         id : savedoc._id
     };
 
@@ -58,6 +59,9 @@ function (doc, req) {
     } else {
         savedoc.$meta.edited_by = author;    
     }
+
+    // set peer
+    savedoc.$meta.peer = req.peer === "127.0.0.1" ? "local" : req.peer;
     
     return [savedoc, JSON.stringify(ret)];
 }

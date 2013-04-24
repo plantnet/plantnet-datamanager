@@ -79,6 +79,9 @@ function(id, mm, related, synLabels) {
             if (subDoc.$meta.edited_at) {
                 meta.edited_at = utilsLib.formatDateTime(subDoc.$meta.edited_at);
             }
+            if (subDoc.$meta.peer) {
+                meta.edited_on = subDoc.$meta.peer;
+            }
         }
         
         // define outdoc

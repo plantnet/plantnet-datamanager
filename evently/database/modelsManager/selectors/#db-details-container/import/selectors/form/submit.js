@@ -61,7 +61,7 @@ function(evt) {
     csvData = app.data.csv;
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
-    importLib.import_csv(app.db, csvData, mm, colMap, withConflicts,
+    importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
                          onSuccess, onError, utilsLib.showInfo);
     
     return false;

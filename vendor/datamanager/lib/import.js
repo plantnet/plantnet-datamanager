@@ -76,12 +76,12 @@ function index_docs(new_docs, index_field, full_index) {
 
 // save doc from parsed csv_data
 // col map : list of oject representing col (contains field name, modi and type)
-exports.import_csv = function (db, csv_data, mm, col_map, withConflicts, onSuccess, onError, showMsg) {
+exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflicts, onSuccess, onError, showMsg) {
 
     showMsg = showMsg || function () {};
     
     showMsg("Parsing data...");
-    var docs = exports.parse_docs(csv_data, mm, col_map);
+    var docs = exports.parse_docs(csv_data, mm, col_map, user_ctx.name);
     if (!docs.length) {
         onError("0", "Nothing imported", "");
         return;
@@ -161,7 +161,7 @@ exports.import_csv = function (db, csv_data, mm, col_map, withConflicts, onSucce
 
 // get doc from csv_data (2 dim array)
 // return parsed docs
-exports.parse_docs = function (csv_data, mm, col_map) {
+exports.parse_docs = function (csv_data, mm, col_map, user) {
     //csv_data = csv_data.unique();
 
     var nbcols = col_map.length,
@@ -221,7 +221,8 @@ exports.parse_docs = function (csv_data, mm, col_map) {
                     $label_tpl : label_tpl,
                     $meta : { 
                         created_at : new Date().toString(),
-                        created_by : "CSV IMPORT",
+                        created_by : user,
+                        peer : window.location.hostname
                     }
                 };
             }

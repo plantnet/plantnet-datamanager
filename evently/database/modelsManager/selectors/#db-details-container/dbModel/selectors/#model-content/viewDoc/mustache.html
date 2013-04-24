@@ -187,8 +187,12 @@
             Created on {{created_at}} by <b>{{created_by}}</b>{{^edited_at}}.{{/edited_at}}{{#edited_at}},{{/edited_at}}
           {{/created_at}}
           {{#edited_at}}
-            last modification on {{edited_at}} by <b>{{edited_by}}</b>.
+          last modification on {{edited_at}} by <b>{{edited_by}}</b>.
           {{/edited_at}}
+          {{#edited_on}}
+          on <b>{{edited_on}}</b>
+          {{/edited_on}}
+          
         </p>
       </div>
     {{/meta}}
