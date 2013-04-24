@@ -1,16 +1,28 @@
 function(event) {
-    var dbname = $('input[name="dbname"]', this).val();
+    var dbname = $('input[name="dbname"]', this).val(),
+    app = $$(this).app,
+    forkDb =  $('input#db-fork-url', this).val();
+
     if (dbname) {
-        var app = $$(this).app,
-            utilsLib = app.libs.utils,
-            userCtx = app.data.userCtx,
-            onSuccess = function() {
-                $.pathbinder.begin();
-                utilsLib.showSuccess('Database "'+ dbname + '" created.');
-            },
-            onError = utilsLib.showError,
-            desc = $('textarea[name="dbdesc"]', this).val(),
-            dbLib = app.getlib('db');
+        var utilsLib = app.libs.utils,
+        userCtx = app.data.userCtx,
+        
+        onSuccess = function() {
+            if (forkDb) {
+                var replib = app.getlib("replicateng"),
+                rep = new replib.Replicator();
+
+                rep.replicate(forkDb, dbName, false, function () {}, utilsLib.showError);
+            }
+
+
+            $.pathbinder.begin();
+            utilsLib.showSuccess('Database "'+ dbname + '" created.');
+        },
+        onError = utilsLib.showError,
+        
+        desc = $('textarea[name="dbdesc"]', this).val(),
+        dbLib = app.getlib('db');
         
         dbLib.create_db(dbname, desc, app.db, userCtx.name, onSuccess, onError);
     } else {
