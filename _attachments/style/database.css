@@ -683,9 +683,11 @@ ul.treenode {
     border-radius: 3px;
 }
 
-.expand-all-cmd, .collapse-all-cmd {
-    width: 30px;
-}
+.expand-all-cmd, .collapse-all-cmd { 
+     width: 30px; 
+     padding-left: 0;
+     padding-right: 0;
+} 
 
 .tree-search-input {
     width: 140px;
