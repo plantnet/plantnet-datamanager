@@ -193,13 +193,10 @@ exports.copy_db = function (dbName, src_url, onSuccess, onError) {
            }}, {} );
 };
 
-// create a new db permanently synced with an other
-exports.create_db_sync = function (dbName, src_url, onSuccess, onError) {};
-
 
 // create db. Use service if necessary
 exports.create_db = function(dbName, desc, source, userName, onSuccess, onError) {
-    
+
     dbName = dbName.toLowerCase();
     var onCreateDbSuccess = function() {
             newDb = $.couch.db(dbName)
@@ -211,23 +208,30 @@ exports.create_db = function(dbName, desc, source, userName, onSuccess, onError)
             onSuccess();
             
         },
-        onCreateDbError = function(data) {
-            // try to do it without the service
-            $.couch.replicate("datamanager", dbName, {    
-                   success : onCreateDbSuccess,
-                   error : function () {
-                       var errorMsg = "Cannot create database. An unknown error has occured.";
-                       if (data && data.responseText) {
-                           data = $.parseJSON(data.responseText);
-                           errorMsg = data.reason;
-                       }
-                       onError(errorMsg);
-                   }}, {doc_ids : ["_design/datamanager"], create_target:true} );       
-        };
+    onCreateDbError = function(data) {
+        // try to do it without the service
+        $.couch.replicate("datamanager", dbName, {    
+            success : onCreateDbSuccess,
+            error : function () {
+                var errorMsg = "Cannot create database. An unknown error has occured.";
+                if (data && data.responseText) {
+                    data = $.parseJSON(data.responseText);
+                    errorMsg = data.reason;
+                }
+                onError(errorMsg);
+            }}, {doc_ids : ["_design/datamanager"], create_target:true} );       
+    };
     
-    
-        var createDbUri = source.uri + '_admin_db?action=create&db_name=' + dbName;
-        $.when($.ajax(createDbUri)).then(onCreateDbSuccess, onCreateDbError);
+    $.couch.allDbs({
+        success : function(dbs) {
+            if (dbs.indexOf(dbName) >= 0) {
+                onError("Database " + dbName + " already exists !");
+                return;
+            }
+            var createDbUri = source.uri + '_admin_db?action=create&db_name=' + dbName;
+            $.when($.ajax(createDbUri)).then(onCreateDbSuccess, onCreateDbError);
+        },
+        error : onError});
         
 };
 
