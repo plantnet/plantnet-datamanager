@@ -1,19 +1,58 @@
-function(e) {
+function(replications) {
+    var app = $$(this).app,
+        db = app.db,
+        outgoing = [],
+        incoming = [];
 
-    var outgoing = [{
-        to: 'apg3 @ data',
+    for (var i=0, l=replications.length; i<l; i++) {
+        var rep = replications[i];
+        $.log('Replication ' + i + ':', rep);
+
+        rep.date_started = new Date(rep.started_on * 1000).toLocaleString();
+        rep.date_updated = new Date(rep.updated_on * 1000).toLocaleString();
+
+        if (rep.source == db.name) {
+            outgoing.push(rep);
+        } else if (rep.target == db.name) {
+            incoming.push(rep);
+        } else {
+            $.log('cannot match replication ' + rep.source + ' => ' + rep.target + ' to ' + db.name);
+        }
+    }
+
+    function sortByDateStartedThenDateUpdated(a, b) {
+        if (a.started_on > b.started_on) {
+            return -1;
+        } else if (a.started_on < b.started_on) {
+            return 1;
+        } else {
+            if (a.updated_on > b.updated_on) {
+                return -1;
+            } else if (a.updated_on < b.updated_on) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    incoming.sort(sortByDateStartedThenDateUpdated);
+    outgoing.sort(sortByDateStartedThenDateUpdated);
+
+    /*outgoing = [{
+        target: 'apg3 @ data',
         user: 'mchouet',
-        date: '2013-04-09 11:31',
+        started_on: '2013-04-09 11:31',
         progress: '27',
-        mode: 'continuous'
+        continuous: true
     }];
-    var incoming = [{
-        from: 'mathias_test @ data',
+    incoming = [{
+        source: 'mathias_test @ data',
         user: 'mchouet',
-        date: '2013-04-09 17:44',
+        started_on: '2013-04-09 17:44',
         progress: '90',
-        mode: 'one-shot'
-    }];
+        continuous: false
+    }];*/
 
     return {
         outgoing: outgoing,

@@ -1,0 +1,52 @@
+<h4>Advanced selection by structure</h4>
+
+<table id="sync-structures-selection" class="table table-striped table-condensed table-bordered">
+  <thead>
+   <tr>
+     <th>
+       <a class="btn btn-mini has-tooltip check-everything-cmd" title="Check all options in the table">
+         Check all
+       </a>
+       <a class="btn btn-mini has-tooltip check-nothing-cmd" title="Uncheck all options in the table">
+         Check none
+       </a>
+     </th>
+     <th>
+       <label class="checkbox has-tooltip" title="Check to include structure's modules and layout">
+         <input type="checkbox" class="check-all-structures-cmd" checked/> Structure definition
+       </label>
+     <th>
+       <label class="checkbox has-tooltip" title="Check to include data (documents)">
+         <input type="checkbox" class="check-all-data-cmd" checked/> Data
+       </label>
+     </th>
+     <th>
+       <label class="checkbox has-tooltip" title="Check to include the views and queries defined in the structure">
+         <input type="checkbox" class="check-all-vqd-cmd" checked/> Views & queries definitions
+       </label>
+     </th>
+   </tr>
+  </thead>
+  <tbody>
+  {{#structures}}
+    <tr>
+      <td>
+        <i class="icon-dm-model{{#isref}}-dictionary{{/isref}}"></i>
+        <a class="check-whole-structure-cmd has-tooltip" data-placement="right"
+          title="Click to check all options for this structure">
+          {{name}}
+        </a>
+      </td>
+      <td>
+        <input type="checkbox" class="structure-cb" id="cb-sync-structure-{{name}}" checked/>
+      </td>
+      <td>
+        <input type="checkbox" class="data-cb" id="cb-sync-data-{{name}}" checked/>
+      </td>
+      <td>
+        <input type="checkbox" class="vqd-cb" id="cb-sync-vqd-{{name}}" checked/>
+      </td>
+    </tr>
+  {{/structures}}
+  </tbody>
+</table>

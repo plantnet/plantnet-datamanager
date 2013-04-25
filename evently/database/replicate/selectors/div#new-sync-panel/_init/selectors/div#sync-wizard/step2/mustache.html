@@ -1,0 +1,48 @@
+<h3>
+  * New synchronization wizard - step 2/5
+</h3>
+
+<form class="form form-inline">
+  <h4>Which data do you want to exchange?</h4>
+
+  <div class="control-group">
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="all" checked/>
+        Everything
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="advanced"/>
+        Select by structure
+      </label>
+    </div>
+    {{#isPut}}
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="queries"/>
+        Queries results
+      </label>
+    </div>
+    {{/isPut}}
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="selections"/>
+        Selections contents
+      </label>
+    </div>
+  </div>
+
+  <div id="sync-select-what">
+    <!-- built by selector -->
+  </div>
+
+  <br/>
+  <div class="row-fluid">
+    <div class="form-actions span6">
+      <a class="btn cancel-cmd">Cancel</a>
+      <button class="btn btn-primary pull-right" type="submit">Next</button>
+    </div>
+  </div>
+</form>

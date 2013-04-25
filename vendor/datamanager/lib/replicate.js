@@ -1,6 +1,6 @@
 var utils = require('vendor/datamanager/lib/utils');
 
-// Class representing a mm
+// abstraction for a replication
 exports.Replicator = function(db, src, tgt) {
     this.db = db;
     this.source = src;
