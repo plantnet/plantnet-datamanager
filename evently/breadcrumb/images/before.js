@@ -3,7 +3,7 @@ function(e, pathBinderParams) {
     //$.log('Pathbinder params : ', pathBinderParams);
     var app = $$(this).app,
         utilsLib = app.getlib('utils');
-    if (utilsLib.checkOpenStructureEditor(app)) return false;
+    if (utilsLib.checkOpenStructureEditor(app)) { return; }
 
     // Refresh/Actualise app infos
     var infos = $$(this).app.infos;

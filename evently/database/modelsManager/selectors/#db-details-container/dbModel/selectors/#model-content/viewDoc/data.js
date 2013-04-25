@@ -119,20 +119,11 @@ function(id, mm, related, synLabels) {
             });
         }
         
-        // add mm fields
-        var key, 
-            val, 
-            line,
-            added_fields = {};
-        for (var f = 0; f < module.fields.length; f++) {
-            var label = module.fields[f].label,
-                type = module.fields[f].type;
 
-            key = module.fields[f].name;
+        function add_line(subDoc, outdoc, label, key, type, extra) {
+
             label = label || key; // in case of empty label
-
-            added_fields[key] = true; // to know what field has been added
-            val = subDoc[key];
+            var val = subDoc[key], line;
 
             var hasVal = utilsLib.isNotEmpty(val, type);
             if (hasVal) {
@@ -143,8 +134,8 @@ function(id, mm, related, synLabels) {
                     key: key,
                     label: label,
                     val: val,
-                    type: type
                 };
+            
                 // add ref data
                 if (subDoc.$ref && subDoc.$ref[key]) {
                     var tooltip = [];
@@ -159,11 +150,34 @@ function(id, mm, related, synLabels) {
                 }
                 line.has_tooltip = line.tooltip && line.tooltip.length;
                 
-                outdoc.data.push(line);
+                if (!extra) {
+                    outdoc.data.push(line);
+                } else {
+                    outdoc.extradata.push(line);
+                }
             }
         }
 
+        // add mm fields
+        var added_fields = {};
+
+        for (var f = 0; f < module.fields.length; f++) {
+            var label = module.fields[f].label,
+            type = module.fields[f].type,
+            key = module.fields[f].name;
+
+            added_fields[key] = true; // to know what field has been added
+            add_line(subDoc, outdoc, label, key, type);
+        }
+
+        // add extra fields
         outdoc.hasextra = false;
+
+        for (var key in subDoc) {
+            if (key[0] === '_' || key[0] === '$' || added_fields[key]) { continue; }
+            outdoc.hasextra = true;
+            add_line(subDoc, outdoc, key, key, null, true);
+        }
 
         // include attachments
         for (var a in subDoc.$attachments) {
