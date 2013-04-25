@@ -157,9 +157,12 @@
               </td>
             </tr>
             {{/data}}
+            {{#hasextra}}
             <tr><th colspan="2"><a href="#" class="extra-data has-tooltip" data-placement="right" title="Show extra data">>>></a></th></tr>
+            {{/hasextra}}
           </tbody>
         </table>
+        {{#hasextra}}
         <table class="table small-bottom-margin hide extra-data">
           <tbody>
             {{#extradata}}
@@ -170,6 +173,7 @@
             {{/extradata}}
           </tbody>
         </table>
+        {{/hasextra}}
       </div>
       
       <ul class="linked-docs hide"></ul>
