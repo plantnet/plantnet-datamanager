@@ -7,6 +7,7 @@ function (doc, mm, presets, parent_id, parent_label, parent_modi, synonym_label)
         hasLabelTpl = !!docLabel,
         hasMandatoryFields = false,
         hasDescForFields = false;
+        added_fields = {};
         fields = [];
 
     for (var index = 0; index < module.fields.length; index++) {
@@ -25,6 +26,7 @@ function (doc, mm, presets, parent_id, parent_label, parent_modi, synonym_label)
             hasDescForFields = true;
         }
 
+        added_fields[mfield.name] = true;
         field = {
             index: index,
             name: mfield.name,
@@ -45,6 +47,15 @@ function (doc, mm, presets, parent_id, parent_label, parent_modi, synonym_label)
 
         fields.push(field);
     }
+
+    // add here extra fields
+    var hasextra = false;
+    for (var key in doc) {
+        if (key[0] === '_' || key[0] === '$' || added_fields[key]) { continue; }
+        fields.push({name:key, label:key, type:"text", extra:true});
+        hasextra = true;
+    }
+
 
     var availablePresets = [];
     for (tpl in presets) {
@@ -73,6 +84,7 @@ function (doc, mm, presets, parent_id, parent_label, parent_modi, synonym_label)
         presets: availablePresets,
         last_used_preset: app.data.lastUsedPreset,
         has_mandatory_fields: hasMandatoryFields,
-        has_desc_fields: hasDescForFields
+        has_desc_fields: hasDescForFields,
+        hasextra: hasextra
     };
 };

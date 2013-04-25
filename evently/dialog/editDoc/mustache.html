@@ -129,53 +129,45 @@
       <fieldset id="fields-editor" class="edit-doc-fieldset">
         <legend>Fields</legend>
         {{#fields}}
-          <div class="control-group">
-            <label id="label-{{name}}" for="{{name}}" class="control-label">
-              <span {{#has_desc}}class="has-tooltip"{{/has_desc}}
-                {{#has_desc}}title="{{description}}" data-placement="right"{{/has_desc}}>
-                {{label}}
-              </span>
-              {{#mandatory}}
-                <span class="red-star has-tooltip" data-placement="right" title="This field is required">
+        <div class="control-group {{#extra}}hide extra-field{{/extra}}">
+          <label id="label-{{name}}" for="{{name}}" class="control-label">
+            <span {{#has_desc}}class="has-tooltip"{{/has_desc}}
+                  {{#has_desc}}title="{{description}}" data-placement="right"{{/has_desc}}>
+              {{label}}
+            </span>
+            {{#mandatory}}
+            <span class="red-star has-tooltip" data-placement="right" title="This field is required">
                   *
-                </span>
-              {{/mandatory}}
-            </label>
-
-            {{^is_geoloc}}
-            <div class="controls">
+            </span>
+            {{/mandatory}}
+          </label>
+          
+          {{^is_geoloc}}
+          <div class="controls">
             {{/is_geoloc}}
-	          <div id="field-{{name}}"
-	            class="edit {{type}} field-input"
-	            data-type="{{type}}"
-	            data-index="{{index}}"
-	            data-name="{{name}}"
-	            data-field-label="{{label}}"
-                {{#mandatory}}required{{/mandatory}}
-	            data-mandatory="{{mandatory}}"
-	            data-default-value="{{default_value}}"
-	            {{#has_min}}data-min="{{min}}"{{/has_min}}
-	            {{#has_max}}data-max="{{max}}"{{/has_max}}
-	            {{#has_step}}data-step="{{step}}"{{/has_step}}
-	            ></div>
+	    <div id="field-{{name}}"
+	         class="edit {{type}} field-input"
+	         data-type="{{type}}"
+	         data-index="{{index}}"
+	         data-name="{{name}}"
+	         data-field-label="{{label}}"
+                 {{#mandatory}}required{{/mandatory}}
+	         data-mandatory="{{mandatory}}"
+	         data-default-value="{{default_value}}"
+	         {{#has_min}}data-min="{{min}}"{{/has_min}}
+	         {{#has_max}}data-max="{{max}}"{{/has_max}}
+	         {{#has_step}}data-step="{{step}}"{{/has_step}}
+	         ></div>
             {{^is_geoloc}}
-	        </div>
-            {{/is_geoloc}}
-	      </div>
+	  </div>
+          {{/is_geoloc}}
+	</div>
         {{/fields}}
+        {{#hasextra}}
+        <a id="extra-data" class="has-tooltip" data-placement="right" title="Show extra field">>>></a>
+        {{/hasextra}}
       </fieldset>
-
-      <!-- <p class="fields-infos">
-        {{#has_mandatory_fields}}
-          <img src="img/mandatory.png" alt="Mandatory"/>
-          indicate mandatory fields
-          <br/>
-        {{/has_mandatory_fields}}
-        {{#has_desc_fields}}
-          <img src="img/help_title.png" alt="Infos"/>
-          indicate a field description (move the cursor over the label name)
-        {{/has_desc_fields}}
-      </p> -->
+      
       <div class="error" id="error_msg"></div>
 
       {{#attchid}}
