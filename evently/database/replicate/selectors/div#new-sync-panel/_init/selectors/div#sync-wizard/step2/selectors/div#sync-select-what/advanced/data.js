@@ -1,6 +1,5 @@
 function(e) {
-    var app = $$(this).app,
-        commonData = e.data.args[0];
+    var commonData = e.data.args[0];
 
     //$.log(commonData.available.structures);
 

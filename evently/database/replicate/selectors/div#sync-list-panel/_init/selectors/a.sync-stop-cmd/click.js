@@ -6,11 +6,14 @@ function(e) {
 
     var rep = new replicateLib.Replicator();
 
-    rep.cancelReplication(id, function() {
-        
-    }, function(err) {
-        utilsLib.showError('' );
-    });
+    if (confirm('Cancel this synchronization?')) {
+        rep.cancelReplication(id, function() {
+            utilsLib.showSuccess('Synchronization cancelled');
+            $.pathbinder.begin();
+        }, function(err) {
+            utilsLib.showError('Coud not cancel the synchronization: ' + err);
+        });
+    }
 
     return false;
 }

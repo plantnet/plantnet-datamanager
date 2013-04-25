@@ -1,0 +1,36 @@
+<h3>
+  * New synchronization wizard - step 4/4
+</h3>
+
+<p class="alert alert-info midwidth">
+  <strong>Synchronization summary</strong>
+</p>
+
+<br/><br/>
+
+<form class="form form-inline">
+  <label class="field-label">You are about to</label>
+  {{#get}}GET data{{/get}}{{#put}}SEND data{{/put}}
+  <label class="field-label">{{#get}}from{{/get}}{{#put}}to{{/put}}</label>
+  {{destination}}
+
+  {{#put}}
+    {{#remote}}
+    <div class="alert">
+      <strong>Warning :</strong> you are <strong>sending</strong> documents to a remote database.
+      <ul>
+        <li>If you created new documents locally, they will be added to the remote base</li>
+        <li>If you deleted documents locally, they will be deleted on the remote base</li>
+      </ul>
+    </div>
+    {{/remote}}
+  {{/put}}
+
+  <br/>
+  <div class="row-fluid">
+    <div class="form-actions span6">
+      <a class="btn cancel-cmd">Cancel</a>
+      <button class="btn btn-primary pull-right launch-sync-cmd">Launch synchronization</button>
+    </div>
+  </div>
+</form>

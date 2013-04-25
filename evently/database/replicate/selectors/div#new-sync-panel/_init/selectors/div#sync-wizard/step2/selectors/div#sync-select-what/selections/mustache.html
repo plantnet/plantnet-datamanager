@@ -11,7 +11,7 @@
 {{#selections}}
   <li>
     <label class="checkbox">
-      <input type="checkbox" class="checkbox" data-id="{{id}}" checked/>
+      <input type="checkbox" class="checkbox" data-id="{{id}}" data-name="{{#value}}{{name}}{{/value}}" checked/>
       {{#value}}
         {{name}} ({{length}} docs)
       {{/value}}

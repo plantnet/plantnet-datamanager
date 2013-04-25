@@ -87,6 +87,10 @@ h4 {
     
 }
 
+.midwidth {
+    width: 500px;
+}
+
 /* Form */
 legend {
     font-size: 1.1em;
@@ -779,6 +783,10 @@ ul.treenode {
 #sync-selections-selection, #sync-queries-selection {
     list-style-type: none;
     margin-top: 15px;
+}
+
+.sync-mode-help {
+    width: 500px;
 }
 
 /* Widget : viewTable */

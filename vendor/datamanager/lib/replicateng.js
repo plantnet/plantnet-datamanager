@@ -63,7 +63,7 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
         }
     });
     // get info from _replicator database
-    $.couch.db('_replicator').allDocs({
+    this.db.allDocs({
         include_docs: true,
         success: function(data) {
             $.log('replicator info', data.rows);
@@ -81,16 +81,17 @@ exports.Replicator.prototype.replicate = function(source, target, continuous, on
 };
 
 exports.Replicator.prototype.cancelReplication = function(id, onSuccess, onError) {
+    var that = this;
     this.db.openDoc(id, {
         success: function(doc) {
-            this.db.removeDoc(doc, {
+            that.db.removeDoc(doc, {
                 success: onSuccess,
                 error: onError
             });
         },
         error: onError
     });
-}
+};
 
 exports.Replicator.Replication = function(db, src, tgt) {
     this.db = db;
