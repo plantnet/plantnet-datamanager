@@ -9,27 +9,126 @@
 <br/><br/>
 
 <form class="form form-inline">
-  <label class="field-label">You are about to</label>
-  {{#get}}GET data{{/get}}{{#put}}SEND data{{/put}}
-  <label class="field-label">{{#get}}from{{/get}}{{#put}}to{{/put}}</label>
-  {{destination}}
+  <label class="field-label-large">
+    You are about to
+  </label>
+  <strong>{{#get}}GET{{/get}}{{#put}}SEND{{/put}}</strong> data
+  <br/>
+  <label class="field-label-large">
+    {{#get}}From{{/get}}{{#put}}To{{/put}}
+  </label>
+  {{#data}}
+    {{database}}
+    <br/>
+    <label class="field-label-large">
+      Mode
+    </label>
+    {{#continuous}}continuous{{/continuous}}
+    {{^continuous}}one-shot{{/continuous}}
+    <br/>
+    <label class="field-label-large">
+      Data exchanged
+    </label>
+    <strong>{{#what}}{{mode}}{{/what}}</strong>
+    <br/>
+  {{/data}}
+  {{^all}}
+    <label class="field-label-large">
+      <!-- Details -->
+    </label>
+    <div class="inline-block">
+    {{#structures}}
+      {{#data}}
+        {{#what}}
+          {{#structures}}
+            {{name}}
+            {{^all}}
+              {{#structure}}(structure){{/structure}}
+              {{#data}}(data){{/data}}
+              {{#vqd}}(views & queries definitions){{/vqd}}
+            {{/all}}
+            <br/>
+          {{/structures}}
+        {{/what}}
+      {{/data}}
+    {{/structures}}
+    {{#selections}}
+      {{#data}}
+        {{#what}}
+          {{#selections}}
+            {{name}}
+            <br/>
+          {{/selections}}
+        {{/what}}
+      {{/data}}
+    {{/selections}}
+    {{#queries}}
+      {{#data}}
+        {{#what}}
+          {{#queries}}
+            {{structureName}} - {{name}}
+            <br/>
+          {{/queries}}
+        {{/what}}
+      {{/data}}
+    {{/queries}}
+    </div>
+    <br/>
+  {{/all}}
 
   {{#put}}
     {{#remote}}
-    <div class="alert">
+    <br/>
+    <div class="alert midwidth">
       <strong>Warning :</strong> you are <strong>sending</strong> documents to a remote database.
       <ul>
-        <li>If you created new documents locally, they will be added to the remote base</li>
-        <li>If you deleted documents locally, they will be deleted on the remote base</li>
+        <li>If you create new documents, they will be added to the remote base</li>
+        <li>If you <strong>delete</strong> documents, they will be <strong>deleted on the remote base</strong></li>
       </ul>
     </div>
     {{/remote}}
   {{/put}}
 
+  {{#continuous}}
+    {{#queries}}
+    <br/>
+    <div class="alert midwidth">
+      <strong>Warning :</strong> you have chosen a <strong>continuous</strong> synchronization of <strong>query(ies) results</strong>.
+      <ul>
+        <li>
+          The query(ies) will be <strong>executed once</strong> only, and the
+          returned documents will be synchronized continuously
+        </li>
+        <li>If you add or modify documents in a way that changes the query(ies) results,
+          those modifications will <strong>not be taken in account</strong>. You will
+          have to cancel the synchronization and create a new one
+        </li>
+      </ul>
+    </div>
+    {{/queries}}
+    {{#selections}}
+    <br/>
+    <div class="alert midwidth">
+      <strong>Warning :</strong> you have chosen a <strong>continuous</strong> synchronization of <strong>selection(s) contents</strong>.
+      <ul>
+        <li>
+          The selection(s) contents will be <strong>evaluated once</strong> only, and the
+          returned documents will be synchronized continuously
+        </li>
+        <li>If you add or remove documents to/from the selection(s), those changes
+          will <strong>not be taken in account</strong>. You will have to cancel
+          the synchronization and create a new one
+        </li>
+      </ul>
+    </div>
+    {{/selections}}
+  {{/continuous}}
+
   <br/>
   <div class="row-fluid">
     <div class="form-actions span6">
-      <a class="btn cancel-cmd">Cancel</a>
+      <a class="btn previous-step-cmd">Previous</a>
+      <a class="btn btn-danger cancel-cmd">Cancel</a>
       <button class="btn btn-primary pull-right launch-sync-cmd">Launch synchronization</button>
     </div>
   </div>

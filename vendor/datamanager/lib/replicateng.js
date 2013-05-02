@@ -1,7 +1,8 @@
 /* lib replicate new generation */
-var utilsLib = require('vendor/datamanager/lib/utils');
+var utilsLib = require('vendor/datamanager/lib/utils'),
+    queryLib = require('vendor/datamanager/lib/query');
 
-// abstraction for the _replicator database and mechanisms
+// Abstraction for the _replicator database and mechanisms
 exports.Replicator = function(replicatorDbName) {
 
     if (! replicatorDbName) {
@@ -10,8 +11,8 @@ exports.Replicator = function(replicatorDbName) {
     this.db = $.couch.db(replicatorDbName);
 };
 
-// gets all defined replications using _active_tasks stream and passes them
-// to onSuccess() as a list of docs
+// Gets all defined replications by reading the "_replicator" database and the
+// "_active_tasks" stream
 exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
 
     var tasks = 2,
@@ -76,10 +77,15 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
     });
 };
 
-exports.Replicator.prototype.replicate = function(source, target, continuous, onSuccess, onError) {
+// Pushes a new replication into the "_replicator" database
+exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filter, onSuccess, onError) {
     // débrouille-toi :)
+    $.log('IN REPLICATE', source, target, continuous);
+    $.log('ids', ids);
+    $.log('filter', filter);
 };
 
+// Cancel a running replication, given its id
 exports.Replicator.prototype.cancelReplication = function(id, onSuccess, onError) {
     var that = this;
     this.db.openDoc(id, {
@@ -93,186 +99,220 @@ exports.Replicator.prototype.cancelReplication = function(id, onSuccess, onError
     });
 };
 
-exports.Replicator.Replication = function(db, src, tgt) {
-    this.db = db;
-    this.source = src;
-    this.target = tgt;
-};
+// Prepares and launches a replication based on the information collected by the
+// "new replication" wizard. Executes queries and/or uses filters if needed.
+exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, onError) {
 
-// save replication change in a selection
-// execute callback (id_selection, name, length)
-exports.Replicator.prototype.save_change = function(start_seq, callback) {
-    var lthis = this;
-    // get local last sequence number
-    this.db.info({
-        success: function(info) { 
-            var end_seq = info.update_seq;
-            var limit = end_seq - start_seq;
-            $.getJSON(
-                lthis.db.uri + '_changes?since=' + start_seq + '&limit=' + limit,
-                function (data) {
-                    if (!data.results.length) {
-                        callback();
-                    } else {
-                        var ids = [];
-                        data.results.map(function(e) { if (e.id.split('##') > 1) { ids.push(e.id); } });
-                        if (ids.length) {
-                            var name = 'exchange-changes-' + start_seq + '-' + end_seq;
-                            var sdoc = { 
-                                $type: 'selection',
-                                ids: ids,
-                                name: name
-                            };
-                            lthis.db.saveDoc(sdoc, {
-                                success: function(e) {
-                                    callback(e.id, sdoc.name, sdoc.ids.length);
-                                }
-                            });
-                        } else {
-                            callback();
-                        }
-                    }
-                }
-            );
-        }
-    });
-};
+    var zis = this;
 
-exports.Replicator.prototype.replicate_all = function(onSuccess, onError) {
-    $.couch.replicate(this.source, this.target, {
-        success: onSuccess,
-        error: onError,
-        timeout: 10000000
-    },  {/*create_target : true*/});
-};
-
-exports.Replicator.prototype.cancel = function(onSuccess, onError) {
-    $.couch.replicate(this.source, this.target, {
-        success: onSuccess,
-        error: onError,
-        timeout : 10000
-    }, {
-        cancel: true
-    });
-};
-
-exports.Replicator.prototype.replicate_ids = function(ids, onSuccess, onError) {
-    if (!ids) {
-        onSuccess();
-        return;
+    // normalize db name if needed
+    var database = data.database;
+    if (database.substr(0, 8) == 'local://') {
+        database = database.slice(8);
     }
-    $.couch.replicate(this.source, this.target, {
-            success: onSuccess,
-            error: onError
-        },
-        {
-            /*create_target : true,*/
-            doc_ids: ids
-        }
-    );
-};
 
-exports.Replicator.prototype.replicate_filter = function(filter, onSuccess, onError) {
-    if ($.isEmptyObject(filter)) {
-        onSuccess();
-        return;
+    var source,
+        target;
+    if (data.direction == 'get') {
+        source = database;
+        target = db.name;
+    } else {
+        source = db.name;
+        target = database;
     }
-    $.couch.replicate(this.source, this.target, {
-            success: onSuccess,
-            error: onError,
-            timeout: 6000000
-        },
-        {
-            /*create_target : true,*/
-            filter: 'datamanager/replication',
-            query_params: filter
+
+    // replicate everything
+    if (data.what.mode == 'all') {
+        this.replicate(source, target, data.continuous, null, null, onSuccess, onError);
+        return true;
+    }
+
+    // execute querie(s) and replicate returned ids only (always PUSH)
+    if (data.what.mode == 'queries') {
+        getIdsFromQueries(db, data.what.queries, function(ids) {
+            zis.replicate(source, target, data.continuous, ids, null, onSuccess, onError);
+        }, onError);
+        return true;
+    }
+
+    // replicate ids contained in given selections only
+    if (data.what.mode == 'selections') {
+        var remoteDb = null;
+        if (data.direction == 'get') {
+            remoteDb = data.database;
         }
-    );
+        getIdsFromSelections(db, remoteDb, data.what.selections, function(ids) {
+            zis.replicate(source, target, data.continuous, ids, null, onSuccess, onError);
+        }, onError);
+        return true;
+    }
+
+    // replicate based on structures - may need to use a filter
+    if (data.what.mode == 'advanced') {
+        computeAdvancedReplication(db, data, function(ids, filter) {
+            zis.replicate(source, target, data.continuous, ids, filter, onSuccess, onError);
+        }, onError);
+    }
 };
 
-// return the ids found in selections and in queries
-// selections is a list of selection id
-exports.Replicator.prototype.get_ids = function(selections, queries, out, callback, onError) {
-    var lthis = this;
-    selections.asyncForEach(function(e, next) {
-        lthis.db.openDoc(e, {
-            success : function(s) {
-                if (s.$type === 'selection') {
-                    Array.prototype.push.apply(out, s.ids);
+// returns the (unique'd) union of the ids returned by all the given queries
+function getIdsFromQueries(db, queries, onSuccess, onError) {
+
+    var query,
+        ids = [],
+        tasks = queries.length;
+
+    for (var i=0, l=queries.length; i<l; i++) {
+        query = queries[i];
+        db.openDoc(query.id, {
+            success: function(doc) {
+                queryLib.query(db, doc, function(qids) {
+                    ids = ids.concat(qids);
                     next();
-                } else if (s.$type === 'query') {
-                    var query = require('vendor/datamanager/lib/query');
-                    // query.getIds(lthis.db, s.query, function (ids) {
-                    // Array.prototype.push.apply(out, ids);
-                    // next();
-                    // }, function () {
-                    //     onError(500, "Cannot reach", "Query server");
-                    // });
-                }
+                }, function() {
+                    onError('cannot execute query');
+                });
+            },
+            error: function(err) {
+                onError('cannot open query doc');
             }
         });
-    }, function () { 
-        lthis.expand_ids(out, callback); 
-    });
-};
+    }
 
-// from a list of ids, get parents ids to keep data cohesion
-exports.Replicator.prototype.expand_ids = function(out, cb) {
-    var ids = out.unique(),
-        tmp = [];
-    out.length = 0;
+    function next() {
+        tasks--;
+        if (tasks == 0) {
+            ids = ids.unique();
+            onSuccess(ids);
+        }
+    }
+}
 
-    this.db.view('datamanager/path', {
-        keys: ids,
-        success: function (data) {
-            data.rows.forEach(function (e) {
-                var p = e.value.path || [];
-                Array.prototype.push.apply(tmp, p);
+// returns the (unique'd) union of the ids contained in all the given selections;
+// ask remote database for selections contents if needed
+function getIdsFromSelections(db, remoteDb, selections, onSuccess, onError) {
+
+    var selection,
+        ids = [],
+        tasks = selections.length,
+        localServer = (remoteDb && (remoteDb.substr(0, 8) == 'local://')),
+        dbToOpen = db;
+
+    if (remoteDb != null) { // GET data
+        if (localServer) {
+            dbToOpen = $.couch.db(remoteDb.slice(8));
+        }
+    }
+
+    for (var i=0, l=selections.length; i<l; i++) {
+        selection = selections[i];
+        if ((remoteDb != null) && (! localServer)) { // use a service to get selections contents from remote server
+            // @TODO call webservice
+        } else { // selections are on the local server
+            dbToOpen.openDoc(selection.id, {
+                success: function(doc) {
+                    ids = ids.concat(doc.ids);
+                    next();
+                },
+                error: function(err) {
+                    onError('cannot open selection doc');
+                }
             });
-            tmp = tmp.unique();
-            Array.prototype.push.apply(out, tmp);
-            cb();
-        },
-        error: cb
-    });
-};
+        }
+    }
 
-// replication
-// if success : execute callback (id_selection, name, length)
-exports.Replicator.prototype.replicate = function(filters, selections, queries, onSuccess, onError) {
-    var lthis = this;
-    // get local last sequence number
-    this.db.info({
-        success: function (info) { 
-            var start_seq = info.update_seq;
+    function next() {
+        tasks--;
+        if (tasks == 0) {
+            ids = ids.unique();
+            onSuccess(ids);
+        }
+    }
+}
 
-            // wrap success function
-            function save_change () {
-                //$.log("rep ok");
-                lthis.save_change(start_seq, onSuccess);
+// try to make the best choice for advanced by-structure replication: use an ids
+// list or a filter
+function computeAdvancedReplication(db, data, onSuccess, onError) {
+
+    var structures = data.what.structures,
+        tasks = 0,
+        localServer = (data.database.substr(0, 8) == 'local://'),
+        dbToOpen = db,
+        ids = null;
+
+    if (data.direction == 'get') {
+        if (localServer) {
+            dbToOpen = $.couch.db(data.database.slice(8));
+        }
+    }
+
+    var useIds = true;
+    // use ids only if no "data" has to be replicated
+    for (var i=0, l=structures.length; i<l; i++) {
+        if (structures[i].data) {
+            useIds = false;
+        }
+        if (structures[i].vqd) {
+            tasks++;
+        }
+    }
+    tasks = tasks * 2; // 2 calls for each vqd requests
+    tasks++; // one for structures definitions
+
+    var struct;
+    if (useIds) { // get list of ids for structures and/or views and queries definitions
+        ids = [];
+        var mmId;
+        for (var i=0, l=structures.length; i<l; i++) {
+            struct = structures[i];
+            if (struct.structure) {
+                ids.push(struct.id);
             }
-
-            // full replication 
-            if (filters.all) {
-                //$.log('replicate all!');
-                lthis.replicate_all(save_change, onError);
-            } else {
-                //$.log('replicate with filters!');
-                // replication by filter & by ids
-                lthis.replicate_filter(filters, function () {
-                    //$.log("on success replicate_filters");
-                    if (selections.length) {
-                        // load ids
-                        var ids = [];
-                        lthis.get_ids(selections, queries, ids, function () {
-                            //$.log('replicate ids!');
-                            lthis.replicate_ids(ids, save_change, onError);
-                        }, onError);
-                    } else { // no selections
-                        save_change();
-                    }
-                }, onError);
+            if (struct.vqd) {
+                if ((data.direction == 'get') && (! localServer)) { // use service to get views and queries ids from remote server
+                    // @TODO call webservice
+                } else {
+                    dbToOpen.view('datamanager/views_queries', {
+                        startkey: ['v', struct.id],
+                        endkey: ['v', struct.id, {}],
+                        success: function(vdata) {
+                            vdata.rows.map(function(row) {
+                                ids.push(row.id);
+                            });
+                            next();
+                        },
+                        error: function() {
+                            onError('Cannot open view "views_queries" (v)');
+                        }
+                    });
+                    dbToOpen.view('datamanager/views_queries', {
+                        startkey: ['q', struct.id],
+                        endkey: ['q', struct.id, {}],
+                        success: function(qdata) {
+                            qdata.rows.map(function(row) {
+                                ids.push(row.id);
+                            });
+                            next();
+                        },
+                        error: function() {
+                            onError('Cannot open view "views_queries" (q)');
+                        }
+                    });
+                }
             }
         }
-    });
-};
+        next();
+    } else {
+        var filter = {};
+        // @TODO build filter
+        onSuccess(null, filter);
+    }
+
+    function next() {
+        tasks--;
+        if (tasks == 0) {
+            ids = ids.unique();
+            onSuccess(ids, null);
+        }
+    }
+}

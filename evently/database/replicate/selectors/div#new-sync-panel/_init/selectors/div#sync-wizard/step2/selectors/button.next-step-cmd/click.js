@@ -1,5 +1,7 @@
 function(e) {
-    var step2Data = e.data.args[0],
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils'),
+        step2Data = e.data.args[0],
         what = $('input[name="what"]:checked').val(),
         whatPanel = $('#sync-select-what');
 
@@ -20,10 +22,15 @@ function(e) {
                         name: $(this).data('name'),
                         structure: structure,
                         data: data,
-                        vqd: vqd
+                        vqd: vqd,
+                        all: (data && structure && vqd)
                     });
                 }
             });
+            if (structures.length == 0) {
+                utilsLib.showWarning('You must select some data from at least one structure');
+                return false;
+            }
             step2Data.what.structures = structures;
         } break;
         case 'queries': {
@@ -35,6 +42,10 @@ function(e) {
                     structureName: $(this).data('structure-name')
                 });
             });
+            if (queries.length == 0) {
+                utilsLib.showWarning('You must select at least one query');
+                return false;
+            }
             step2Data.what.queries = queries;
         } break;
         case 'selections': {
@@ -45,6 +56,10 @@ function(e) {
                     name: $(this).data('name')
                 });
             });
+            if (selections.length == 0) {
+                utilsLib.showWarning('You must select at least one selection');
+                return false;
+            }
             step2Data.what.selections = selections;
         } break;
         default: {

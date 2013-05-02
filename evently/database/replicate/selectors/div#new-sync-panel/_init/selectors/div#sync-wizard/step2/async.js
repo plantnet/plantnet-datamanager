@@ -10,8 +10,6 @@ function(callback, e, data) {
         selections = [],
         structures = [];
 
-    //$.log('step1data', data);
-
     if (isPut) {
         tasks = 2;
         // get local structures list

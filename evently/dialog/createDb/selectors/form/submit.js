@@ -12,7 +12,7 @@ function(event) {
                 var replib = app.getlib("replicateng"),
                 rep = new replib.Replicator();
 
-                rep.replicate(forkDb, dbName, false, function () {}, utilsLib.showError);
+                rep.replicate(forkDb, dbName, false, null, null, function () {}, utilsLib.showError);
             }
 
 

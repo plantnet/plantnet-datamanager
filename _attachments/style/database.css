@@ -91,6 +91,10 @@ h4 {
     width: 500px;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 /* Form */
 legend {
     font-size: 1.1em;
