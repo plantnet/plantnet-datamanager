@@ -12,7 +12,7 @@ function() {
         modt.val('');
     }
 
-    $('#edit-query-modal').modal('show');
+    $('#edit-query-modal').modal({ backdrop: 'static' });
     var alreadyLoaded = false;
     $('#edit-query-modal').on('shown', function() {
         if (! alreadyLoaded) {
