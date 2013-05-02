@@ -1,3 +1,3 @@
 function() {
-    $('#choose-dictionary-modal').modal('show');
+    $('#choose-dictionary-modal').modal({ backdrop: 'static' });
 }

@@ -6,7 +6,7 @@ function() {
 
     htmlLib.indent();
 
-    $('#edit-view-modal').modal('show');
+    $('#edit-view-modal').modal({ backdrop: 'static' });
     var alreadyLoaded = false;
     $('#edit-view-modal').on('shown', function() {
         if (! alreadyLoaded) {

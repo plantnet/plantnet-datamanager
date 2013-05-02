@@ -4,5 +4,5 @@ function() {
 
     utilsLib.hideBusyMsg('queryDest');
 
-    $('#choose-view-modal').modal('show');
+    $('#choose-view-modal').modal({ backdrop: 'static' });
 }

@@ -4,7 +4,7 @@ function (e) {
 
     utilsLib.hideBusyMsg("viewSyn");
 
-    $('#edit-syn-modal').modal('show');
+    $('#edit-syn-modal').modal({ backdrop: 'static' });
 
     var mm = $("form#add-syn", this).attr("mm-data");
 

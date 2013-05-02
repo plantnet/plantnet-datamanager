@@ -9,7 +9,7 @@ function (e) {
         lat = parseFloat(lat) || '';
         lon = parseFloat(lon) || '';
 
-    $('#show-map-modal').modal('show');
+    $('#show-map-modal').modal({ backdrop: 'static' });
     utilsLib.hideBusyMsg('showMap');
 
     $('#show-map-modal').on('shown', function() {

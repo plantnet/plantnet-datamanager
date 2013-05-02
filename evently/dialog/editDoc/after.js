@@ -6,7 +6,7 @@ function (doc, mm, presets, parent_id, parent_label, parent_modi, synonym_label)
         that = this;
 
     var shownOnce = false;
-    $('#edit-doc-modal').modal('show');
+    $('#edit-doc-modal').modal({ backdrop: 'static' });
     $('#edit-doc-modal').on('shown', function() { // called multiple times; when hovering a button for ex. wtf??
         if (! shownOnce) {
             $('.modal-body', this).scrollTop(0);

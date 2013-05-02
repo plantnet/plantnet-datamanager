@@ -1,7 +1,7 @@
 function() {
     var app = $$(this).app;
     
-    $('#edit-dbs-modal').modal('show');
+    $('#edit-dbs-modal').modal({ backdrop: 'static' });
     
     $('#edit-dbs-modal').on('shown', function() {
         $('input[name="name"]', this).first().focus();

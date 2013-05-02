@@ -1,3 +1,3 @@
 function() {
-    $('#confirm-sync-modal').modal('show');
+    $('#confirm-sync-modal').modal({ backdrop: 'static' });
 }
