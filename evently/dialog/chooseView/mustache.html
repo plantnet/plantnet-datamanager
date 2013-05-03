@@ -20,18 +20,25 @@
         List
       </label>
 
-      <label class="radio display-inline-block">
-        <input name="type" type="radio" value="view" data-type="view"/>
-        View :
-      </label>
-      
-      <select id="view-id" name="view_id">
-        {{#views}}
-        <option value="{{_id}}">{{name}}</option>
-        {{/views}}
-      </select>
+      {{#from_modt}}
+        <p class="alert alert-info">
+          <strong>Info:</strong> A query "by module <strong>type</strong>" cannot be sent to a view
+        </p> 
+      {{/from_modt}}
+      {{^from_modt}}
+        <label class="radio display-inline-block">
+          <input name="type" type="radio" value="view" data-type="view"/>
+          View :
+        </label>
+
+        <select id="view-id" name="view_id">
+          {{#views}}
+          <option value="{{_id}}">{{name}}</option>
+          {{/views}}
+        </select>
+      {{/from_modt}}
     </div>
-  
+
     <div class="modal-footer">
       <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</a>
       <button class="btn btn-primary" type="submit">OK</button>

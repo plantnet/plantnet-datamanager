@@ -11,6 +11,7 @@ function(query, views) {
         query_id: query._id,
         mm_id: utilsLib.encode_design_id(query.$mm),
         select_modt: '*' + query.$select, // wtf? why a '*' ?
-        views: viewsProcessed
+        views: viewsProcessed,
+        from_modt: (query.$select[0] != '.') // won't work if sent to view
     };
 }
