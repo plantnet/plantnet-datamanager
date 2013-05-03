@@ -78,10 +78,12 @@
               <a class="pull-right delete-view-cmd" title="Delete this view" data-id="{{id}}">
                 <i class="icon-dm-delete"></i>
               </a>
+              {{/is_admin}}
+              {{#is_writer}}
               <a class="pull-right edit-view-cmd" title="Edit this view" data-id="{{id}}">
                 <i class="icon-dm-edit"></i>
               </a>
-              {{/is_admin}}
+              {{/is_writer}}
               <a class="model-menu-cmd" data-view-id="{{id}}" href="#/viewtable/{{id}}/0/_id/0/0/0/0/0">
                 {{name}}
               </a>
@@ -111,10 +113,12 @@
               <a class="pull-right delete-query-cmd" title="Delete this query" data-id="{{id}}">
                 <i class="icon-dm-delete"></i>
               </a>
+              {{/is_admin}}
+              {{#is_writer}}
               <a class="pull-right edit-query-cmd" title="Edit this query" data-id="{{id}}">
                 <i class="icon-dm-edit"></i>
               </a>
-              {{/is_admin}}
+              {{/is_writer}}
               <a class="model-menu-cmd query-destination-cmd" href="#/viewtable/{{mm_id}}/0/_id/0/0/{{id}}/0/0"
                 data-query-id="{{id}}">
                 {{name}}
