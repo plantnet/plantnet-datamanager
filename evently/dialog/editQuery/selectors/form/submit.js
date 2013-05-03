@@ -5,7 +5,14 @@ function(e) {
 
     $('#criteria').trigger('save', [query]);
 
-    query.name = $('input[name=name]', this).val();
+    var name = $('input[name=name]', this).val(),
+        rename = false;
+    // if name has changed, propose to save as a new query
+    if ((query.name != '') && (query.name != name)) {
+        rename = true;
+    }
+    query.name = name;
+
     var select = $('select#modt', this).val();
     if (select == '') {
         select = $('select#modi', this).val();
@@ -17,6 +24,12 @@ function(e) {
         return false;
     }
 
+    if (rename) {
+        if (confirm("You renamed the query. Save it as a copy? The original won't be altered.")) {
+            delete query._id;
+            delete query._rev;
+        }
+    }
     app.db.saveDoc(query, {
         success : function(newdoc) {
             $('#model-menu').trigger('_init');
