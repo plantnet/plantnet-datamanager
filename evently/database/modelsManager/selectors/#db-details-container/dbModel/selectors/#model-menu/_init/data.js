@@ -5,6 +5,7 @@ function(mm, viewsAndQueries, mmLib) {
         userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
         isSuperAdmin = (app.userCtx && app.userCtx.isSuperAdmin) ? app.userCtx.isSuperAdmin : null,
         isAdmin = (isSuperAdmin || userRole == 'admin') ? true : false,
+        isWriter = (userRole == 'writer' || isAdmin) ? true : false,
         infos = app.infos,
         cacheLib = app.getlib('cache'),
         pathbinderModi = infos.module.instance.id,
@@ -98,7 +99,8 @@ function(mm, viewsAndQueries, mmLib) {
             inQueries: (filter_id),
             specific_actions : spActions,
             has_specific_actions : !!(spActions.length),
-            is_admin: isAdmin
+            is_admin: isAdmin,
+            is_writer: isWriter
         };
     }
 

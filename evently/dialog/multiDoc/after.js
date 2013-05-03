@@ -5,6 +5,6 @@ function () {
 
     htmlLib.activateImgViewer('a.preview');
 
-    $('#multi-doc-modal').modal('show');
+    $('#multi-doc-modal').modal({ backdrop: 'static' });
     app.libs.utils.hideBusyMsg('multiDoc');
 }

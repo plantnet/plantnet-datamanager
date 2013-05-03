@@ -1,3 +1,3 @@
 function() {
-    $('#linked-docs-modal').modal('show');
+    $('#linked-docs-modal').modal({ backdrop: 'static' });
 }
