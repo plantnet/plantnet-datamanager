@@ -115,7 +115,8 @@ function(id, mm, related, synLabels) {
             outdoc.data.push({
                 'class': 'validname',
                 label: 'Synonym of (valid name)',
-                val: synLabels[subDoc.$synonym]
+                val: synLabels[subDoc.$synonym],
+                refid: subDoc.$synonym
             });
         }
         
