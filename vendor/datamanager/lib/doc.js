@@ -140,28 +140,30 @@ exports.to_html = function (doc, useStructureInfo, app) {
 
 // set synonym active_id for syn_ids
 exports.set_active_synonym = function (db, active_id, syn_ids, onSuccess, onError) {
-    
+
     db.allDocs({
-               keys : [active_id].concat(syn_ids),
-               cache : JSON.stringify(new Date().getTime()),
-               include_docs : true,
-               success : function (docs) {
-                   docs = docs.rows.map(function (e) { 
-                                            var d = e.doc;
-                                            d.$synonym = active_id;
-                                            return d;
-                                        });
-                   delete(docs[0].$synonym);
-                   db.bulkSave({docs:docs, "all_or_nothing" : true}, {
-                                   success : onSuccess,
-                                   error : onError
-                               });
-
-               },
-               error: onError
+       keys : [active_id].concat(syn_ids),
+       cache : JSON.stringify(new Date().getTime()),
+       include_docs : true,
+       success : function (docs) {
+           docs = docs.rows.map(function (e) {
+                var d = e.doc;
+                if (d._id == active_id) {
+                    delete d.$synonym;
+                } else {
+                    d.$synonym = active_id;
+                }
+                return d;
+            });
+           delete(docs[0].$synonym);
+           db.bulkSave({docs:docs, "all_or_nothing" : true}, {
+               success : onSuccess,
+               error : onError
            });
+       },
+       error: onError
+   });
 };
-
 
 // call callback(rev)
 exports.get_rev = function(db, doc_id, callback) {

@@ -2,11 +2,12 @@ function (e) {
     var app = $$(this).app,
         utilsLib = app.getlib('utils');
 
-    utilsLib.hideBusyMsg("viewSyn");
+    utilsLib.hideBusyMsg('viewSyn');
+    utilsLib.hideBusyMsg('editSyn');
 
     $('#edit-syn-modal').modal({ backdrop: 'static' });
 
-    var mm = $("form#add-syn", this).attr("mm-data");
+    var mm = $("#edit-syn-modal .modal-body").attr("mm-data");
 
     function autocomplete(i) {
         $(i).autocomplete(
