@@ -937,6 +937,9 @@ div.doc-toolbar.affix[data-spy="affix"] {
 .doc-data th, .doc-data td {
     padding: 6px;
 }
+th.validname {
+    color: grey;
+}
 
 /* Images gallery */
 
@@ -1031,6 +1034,12 @@ input[type="checkbox"].selection {
 .ta-enum-values {
     width: 400px;
     height: 250px
+}
+
+/* Modal: edit syn */
+
+input#syn-of, input#new-syn, input#syns-of {
+    width: 270px;
 }
 
 /* Modal: edit doc */
