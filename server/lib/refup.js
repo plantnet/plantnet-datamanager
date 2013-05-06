@@ -12,25 +12,23 @@ function _update_mm_modt (db, mm_modt, cb) {
     db.view("datamanager", "by_mod", {
         key : mm_modt,
         include_docs : true,
-        reduce : false },
-            function (err, by_modt) {
-                // get docs
-                docs = by_modt.rows.map( function (e) { return e.doc; }  );
-                if(!docs.length) { return; }
-                
-                // apply ref_data
-                exports.update_docs(db, docs, 
-                                    function (docs, changed_docs) {
-                                        // save changes
-                                        db.bulkDocs({docs : changed_docs,
-                                                     "all_or_nothing":true},
-                                                    function () {
-                                                        log("ref of " + mm_modt + " updated");
-                                                        cb(changed_docs.length);
-                                                    }
-                                                   );
-                                    });
-            });
+        reduce : false 
+        }, function (err, by_modt) {
+            // get docs
+            docs = by_modt.rows.map( function (e) { return e.doc; }  );
+            if(!docs.length) { return; }
+
+            // apply ref_data
+            exports.update_docs(db, docs, 
+                function (docs, changed_docs) {
+                    // save changes
+                    db.bulkDocs({docs : changed_docs, "all_or_nothing": true},
+                        function () {
+                            log("ref of " + mm_modt + " updated");
+                            cb(changed_docs.length);
+                        });
+                });
+        });
 }
 
 // Update ref data in mm

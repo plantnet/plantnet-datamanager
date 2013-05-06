@@ -1,9 +1,10 @@
 /// get last changes and upate ref data
 
-var RefUp = require("refup"),
-    Lock = require("lock"),
+var RefUp = require('refup'),
+    Lock = require('lock'),
     Uid = require('uid'),
-    common = require("commons");
+    Label = require('label'),
+    common = require('commons');
 
 function _get_last_change_index(db, cb) {
     db.getDoc("_local/changes", function (err, data) {
@@ -68,7 +69,7 @@ function up_changes(db, ids, deleted_ids, cb) {
         cb();
     }
     while (ids.length > 0) {
-        cpt++;
+        cpt += 2;
         var subids = ids;
         ids = subids.splice(1000); // process by 1000 docs
         // subids contains only 1000 docs
@@ -82,7 +83,7 @@ function up_changes(db, ids, deleted_ids, cb) {
                 var docs = data.rows.map(function (e) {
                     return e.doc;
                 });
-                log('calling update_docs on ' + docs.length + ' docs');
+                //log('calling update_docs on ' + docs.length + ' docs (' + ids.length + ' ids atm)');
                 RefUp.update_docs(db, docs, function (docs, doc_to_save) {
                     //log('calling bulk save on ' + doc_to_save.length + ' docs');
                     db.bulkDocs({docs:doc_to_save}, function () {
@@ -90,10 +91,40 @@ function up_changes(db, ids, deleted_ids, cb) {
                         RefUp.update_ref(db, ids, function () {
                             next();
                         });
+                        // update sons labels
+                        update_all_sons_labels(db, subids, function() {
+                            next();
+                        });
                     });
                 });
             }
         );
+    }
+}
+
+// for all given ids, update labels of all sons
+function update_all_sons_labels(db, ids, cb) {
+
+    var tasks = ids.length,
+        docsToSave = [];
+
+    for (var i=0, l=ids.length; i<l; i++) {
+        Label.update_labels(db, ids[i], null, function(sonsToSave) {
+            //log('PUSHING SONS TO SAVE: ' + sonsToSave.length);
+            docsToSave = docsToSave.concat(sonsToSave);
+            next();
+        });
+    }
+
+    function next() {
+        tasks--;
+        if (tasks == 0) {
+            db.bulkDocs({
+                docs: docsToSave
+            }, function(err, data) {
+                cb();
+            });
+        }
     }
 }
 

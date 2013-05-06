@@ -71,7 +71,7 @@ exports.get_label_template = function (doc, mm) {
 // doc cache contains already retrieved docs,
 exports.set_label_template = function (db, docs, doc_cache, cb) {
 
-    log('preparing to set label templates on ' + docs.length + ' docs + ');
+    log('preparing to set label templates on ' + docs.length + ' docs');
     doc_cache = doc_cache || {};
     var ids_to_retrieve = [];
 
@@ -183,9 +183,11 @@ exports.update_labels = function (db, doc_id, ltpl, cb) {
                     doc_cache[d._id] = d;
                     docs.push(d);
                 }
-                
-                doc_cache[doc_id].$label_tpl = ltpl; // set label tpl of root
-                
+
+                if (ltpl) {
+                    doc_cache[doc_id].$label_tpl = ltpl; // set label tpl of root
+                }
+
                 // call update label for each
                 exports.set_label_template(db, docs, doc_cache, cb);
                 
