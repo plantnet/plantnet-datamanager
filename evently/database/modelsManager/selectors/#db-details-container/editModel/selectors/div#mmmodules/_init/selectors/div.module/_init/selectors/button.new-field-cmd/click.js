@@ -47,9 +47,11 @@ function() {
 
         // automatic default label template when adding first field
         if (mm.modules[modt].fields.length == 1) {
-            var defaultLabelTemplate = '${' + normalizedName + '}';
-            $('#' + modt + 'label_tpl').val(defaultLabelTemplate);
-            utilsLib.showInfo('A default label template was created: ' + defaultLabelTemplate);
+            if ($('#' + modt + 'label_tpl').val() == '') {
+                var defaultLabelTemplate = '${' + normalizedName + '}';
+                $('#' + modt + 'label_tpl').val(defaultLabelTemplate);
+                utilsLib.showInfo('A default label template was created: ' + defaultLabelTemplate);
+            }
         }
     }
 
