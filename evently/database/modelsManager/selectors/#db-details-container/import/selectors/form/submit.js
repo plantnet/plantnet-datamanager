@@ -2,7 +2,7 @@ function(evt) {
     var mm = evt.data.args[0],
         app = $$(this).app,
         utilsLib = app.getlib('utils'),
-        mmLib = app.getlib('mm'),
+        //mmLib = app.getlib('mm'),
         form = $(this);
 
     var withConflicts = !($("#ignoreconflicts", this).attr("checked"));
@@ -13,7 +13,11 @@ function(evt) {
 
     function complete() {
         $('#busy-modal').modal('hide');
-        $.pathbinder.go('/tree/' + mm._id.slice(8) + '/1');
+        if (mm.isref) {
+            $.pathbinder.go('/tree/' + mm._id.slice(8) + '/0/0');
+        } else {
+            $.pathbinder.go('/viewtable/' + mm._id.slice(8) + '/0/_id/0/0/0/0/0');
+        }
         utilsLib.show_msg('Import complete');
     }
 
@@ -30,7 +34,7 @@ function(evt) {
     function onError(a, b, c, d) {
         $('#busy-modal').modal('hide');
         utilsLib.showError('Error : ' + (a ? a : '') + ' ' + (b ? b : '') + ' ' + (c ? c : ''));
-        
+
         if (d) {
             var err_txt = '<ul>';
             for (var i = 0; i < d.length; d++) {
@@ -41,14 +45,14 @@ function(evt) {
             $('#import-error', form).append(err_txt);
         }
     }
-    
+
     // get col info
     var colMap = [];
     $('table#colmap tbody tr').each(function(i, e) {
-        var csv_col = $('span.csv-col', this).text(),
+        var //csv_col = $('span.csv-col', this).text(),
             isIndex = !!$('input:checkbox:checked', this).val(),
             colData = $('select', this).val().split('#');
-        
+
         colMap.push({
             is_index: isIndex,
             modi: colData[1],
@@ -56,13 +60,13 @@ function(evt) {
             type: colData[2]
         });
     });
-    
+
     var importLib = app.getlib('import'),
     csvData = app.data.csv;
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
     importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
                          onSuccess, onError, utilsLib.showInfo);
-    
+
     return false;
 }

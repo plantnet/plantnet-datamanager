@@ -1,6 +1,6 @@
-var utils = require("vendor/datamanager/lib/utils");
-var AtLib = require("vendor/datamanager/lib/attachments");
-var Query = require("vendor/datamanager/lib/query");
+var utils = require("vendor/datamanager/lib/utils"),
+    AtLib = require("vendor/datamanager/lib/attachments"),
+    Query = require("vendor/datamanager/lib/query");
 
 
 // import CSV DATA
@@ -13,12 +13,12 @@ function set_path(modi, new_docs, mm) {
 
     var parent_modi = mm.structure[modi][1],
         parent_path, path, parent_id;
-        
+
     if (parent_modi) { // no root doc
         parent_path = set_path(parent_modi, new_docs, mm);
-        parent_id = new_docs[parent_modi] ? new_docs[parent_modi]._id : null;        
+        parent_id = new_docs[parent_modi] ? new_docs[parent_modi]._id : null;
         path = parent_path.concat([parent_id]); // copy obj
-                
+
     } else { // no parent -> root doc
         path = [];
     }
@@ -27,7 +27,7 @@ function set_path(modi, new_docs, mm) {
         new_docs[modi].$path = path;
         new_docs[modi]._id = utils.build_id(new_docs[modi]);
     }
-    
+
     return path;
 }
 
@@ -75,11 +75,11 @@ function index_docs(new_docs, index_field, full_index) {
 }
 
 // save doc from parsed csv_data
-// col map : list of oject representing col (contains field name, modi and type)
+// col map : list of objects representing cols (contains fields name, modi and type)
 exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflicts, onSuccess, onError, showMsg) {
 
     showMsg = showMsg || function () {};
-    
+
     showMsg("Parsing data...");
     var docs = exports.parse_docs(csv_data, mm, col_map, user_ctx.name);
     if (!docs.length) {
@@ -94,7 +94,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
         if(attchs_err.length > 0) {
             //onError ("Missing attachments", "", "", attchs_err);
             //return;
-            showMsg('Warning: ' + attchs_err.length + ' attachments could not be imported!');
+            showMsg('Warning: ' + attchs_err.length + ' attachment(s) could not be imported!');
         }
 
         // save data
@@ -119,20 +119,27 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
     for (var i = 0; i < docs.length; i++) {
         var d = docs[i];
         if (d.$local_file) {
-            var a = d.$local_file;
-            attch_docs[a] = attch_docs[a] || [];
-            attch_docs[a].push(d);
+            var a = d.$local_file,
+                spa = a.split(',');
+                // "a" may contain several attachments separated by ','
+            //$.log('splitted', a, 'into', spa);
+            for (var j=0; j < spa.length; j++) {
+                //$.log('adding', spa[j]);
+                attch_docs[spa[j]] = attch_docs[spa[j]] || [];
+                attch_docs[spa[j]].push(d);
+            }
         }
     }
 
     var attchs = utils.keys(attch_docs);
+    //$.log('ATTCHS', attchs);
 
     if(!attchs.length) {
         save_all();
     } else {
          attchs.asyncForEach( function (a, next) {
-             showMsg("Get attachment " + a);
-
+             showMsg('Get attachment(s): ' + a);
+             //$.log('getting', a);
              AtLib.get_local_file(
                  a, function(data) {
                      // encode
@@ -147,11 +154,10 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
                          };
                      }
                      next();
-                 }, function (a) {
-                     attchs_err.push(a);
+                 }, function (err) {
+                     attchs_err.push(err);
                      next();
                  });
-             
          }, function () {
              save_all();
          });
@@ -165,11 +171,14 @@ exports.parse_docs = function (csv_data, mm, col_map, user) {
     //csv_data = csv_data.unique();
 
     var nbcols = col_map.length,
-    new_docs, doc, all_docs = {}, docs = [],
-    cmlength = col_map.length,
-    index_field = {}, // keep field to index by modi
-    full_index = {},
-    doc_syn_ids = {}; // for synonym
+        new_docs,
+        doc,
+        all_docs = {},
+        docs = [],
+        cmlength = col_map.length,
+        index_field = {}, // keep field to index by modi
+        full_index = {},
+        doc_syn_ids = {}; // for synonym
         
     // for each column
     for (var c = 0; c < cmlength; c++) {
