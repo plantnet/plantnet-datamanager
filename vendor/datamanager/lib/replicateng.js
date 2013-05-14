@@ -83,6 +83,33 @@ exports.Replicator.prototype.replicate = function(source, target, continuous, id
     $.log('IN REPLICATE', source, target, continuous);
     $.log('ids', ids);
     $.log('filter', filter);
+
+    var repDoc = {
+        source: source,
+        target: target,
+        continuous: continuous
+    };
+
+    // ids list?
+    if (ids) {
+        repDoc.doc_ids = ids;
+    }
+
+    // filter to apply?
+    if (filter) {
+        repDoc.filter = filter;
+    }
+
+    this.db.saveDoc(repDoc, {
+        success: function(data) {
+            $.log('replication created', data);
+            onSuccess(data);
+        },
+        error: function(data) {
+            $.log('replication foirax', data);
+            onError(data);
+        }
+    });
 };
 
 // Cancel a running replication, given its id

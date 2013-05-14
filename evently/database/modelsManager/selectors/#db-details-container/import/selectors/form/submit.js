@@ -18,7 +18,7 @@ function(evt) {
         } else {
             $.pathbinder.go('/viewtable/' + mm._id.slice(8) + '/0/_id/0/0/0/0/0');
         }
-        utilsLib.show_msg('Import complete');
+        utilsLib.showSuccess('Import complete');
     }
 
     // updates structure when import is done
@@ -66,7 +66,7 @@ function(evt) {
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
     importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
-                         onSuccess, onError, utilsLib.showInfo);
+                         onSuccess, onError);
 
     return false;
 }

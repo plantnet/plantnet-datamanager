@@ -19,7 +19,7 @@ function() {
             $('#busy-modal').modal('hide');
             $('#model-bloc').trigger('_init');
             $.pathbinder.begin();
-            app.libs.utils.show_msg(msg);
+            utilsLib.showSuccess(msg);
         });
     }
 
@@ -36,7 +36,7 @@ function() {
         var msg2 = [];
         MM.validate_mm(doc, app, msg2);
         for (var i=0; i < msg2.length; i++) {
-            app.libs.utils.show_msg('Using default label template "' + msg2[i].lt + '" for module "' + msg2[i].modt + '"');
+            utilsLib.showSuccess('Using default label template "' + msg2[i].lt + '" for module "' + msg2[i].modt + '"');
         }
     } catch (x) {
         onError('', '', x.message);
