@@ -2,25 +2,29 @@
   <head>
     <link rel="icon" type="image/png" href="../img/favicon.png"> 
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
-    <link rel="stylesheet" href="../style/main.css" type="text/css">
+    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../style/shared.css" />
+    <link rel="stylesheet" href="../style/database.css" />
   </head>
   <body>
     <section id="main">
-    <h1>Pl@ntNet-Datamanager Local File Server</h1>
-    <p>
-      This page launches a local file server on port 5990. It allows DataManager to access files on your computer. 
-    </p>
-    <script src="deployJava.js"></script>
-    <script> 
-      var attributes = {
-      code:'FileServerApplet.class',
-      archive : '/datamanager/_design/datamanager/fileserver/FileServerApplet.jar',
-      width : "500",
-      height :"100"
-      } ; 
-      var parameters = {fontSize:16};
-      deployJava.runApplet(attributes, parameters, '1.6'); 
-    </script>
+      <div class="row-fluid">
+        <h2>Pl@ntNet-Datamanager Local File Server</h2>
+        <p class="lead">
+          This page launches a local file server on port 5990. It allows DataManager to access files on your computer. 
+        </p>
+        <script src="deployJava.js"></script>
+        <script> 
+          var attributes = {
+          code:'FileServerApplet.class',
+          archive : '/datamanager/_design/datamanager/fileserver/FileServerApplet.jar',
+          width : "500",
+          height :"100"
+          } ; 
+          var parameters = {fontSize:16};
+          deployJava.runApplet(attributes, parameters, '1.6'); 
+        </script>
+      </div>
     </section>
   </body>
 </html>

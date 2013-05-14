@@ -111,22 +111,23 @@ public class FileServer {
                 log(connection, request);
                 while (true) {
                     String misc = in.readLine();
-                    if (misc==null || misc.length()==0) {
+                    if (misc == null || misc.length() == 0) {
                         break;
                     }
                 }
 
                 // parse the line
-                if (!request.startsWith("GET") || request.length()<14 ||
+                if (!request.startsWith("GET") || request.length() < 14 ||
                         !(request.endsWith("HTTP/1.0") || request.endsWith("HTTP/1.1"))) {
                     // bad request
                     errorReport(pout, connection, "400", "Bad Request", 
                             "Your browser sent a request that " + 
                             "this server could not understand.");
                 } else {
-                    String req = request.substring(4, request.length()-9).trim();
-                    if (req.indexOf("..")!=-1 || 
-                            req.indexOf("/.ht")!=-1 || req.endsWith("~")) {
+                    String req = request.substring(4, request.length() - 9).trim();
+                    req = URLDecoder.decode(req, "UTF-8");
+                    if (req.indexOf("..") != -1 || 
+                            req.indexOf("/.ht") != -1 || req.endsWith("~")) {
                         // evil hacker trying to read non-wwwhome or secret file
                         errorReport(pout, connection, "403", "Forbidden",
                                 "You don't have permission to access the requested URL.");

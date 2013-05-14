@@ -134,7 +134,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
     if(!attchs.length) {
         save_all();
     } else {
-        if (oneShot) {
+        if (oneShot) { // save all docs in one request
             attchs.asyncForEach(function (a, next) {
                 utils.showInfo('Get attachment(s): ' + a);
                 //$.log('getting', a);
@@ -159,7 +159,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
             }, function () {
                 save_all(db, docs, withConflicts, attchs_err);
             });
-        } else {
+        } else { // save docs by slice
             var docsProcessed = 0,
                 subDocs;
             // process by slices of 100 docs
