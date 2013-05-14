@@ -2,7 +2,10 @@
   <head>
     <link rel="icon" type="image/png" href="../img/favicon.png"> 
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
-    <link rel="stylesheet" href="../style/main.css" type="text/css">
+    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../style/shared.css" />
+    <link rel="stylesheet" href="../style/database.css" />
+
   </head>
   <body>
     <section id="main">
@@ -19,6 +22,8 @@
       height :"100"
       } ; 
       var parameters = {fontSize:16}; 
+      
+      attributes.archive += '?random=' + Math.floor(Math.random() * 10000);
       deployJava.runApplet(attributes, parameters, '1.6'); 
     </script>
     </section>
