@@ -78,7 +78,8 @@ public class FileServer {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ImageIO.write(scaledImage, "jpeg", os);
                 InputStream is = new ByteArrayInputStream(os.toByteArray());
-
+                
+                pout.print(header);
                 new ExifRewriter().updateExifMetadataLossless(is, outstream, 
                                                               jpegMetadata.getExif().getOutputSet());
                 return;
