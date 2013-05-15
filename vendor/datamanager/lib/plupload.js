@@ -66,7 +66,7 @@ exports.scaleImage = function(file, max_size, mime, canvas, callback) {
             var width, height, percentage, jpegHeaders, exifParser;
 
             var max_img = Math.max(img.height, img.width);
-            scale = max_size / max_img;
+            var scale = max_size / max_img;
                          
             if (scale < 1 || (scale === 1 && mime === 'image/jpeg')) {
                 width = Math.round(img.width * scale);
