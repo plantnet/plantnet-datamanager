@@ -1,5 +1,6 @@
 <project default="all">
   <property name="deploy.dir" value="../../_attachments/fileserver"/>
+  <property name="version" value="0.2"/>
  
   <target name="clean">
     <delete>
@@ -14,7 +15,7 @@
   </target>
   
   <target name="jar" depends="compile">
-    <jar destfile="FileServerApplet.jar"
+    <jar destfile="FileServerApplet-${version}.jar"
          basedir="."
          manifest="manifest.mf"
          includes="**/*.class"
