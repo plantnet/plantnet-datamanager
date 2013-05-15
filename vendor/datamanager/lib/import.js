@@ -108,128 +108,95 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
         });
     }
 
-    // organise doc by attch
-    var attch_docs = {};
-    for (var i = 0; i < docs.length; i++) {
-        var d = docs[i];
-        if (d.$local_file) {
-            var a = d.$local_file,
-                spa = a.split(',');
-                // "a" may contain several attachments separated by ','
-            //$.log('splitted', a, 'into', spa);
-            for (var j=0; j < spa.length; j++) {
-                //$.log('adding', spa[j]);
-                attch_docs[spa[j]] = attch_docs[spa[j]] || [];
-                attch_docs[spa[j]].push(d);
-            }
-        }
-    }
-
     var oneShot = false, // set to true to disable progressive POSTing
         slicesSize = 100;
 
-    var attchs = utils.keys(attch_docs);
-    //$.log('ATTCHS', attchs, attch_docs);
-
-    if(!attchs.length) {
-        save_all();
-    } else {
-        if (oneShot) { // save all docs in one request
-            attchs.asyncForEach(function (a, next) {
-                utils.showInfo('Get attachment(s): ' + a);
-                //$.log('getting', a);
-                AtLib.get_local_file(
-                    a, function(data) {
+    if (oneShot) { // save all docs in one request
+        docs.asyncForEach(function (d, next) {
+            if (d.$local_file) {
+                var a = d.$local_file.split(',');
+                // getting all attachments for this doc
+                a.asyncForEach(function (att, goOn) {
+                    utils.showInfo('Get attachment: ' + att);
+                    AtLib.get_local_file(att, function(data) {
                         // encode
                         data.data = AtLib.arrayBufferTobase64(data.data);
                         // store attachment in doc
-                        for (var id = 0; id < attch_docs[a].length; id++) {
-                            var d = attch_docs[a][id];
-                            d._attachments = d._attachments || {};
-                            d._attachments[a] = {
-                                content_type : data.type,
-                                data : data.data
-                            };
-                        }
-                        next();
+                        d._attachments = d._attachments || {};
+                        d._attachments[att] = {
+                            content_type : data.type,
+                            data : data.data
+                        };
+                        goOn();
                     }, function (err) {
                         attchs_err.push(err);
-                        next();
+                        goOn();
                     });
-            }, function () {
-                save_all(db, docs, withConflicts, attchs_err);
-            });
-        } else { // save docs by slice
-            var docsProcessed = 0,
-                subDocs;
-            // process by slices of 100 docs
-            processBySlices(attchs, slicesSize, function(slice, nextSlice) { // process
-                //$.log('processing slice', slice, attch_docs);
-                subDocs = {};
-                // subset of docs that will be erased after saving to preserve memory
-                // could use splice(0, 100) but is the order guaranteed to be the same as the keys stored in slice?
-                for (var k=0; k < slice.length; k++) {
-                    //$.log(slice[k], 'adding', attch_docs[slice[k]], 'in', subDocs[slice[k]]);
-                    subDocs[slice[k]] = JSON.parse(JSON.stringify(attch_docs[slice[k]])); // clone
-                    delete attch_docs[slice[k]];
-                }
-                slice.asyncForEach(function(a, next) {
-                    //utils.showInfo('Get attachment(s): ' + a);
-                    //$.log('getting', a);
-                    AtLib.get_local_file(
-                        a, function(data) {
+                }, function () {
+                    next();
+                });
+            } else {
+                next();
+            }
+        }, function () {
+            save_all(db, docs, withConflicts, attchs_err);
+        });
+    } else { // save docs by slice
+        var docsProcessed = 0;
+        // process by slices of 100 docs
+        processBySlices(docs, slicesSize, function(slice, nextSlice) { // process
+            slice.asyncForEach(function(d, next) {
+                if (d.$local_file) {
+                    var a = d.$local_file.split(',');
+                    // getting all attachments for this doc
+                    a.asyncForEach(function (att, goOn) {
+                        //utils.showInfo('Get attachment(s): ' + a);
+                        //$.log('getting', a);
+                        AtLib.get_local_file(att, function(data) {
                             // encode
                             data.data = AtLib.arrayBufferTobase64(data.data);
                             // store attachment in doc
-                            for (var id = 0; id < subDocs[a].length; id++) {
-                                var d = subDocs[a][id];
-                                d._attachments = d._attachments || {};
-                                d._attachments[a] = {
-                                    content_type : data.type,
-                                    data : data.data
-                                };
-                            }
-                            next();
+                            d._attachments = d._attachments || {};
+                            d._attachments[att] = {
+                                content_type : data.type,
+                                data : data.data
+                            };
+                            goOn();
                         }, function (err) {
                             attchs_err.push(err);
-                            next();
+                            goOn();
                         });
-                }, function () {
-                    // save subDocs, delete them
-                    saveSlice(db, subDocs, withConflicts, function() {
-                        var sdk = utils.keys(subDocs);
-                        docsProcessed += sdk.length;
-                        utils.showSuccess(docsProcessed + ' documents processed');
-                        nextSlice();
+                    }, function() {
+                        next();
                     });
-                });
-            }, function() { // onComplete all slices
-                // save all docs that had no attachments, and finish import
-                var remainingDocs = [];
-                for (var i = 0; i < docs.length; i++) {
-                    if (! docs[i].$local_file) {
-                        remainingDocs.push(docs[i]);
-                    }
+                } else {
+                    next();
                 }
-                save_all(db, remainingDocs, withConflicts, attchs_err);
+            }, function () { // onComplete one slice
+                saveSlice(db, slice, withConflicts, function() {
+                    docsProcessed += slice.length;
+                    utils.showSuccess(docsProcessed + ' documents processed');
+                    nextSlice();
+                });
             });
-        }
+        }, function() { // onComplete all slices
+            utils.showInfo('Updating meta data...');
+            db.dm('update_mm', {mm : mm._id}, null, function() {
+                onSuccess();
+                db.dm('match_ref_mm', {mm : mm._id});
+            }, onError);
+            Query.triggerLuceneIndex(db);
+        });
     }
 };
 
-// saves a slice of n docs organized by attachment
+// saves a slice of n docs
 function saveSlice(db, docs, withConflicts, callback) {
-    // reorganize data before saving
-    var docsList = [];
-    for (var k in docs) {
-        for (var l=0; l < docs[k].length; l++) {
-            docsList.push(docs[k][l]);
-        }
-    }
-    utils.showInfo('Uploading data for ' + docsList.length + ' docs...');
+
+    utils.showInfo('Uploading data for ' + docs.length + ' docs...');
 
     db.bulkSave({
-            docs: docsList,
+            docs: docs,
             'all_or_nothing': withConflicts
         },
         {
@@ -239,20 +206,6 @@ function saveSlice(db, docs, withConflicts, callback) {
             callback();
         }
     });
-}
-
-function saveRemainingDocs(db, docs, withConflicts, callback) {
-    db.bulkSave({
-        docs: docsList,
-        'all_or_nothing': withConflicts
-    },
-    {
-        success: callback(),
-        error: function() {
-        utils.showError('Unable to save that bunch of docs');
-        callback();
-    }
-});
 }
 
 // processes data by slices
