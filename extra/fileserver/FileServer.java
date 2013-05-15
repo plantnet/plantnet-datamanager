@@ -115,7 +115,7 @@ public class FileServer {
         }
         socket = null;
         socket = new ServerSocket(port, 0, InetAddress.getByName("127.0.0.1")); 
-        System.out.println("FileServer accepting connections on port " + port);
+        System.out.println("File Server accepts connections on port :" + port);
 
         // request handler loop
         while (true) {

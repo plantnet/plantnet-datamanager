@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 
 public class FileServerApplet extends JApplet implements ActionListener {
 
-    final static String VERSION = "0.2";
+    final static String VERSION = "version 0.2";
     JFileChooser chooser;
     JLabel dirname, state, version;
     JButton go;
