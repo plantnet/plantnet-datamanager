@@ -13,11 +13,12 @@ function(evt) {
 
     function complete() {
         $('#busy-modal').modal('hide');
-        if (mm.isref) {
+        // do not redirect, so that the import report stays visible
+        /*if (mm.isref) {
             $.pathbinder.go('/tree/' + mm._id.slice(8) + '/0/0');
         } else {
             $.pathbinder.go('/viewtable/' + mm._id.slice(8) + '/0/_id/0/0/0/0/0');
-        }
+        }*/
         utilsLib.showSuccess('Import complete');
     }
 
@@ -65,7 +66,7 @@ function(evt) {
     csvData = app.data.csv;
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
-    importLib.import_csv(app.db, csvData, mm, colMap, withConflicts,
+    importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
                          onSuccess, onError);
 
     return false;
