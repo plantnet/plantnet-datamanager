@@ -2,19 +2,24 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.lang.Math;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO; 
 
+import org.apache.commons.imaging.Imaging;
+import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
+import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
+import org.apache.commons.imaging.common.IImageMetadata;
+
 public class FileServer {
 
     ServerSocket socket;
     int port;
     String home;
-    static final int THUMB_W = 800;
-    static final int THUMB_H = 600;
+    static final int MAX_SIZE = 800;
 
     public static void main(String[] args) {
 
@@ -43,29 +48,49 @@ public class FileServer {
     public void scaleImage(File imageFile, String header, String contentType, 
                            OutputStream outstream, PrintStream pout) throws IOException {
 
-        BufferedImage sourceImage = ImageIO.read( imageFile );
+        BufferedImage sourceImage = ImageIO.read(imageFile);
         int targetWidth = sourceImage.getWidth();
         int targetHeight = sourceImage.getHeight();
 
-        if (targetWidth > THUMB_W) {
-            targetHeight = (int)(targetHeight * THUMB_W / targetWidth);
-            targetWidth = THUMB_W;
+        int max_img = Math.max(targetWidth, targetHeight);
+        float scale = (float)MAX_SIZE / (float)max_img;
+            
+        if (scale < 1) {
+            targetWidth = (int)(targetWidth * scale);
+            targetHeight = (int)(targetHeight * scale);
         }
-
-        if (targetHeight > THUMB_H) {
-            targetWidth = (int)(targetWidth * THUMB_H / targetHeight);
-            targetHeight = THUMB_H;
-        }
+        System.out.println(scale + "toto");
 
         BufferedImage scaledImage = new BufferedImage( targetWidth,
                 targetHeight, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2d = scaledImage.createGraphics();
         g2d.setRenderingHint( RenderingHints.KEY_INTERPOLATION,
                               RenderingHints.VALUE_INTERPOLATION_BILINEAR );
-        g2d.drawImage( sourceImage, 0, 0, targetWidth, targetHeight, null );
+        g2d.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null );
+
+        // get metadata
+        try {
+            final IImageMetadata metadata = Imaging.getMetadata(imageFile);
+            final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
+            if (null != jpegMetadata) {
+                
+                // only if jpeg with exif
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(scaledImage, "jpeg", os);
+                InputStream is = new ByteArrayInputStream(os.toByteArray());
+
+                new ExifRewriter().updateExifMetadataLossless(is, outstream, 
+                                                              jpegMetadata.getExif().getOutputSet());
+                return;
+            }
+
+        } catch (Exception e) { 
+            System.err.println(e); 
+        }
+
 
         pout.print(header);
-        ImageIO.write( scaledImage, contentType.substring(6, contentType.length()),
+        ImageIO.write(scaledImage, contentType.substring(6, contentType.length()),
                 outstream);
     }
 

@@ -8,7 +8,9 @@
   </target>
 
   <target name="compile">
-    <javac srcdir="." />
+    <javac srcdir="." 
+           classpath="deps/commons-imaging-1.0-SNAPSHOT.jar"
+           />
   </target>
   
   <target name="jar" depends="compile">
@@ -16,7 +18,9 @@
          basedir="."
          manifest="manifest.mf"
          includes="**/*.class"
-         />
+         >
+      <zipgroupfileset dir="deps" includes="*.jar" />
+    </jar>
   </target>
 
   <target name="keytool">
