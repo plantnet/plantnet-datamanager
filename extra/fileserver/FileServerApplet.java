@@ -12,8 +12,9 @@ import java.io.FileNotFoundException;
 
 public class FileServerApplet extends JApplet implements ActionListener {
 
+    final static String VERSION = "0.2";
     JFileChooser chooser;
-    JLabel dirname, state;
+    JLabel dirname, state, version;
     JButton go;
     FileServer server;
     int port = 5990;
@@ -114,6 +115,10 @@ public class FileServerApplet extends JApplet implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+        version = new JLabel(VERSION);
+        panel.add(version);
+
 
         state = new JLabel("");
         panel.add(state);

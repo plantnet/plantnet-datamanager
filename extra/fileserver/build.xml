@@ -15,7 +15,7 @@
   </target>
   
   <target name="jar" depends="compile">
-    <jar destfile="FileServerApplet-${version}.jar"
+    <jar destfile="FileServerApplet.jar"
          basedir="."
          manifest="manifest.mf"
          includes="**/*.class"
