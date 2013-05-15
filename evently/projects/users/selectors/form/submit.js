@@ -1,6 +1,6 @@
 function () {
     var app = $$(this).app,
-        utils = app.libs.utils,
+        utilsLib = appgetlib('utils'),
         userDocs = app.data.user_docs;
 
     var users = {};
@@ -17,11 +17,11 @@ function () {
     
     var onSuccess = function(msg) {
             $.pathbinder.go('/dbs');
-            utils.show_msg('User roles updated.');
+            utilsLib.showSuccess('User roles updated.');
         },
         onError = function(err) {
             $.pathbinder.go('/dbs');
-            utils.show_err(err);
+            utilsLib.showError(err);
         };
     
     var secLib = app.getlib('security');
