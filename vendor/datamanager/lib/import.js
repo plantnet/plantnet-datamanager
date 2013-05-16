@@ -109,7 +109,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
     }
 
     var oneShot = false, // set to true to disable progressive POSTing
-        slicesSize = 100;
+        slicesSize = 5; // beware that these are docs slices, and there may be multiple attachments per doc!
 
     if (oneShot) { // save all docs in one request
         docs.asyncForEach(function (d, next) {
@@ -179,7 +179,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
                     nextSlice();
                 });
             });
-        }, function() { // onComplete all slices
+        }, function() { // onComplete all slices - update structures and link data
             utils.showInfo('Updating meta data...');
             db.dm('update_mm', {mm : mm._id}, null, function() {
                 onSuccess();
