@@ -16,13 +16,16 @@
     <script src="deployJava.js"></script>
     <script> 
       var attributes = {
-      code:'FileServerApplet.class',
-      archive : '/datamanager/_design/datamanager/fileserver/FileServerApplet.jar',
-      width : "500",
-      height :"100",
-      cache_option : "no"
+      code: 'FileServerApplet.class',
+      archive: '/datamanager/_design/datamanager/fileserver/FileServerApplet.jar',
+      width: "500",
+      height:"100"
       } ; 
-      var parameters = {fontSize:16}; 
+      var parameters = {
+      fontSize: 16,
+      java_arguments: "-Xmx256m",
+      cache_option: "no"
+      }; 
       
       attributes.archive += '?random=' + Math.floor(Math.random() * 10000);
       deployJava.runApplet(attributes, parameters, '1.6'); 

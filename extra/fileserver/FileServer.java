@@ -3,6 +3,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.lang.Math;
+import java.lang.System;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -59,14 +60,17 @@ public class FileServer {
             targetWidth = (int)(targetWidth * scale);
             targetHeight = (int)(targetHeight * scale);
         }
-        System.out.println(scale + "toto");
 
-        BufferedImage scaledImage = new BufferedImage( targetWidth,
+        //Image scaledImage = sourceImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH);
+        
+        BufferedImage scaledImage = new BufferedImage(targetWidth,
                 targetHeight, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2d = scaledImage.createGraphics();
-        g2d.setRenderingHint( RenderingHints.KEY_INTERPOLATION,
-                              RenderingHints.VALUE_INTERPOLATION_BILINEAR );
-        g2d.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null );
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null);
+        g2d.dispose();
+        //System.gc();
 
         // get metadata
         try {
@@ -89,7 +93,6 @@ public class FileServer {
             System.err.println(e); 
         }
 
-
         pout.print(header);
         ImageIO.write(scaledImage, contentType.substring(6, contentType.length()),
                 outstream);
@@ -110,6 +113,8 @@ public class FileServer {
 
         home = h;
 
+        ImageIO.setUseCache(false);
+
         // open server socket
         if(socket != null) {
             socket.close();
@@ -126,6 +131,7 @@ public class FileServer {
             try {
                 // wait for request
                 connection = socket.accept();
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 OutputStream out = new BufferedOutputStream(connection.getOutputStream());
                 PrintStream pout = new PrintStream(out);
