@@ -109,7 +109,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
     }
 
     var oneShot = false, // set to true to disable progressive POSTing
-        slicesSize = 100;
+        slicesSize = 5;
 
     if (oneShot) { // save all docs in one request
         docs.asyncForEach(function (d, next) {
