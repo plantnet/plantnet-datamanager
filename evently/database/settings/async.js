@@ -64,7 +64,7 @@ function(callback) {
             next();
         });
     
-    app.libs.utils.admin_db(db, 'user_docs', {}, 
+    app.libs.utils.admin_db(db, 'user_docs', {}, null,
         function (data) {
             users = data;
             next();

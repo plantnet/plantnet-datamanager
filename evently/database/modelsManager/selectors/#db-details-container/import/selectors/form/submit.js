@@ -22,14 +22,14 @@ function(evt) {
         utilsLib.showSuccess('Import complete');
     }
 
-    // updates structure when import is done
     function onSuccess() {
         //mmLib.validate_mm(e, app);
-        app.db.dm('update_mm', {mm: mm._id}, null, null, null, null,
+        /*app.db.dm('update_mm', {mm: mm._id}, null, null, null, null,
             function() { // onComplete
                 complete();
             }
-        );
+        );*/
+        complete();
     }
 
     function onError(a, b, c, d) {

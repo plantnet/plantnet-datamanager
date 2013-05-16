@@ -18,7 +18,6 @@ function getSelections(db, callback) {
             selections.sort(function(a, b) {
                 return (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1;
             });
-            //q.send_json(callback + '(' + JSON.stringify(selections) + ');'); // JSONP attempt :-/
             q.send_json(selections);
         }
     );

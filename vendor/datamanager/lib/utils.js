@@ -68,20 +68,23 @@ var _dm_handler = function(action, params, data, onSuccess, onError, timeout, on
 };
 
 // call admin db service
-exports.admin_db = function(db, action, params, onSuccess, onError) {
+exports.admin_db = function(db, action, params, data, onSuccess, onError) {
     var url = db.uri + '_admin_db?action=' + action;
     for (var k in params) {
         url += '&' + k + '=' + params[k];
     }
-    
+
     $.ajax({
         url: url,
         dataType: 'json',
+        data: data ? JSON.stringify(data) : null,
+        processData: false,
+        type: data ? 'POST' : 'GET',
         success:  onSuccess,
-        error: function(data) {                                   
+        error: function(data) {
             data = JSON.parse(data.responseText);
             onError(data.error);
-        }  
+        }
     });
 };
 

@@ -1,10 +1,10 @@
 function() {
-    var url = $(this).val(),
+    var host = $(this).find('option:selected').data('host'),
         login = $('#remote-db-login'),
         input = $('#db-login-name');
 
-    if (url) {
-        if (url.slice(0,8) === 'local://') {
+    if (host) {
+        if (host == 'local') {
             login.hide();
             input.removeAttr('required');
         } else {

@@ -18,7 +18,14 @@
     {{#get}}From{{/get}}{{#put}}To{{/put}}
   </label>
   {{#data}}
-    {{database}}
+    {{#local}}
+      {{#database}}<strong>{{dbname}}</strong>{{/database}}
+    {{/local}}
+    {{#remote}}
+      {{#database}}
+        <strong>{{dbname}}</strong> on server <strong>{{host}}:{{port}}</strong>
+      {{/database}}
+    {{/remote}}
     <br/>
     <label class="field-label-large">
       Mode
@@ -91,7 +98,6 @@
 
   {{#continuous}}
     {{#queries}}
-    <br/>
     <div class="alert midwidth">
       <strong>Warning :</strong> you have chosen a <strong>continuous</strong> synchronization of <strong>query(ies) results</strong>.
       <ul>
@@ -107,7 +113,6 @@
     </div>
     {{/queries}}
     {{#selections}}
-    <br/>
     <div class="alert midwidth">
       <strong>Warning :</strong> you have chosen a <strong>continuous</strong> synchronization of <strong>selection(s) contents</strong>.
       <ul>

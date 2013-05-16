@@ -8,8 +8,8 @@ function(replications) {
         var rep = replications[i];
         $.log('Replication ' + i + ':', rep);
 
-        rep.date_started = new Date(rep.started_on * 1000).toLocaleString();
-        rep.date_updated = new Date(rep.updated_on * 1000).toLocaleString();
+        //rep.date_started = new Date(rep.started_on * 1000).toLocaleString();
+        //rep.date_updated = new Date(rep.updated_on * 1000).toLocaleString();
 
         if (rep.source == db.name) {
             outgoing.push(rep);

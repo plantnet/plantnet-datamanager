@@ -1,5 +1,8 @@
 {{#db_links}}
-  <option value="{{url}}" {{#selected}}selected{{/selected}}>
+  <option value="{{url}}" {{#selected}}selected{{/selected}}
+    {{#isRemote}}data-host="{{host}}" data-port="{{port}}"{{/isRemote}}
+    {{^isRemote}}data-host="local"{{/isRemote}}
+    data-dbname="{{dbname}}">
     {{name}}
   </option>
 {{/db_links}}

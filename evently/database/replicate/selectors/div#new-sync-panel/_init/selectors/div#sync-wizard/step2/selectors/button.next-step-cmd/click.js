@@ -12,6 +12,13 @@ function(e) {
     switch(what) {
         case 'advanced': {
             var structures = [];
+            // If all checkboxes are checked, sync everything!
+            var nonCheckedCheckboxes = $('#sync-structures-selection').find('input[type="checkbox"]:not(:checked)');
+            if (nonCheckedCheckboxes.length == 0) {
+                step2Data.what.mode = 'all';
+                break;
+            }
+            // Else, make an advanced selection
             whatPanel.find('tbody tr').each(function() {
                 var structure = $(this).find('.structure-cb').attr('checked') == ('checked'),
                     data = $(this).find('.data-cb').attr('checked') == ('checked'),

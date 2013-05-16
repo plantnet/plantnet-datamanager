@@ -4,7 +4,7 @@ Web service : get a GeoJSON "FeatureCollection" document based on the
 
 URL :  server/_dm/db/get_features
 Params:
-    - id: structure id
+    - id: structure id (without '_design/')
 */
 
 function getFeatures(db, id) {

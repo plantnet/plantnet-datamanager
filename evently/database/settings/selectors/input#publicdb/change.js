@@ -12,5 +12,5 @@ function() {
         utilsLib.showError(e);
     }
 
-    utilsLib.admin_db(app.db, 'set_public', {'public' : isPublic}, onSuccess, onError);
+    utilsLib.admin_db(app.db, 'set_public', {'public' : isPublic}, null, onSuccess, onError);
 }

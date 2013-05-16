@@ -1,6 +1,6 @@
 function () {
     var app = $$(this).app,
-        utilsLib = appgetlib('utils'),
+        utilsLib = app.getlib('utils'),
         userDocs = app.data.user_docs;
 
     var users = {};

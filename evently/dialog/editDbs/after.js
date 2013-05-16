@@ -1,9 +1,10 @@
 function() {
-    var app = $$(this).app;
-    
+    //var app = $$(this).app;
+
     $('#edit-dbs-modal').modal({ backdrop: 'static' });
-    
-    $('#edit-dbs-modal').on('shown', function() {
+
+    /*$('#edit-dbs-modal').on('shown', function() { // perturbated by tooltips that fire "shown" each time they appear
+        $.log('ON SHOWN');
         $('input[name="name"]', this).first().focus();
         
         var externalLinksNumber = $('.ext-link').length;
@@ -14,12 +15,5 @@ function() {
             $('#external-links').addClass('hide');
             $('#no-link-info').removeClass('hide');
         }
-    });
-
-    // Update database external links list in Replicate view
-    $('#edit-dbs-modal').on('hidden', function() {
-        if (app.data.trigger) {
-            app.data.trigger.trigger();
-        }
-    });
+    });*/
 };

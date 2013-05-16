@@ -134,8 +134,8 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
 
     // normalize db name if needed
     var database = data.database;
-    if (database.substr(0, 8) == 'local://') {
-        database = database.slice(8);
+    if (database.host != 'local') {
+        database = database.host + ':' + database.port + '/' + database.dbname;
     }
 
     var source,
@@ -162,13 +162,14 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
         return true;
     }
 
+    var remoteDb = null;
+    if (data.direction == 'get') {
+        remoteDb = data.database;
+    }
+
     // replicate ids contained in given selections only
     if (data.what.mode == 'selections') {
-        var remoteDb = null;
-        if (data.direction == 'get') {
-            remoteDb = data.database;
-        }
-        getIdsFromSelections(db, remoteDb, data.what.selections, function(ids) {
+        getIdsFromSelections(db, remoteDb, data, function(ids) {
             zis.replicate(source, target, data.continuous, ids, null, onSuccess, onError);
         }, onError);
         return true;
@@ -176,7 +177,7 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
 
     // replicate based on structures - may need to use a filter
     if (data.what.mode == 'advanced') {
-        computeAdvancedReplication(db, data, function(ids, filter) {
+        computeAdvancedReplication(db, remoteDb, data, function(ids, filter) {
             zis.replicate(source, target, data.continuous, ids, filter, onSuccess, onError);
         }, onError);
     }
@@ -217,24 +218,39 @@ function getIdsFromQueries(db, queries, onSuccess, onError) {
 
 // returns the (unique'd) union of the ids contained in all the given selections;
 // ask remote database for selections contents if needed
-function getIdsFromSelections(db, remoteDb, selections, onSuccess, onError) {
+function getIdsFromSelections(db, remoteDb, data, onSuccess, onError) {
 
-    var selection,
+    var selections = data.what.selections,
+        selection,
         ids = [],
         tasks = selections.length,
-        localServer = (remoteDb && (remoteDb.substr(0, 8) == 'local://')),
+        localServer = (remoteDb && (remoteDb.host == 'local')),
         dbToOpen = db;
 
     if (remoteDb != null) { // GET data
         if (localServer) {
-            dbToOpen = $.couch.db(remoteDb.slice(8));
+            dbToOpen = $.couch.db(remoteDb.dbname);
         }
     }
 
     for (var i=0, l=selections.length; i<l; i++) {
         selection = selections[i];
-        if ((remoteDb != null) && (! localServer)) { // use a service to get selections contents from remote server
-            // @TODO call webservice
+        if ((remoteDb != null) && (! localServer)) {
+            // use a service to get selections contents from remote server
+            utilsLib.admin_db(db, 'call_remote', {}, {
+                host: remoteDb.host.slice(7), // remove http://
+                port: remoteDb.port,
+                db: remoteDb.dbname,
+                username: data.login,
+                password: data.password,
+                remoteAction: 'get_selection_contents',
+                params: JSON.stringify({ id: selection.id })
+            }, function(resp) {
+                ids = ids.concat(resp.data.ids);
+                next();
+            }, function(error) {
+                next();
+            });
         } else { // selections are on the local server
             dbToOpen.openDoc(selection.id, {
                 success: function(doc) {
@@ -259,17 +275,17 @@ function getIdsFromSelections(db, remoteDb, selections, onSuccess, onError) {
 
 // try to make the best choice for advanced by-structure replication: use an ids
 // list or a filter
-function computeAdvancedReplication(db, data, onSuccess, onError) {
+function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
 
     var structures = data.what.structures,
         tasks = 0,
-        localServer = (data.database.substr(0, 8) == 'local://'),
+        localServer = (remoteDb && (remoteDb.host == 'local')),
         dbToOpen = db,
         ids = null;
 
-    if (data.direction == 'get') {
+    if (remoteDb != null) { // GET data
         if (localServer) {
-            dbToOpen = $.couch.db(data.database.slice(8));
+            dbToOpen = $.couch.db(remoteDb.dbname);
         }
     }
 
@@ -283,22 +299,35 @@ function computeAdvancedReplication(db, data, onSuccess, onError) {
             tasks++;
         }
     }
-    tasks = tasks * 2; // 2 calls for each vqd requests
     tasks++; // one for structures definitions
 
     var struct;
     if (useIds) { // get list of ids for structures and/or views and queries definitions
         ids = [];
-        var mmId;
         for (var i=0, l=structures.length; i<l; i++) {
             struct = structures[i];
             if (struct.structure) {
                 ids.push(struct.id);
             }
             if (struct.vqd) {
-                if ((data.direction == 'get') && (! localServer)) { // use service to get views and queries ids from remote server
-                    // @TODO call webservice
+                if ((remoteDb != null) && (! localServer)) {
+                    // use service to get views and queries ids from remote server
+                    utilsLib.admin_db(db, 'call_remote', {}, {
+                        host: remoteDb.host.slice(7), // remove http://
+                        port: remoteDb.port,
+                        db: remoteDb.dbname,
+                        username: data.login,
+                        password: data.password,
+                        remoteAction: 'get_views_queries',
+                        params: JSON.stringify({ id: struct.id })
+                    }, function(resp) {
+                        ids = ids.concat = resp.data.ids;
+                        next();
+                    }, function(error) {
+                        next();
+                    });
                 } else {
+                    tasks = (tasks * 2) - 1; // 2 calls for each vqd requests
                     dbToOpen.view('datamanager/views_queries', {
                         startkey: ['v', struct.id],
                         endkey: ['v', struct.id, {}],

@@ -8,6 +8,7 @@ Params:
 
 function getSelectionContents(db, id) {
 
+    log('GSC CALLED WITH id: ' + id);
     db.getDoc(id, function (err, data) {
         if(err) {
             q.send_error(err);

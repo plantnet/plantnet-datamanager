@@ -1,54 +1,55 @@
 <div id="edit-dbs-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-dbs-modal-label" 
     aria-hidden="true">
-  
+
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="edit-dbs-modal-label">Database links</h3>
   </div>
-  
+
   <div class="modal-body">
-    <form id="add-ext-db" class="form-horizontal">
-      <fieldset>
+
+    <form id="add-ext-db" class="form form-inline">
+      <fieldset class="large">
         <legend>Add external database link</legend>
-        <div class="control-group label-medium">
-          <label class="control-label" for="link-name">
-            Link Name
-          </label>
-          <div class="controls">
-            <input id="link-name" class="has-tooltip" name="link_name" type="text" 
-                data-placement="right"
-                title="Choose a name for identify the database link."/>
-          </div>
+        <div class="control-group">
+          <label for="link-name" style="width:80px;">Link name :</label>
+          <input type="text" name="link-name" id="link-name" class="has-tooltip"
+            required title="Choose a name to identify the new database link"/>
         </div>
-            
-        <div class="control-group label-medium">
-          <label class="control-label" for="link-url">
-            <abbr title="Database">DB</abbr> URL
-          </label>
-          <div class="controls">
-            <input id="link-url" class="input-xlarge has-tooltip" name="link_url" type="text"
-                placeholder="http://data.plantnet-project.org/dbname"
-                data-placement="top"
-                title="Indicate the link of the database. Example of format : http://data.plantnet-project.org/dbname" />
-          </div>
+        <div class="control-group">
+          <label for="link-host" style="width:80px;">Host :</label>
+          <input type="text" name="link-host" id="link-host" class="has-tooltip"
+            required placeholder="http://data.plantnet-project.org" title="Remote server root URL"/>
+          <label for="link-port">Port :</label>
+          <input type="text" name="link-port" id="link-port" class="has-tooltip input-small"
+            placeholder="80" title="Port to use on the remote server (usually 80 or 5984)"/>
+          <label for="link-dbname">Database :</label>
+          <input type="text" name="link-dbname" id="link-dbname" class="has-tooltip"
+            required placeholder="mydatabase" title="Database to use on the remote server"/>
         </div>
+
         <button class="btn btn-success" type="submit">
           <i class="icon-dm-add"></i>
           Add link
         </button>
       </fieldset>
     </form>
-    
-    <hr />
-    <p id="no-link-info" class="alert">Currently, no external database links have been added.</p>
-    
-    <table id="external-links" class="table table-striped table-hover hide">
-      <caption>External database links</caption>
+
+    <hr/>
+    {{^hasLinks}}
+      <p id="no-link-info" class="alert">Currently, no external database links have been added.</p>
+    {{/hasLinks}}
+
+    {{#hasLinks}}
+    <table id="external-links" class="table table-striped table-hover">
+      <caption>External databases links</caption>
       <thead>
         <tr>
-            <th>Link name</th>
-            <th>Database URL</th>
-            <th>Delete</th>
+          <th>Link name</th>
+          <th>Remote host</th>
+          <th>Port</th>
+          <th>Database name</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -58,10 +59,19 @@
             {{name}}
           </td>
           <td>
-            <a class="has-tooltip" href="{{url}}/{{app_path}}/database.html" target="_blank"
-                data-placement="top" 
-                title="Open this database in a new tab.">
-              {{url}}
+            <a href="{{host}}" target="blank" class="has-tooltip"
+              title="Explore this server in a new tab">
+              {{host}}
+              <i class="icon-dm-link-external"></i>
+            </a>
+          </td>
+          <td>
+            {{port}}
+          </td>
+          <td>
+            <a class="has-tooltip" href="{{host}}:{{port}}/{{dbname}}/{{app_path}}/database.html"
+              target="_blank" title="Open this database in a new tab">
+              {{dbname}}
               <i class="icon-dm-link-external"></i>
             </a>
           </td>
@@ -75,9 +85,10 @@
       {{/dbs}}
       </tbody>
     </table>
+    {{/hasLinks}}
   </div>
   
   <div class="modal-footer">
-    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn pull-left close-modal-cmd" aria-hidden="true">Close</button>
   </div>
 </div>

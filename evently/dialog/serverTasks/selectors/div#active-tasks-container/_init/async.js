@@ -6,7 +6,7 @@ function(callback) {
     $.couch.activeTasks({
       success: callback,
       error: function() {
-          utilsLib.admin_db(db, 'active_tasks', {}, callback, function(data) { 
+          utilsLib.admin_db(db, 'active_tasks', {}, null, callback, function(data) { 
               callback([]); 
               $.log(data); 
           });
