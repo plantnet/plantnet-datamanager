@@ -20,6 +20,7 @@ function(replications) {
         }
     }
 
+    // latest first
     function sortByDateStartedThenDateUpdated(a, b) {
         if (a.started_on > b.started_on) {
             return -1;
@@ -38,21 +39,6 @@ function(replications) {
 
     incoming.sort(sortByDateStartedThenDateUpdated);
     outgoing.sort(sortByDateStartedThenDateUpdated);
-
-    /*outgoing = [{
-        target: 'apg3 @ data',
-        user: 'mchouet',
-        started_on: '2013-04-09 11:31',
-        progress: '27',
-        continuous: true
-    }];
-    incoming = [{
-        source: 'mathias_test @ data',
-        user: 'mchouet',
-        started_on: '2013-04-09 17:44',
-        progress: '90',
-        continuous: false
-    }];*/
 
     return {
         outgoing: outgoing,

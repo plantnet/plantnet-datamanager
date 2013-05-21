@@ -1,7 +1,7 @@
 function(e) {
     var commonData = e.data.args[0];
 
-    //$.log(commonData.available.structures);
+    //$.log('CDAS', commonData.available.structures);
 
     return {
         structures: commonData.available.structures

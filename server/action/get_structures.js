@@ -20,7 +20,7 @@ function getStructures(db) {
             }
             data.rows.forEach(function (e) {
                 structures.push({
-                    id: e.id,
+                    _id: e.id,
                     name: e.doc.name,
                     isref: e.doc.isref
                 });

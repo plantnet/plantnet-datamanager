@@ -14,6 +14,10 @@ function getFeatures(db, id) {
         features: []
     };
 
+    if (id.substr(0,8) == '_design/') {
+        id = id.slice(8);
+    }
+
     q.client.request({
         method: 'GET',
         path: '/' + db.name + '/_design/' + id + '/_spatial/points'

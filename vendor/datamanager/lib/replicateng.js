@@ -32,7 +32,7 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
             if (rep.id == '_design/_replicator') {
                 continue;
             }
-            $.log('_rep', rep);
+            //$.log('_rep', rep);
             var repData = rep.doc;
             if (repData._replication_id in activeTasks) {
                 $.extend(repData, activeTasks[repData._replication_id]); // merge objects
@@ -78,16 +78,16 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
 };
 
 // Pushes a new replication into the "_replicator" database
-exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filter, onSuccess, onError) {
+exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filter, userCtx, onSuccess, onError) {
     // débrouille-toi :)
-    $.log('IN REPLICATE', source, target, continuous);
     $.log('ids', ids);
     $.log('filter', filter);
 
     var repDoc = {
         source: source,
         target: target,
-        continuous: continuous
+        continuous: continuous,
+        user_ctx: userCtx
     };
 
     // ids list?
@@ -128,16 +128,20 @@ exports.Replicator.prototype.cancelReplication = function(id, onSuccess, onError
 
 // Prepares and launches a replication based on the information collected by the
 // "new replication" wizard. Executes queries and/or uses filters if needed.
-exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, onError) {
+exports.Replicator.prototype.launchFromWizard = function(db, data, userCtx, onSuccess, onError) {
 
     var zis = this;
 
     // normalize db name if needed
     var database = data.database;
-    if (database.host != 'local') {
+    if (database.host == 'local') {
+        database = database.dbname;
+    } else {
         database = database.host + ':' + database.port + '/' + database.dbname;
     }
 
+    //$.log('data', data);
+    //$.log('database URL', database);
     var source,
         target;
     if (data.direction == 'get') {
@@ -150,14 +154,14 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
 
     // replicate everything
     if (data.what.mode == 'all') {
-        this.replicate(source, target, data.continuous, null, null, onSuccess, onError);
+        this.replicate(source, target, data.continuous, null, null, userCtx, onSuccess, onError);
         return true;
     }
 
     // execute querie(s) and replicate returned ids only (always PUSH)
     if (data.what.mode == 'queries') {
         getIdsFromQueries(db, data.what.queries, function(ids) {
-            zis.replicate(source, target, data.continuous, ids, null, onSuccess, onError);
+            zis.replicate(source, target, data.continuous, ids, null, userCtx, onSuccess, onError);
         }, onError);
         return true;
     }
@@ -170,7 +174,7 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
     // replicate ids contained in given selections only
     if (data.what.mode == 'selections') {
         getIdsFromSelections(db, remoteDb, data, function(ids) {
-            zis.replicate(source, target, data.continuous, ids, null, onSuccess, onError);
+            zis.replicate(source, target, data.continuous, ids, null, userCtx, onSuccess, onError);
         }, onError);
         return true;
     }
@@ -178,7 +182,7 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, onSuccess, on
     // replicate based on structures - may need to use a filter
     if (data.what.mode == 'advanced') {
         computeAdvancedReplication(db, remoteDb, data, function(ids, filter) {
-            zis.replicate(source, target, data.continuous, ids, filter, onSuccess, onError);
+            zis.replicate(source, target, data.continuous, ids, filter, userCtx, onSuccess, onError);
         }, onError);
     }
 };
@@ -321,7 +325,7 @@ function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
                         remoteAction: 'get_views_queries',
                         params: JSON.stringify({ id: struct.id })
                     }, function(resp) {
-                        ids = ids.concat = resp.data.ids;
+                        ids = ids.concat(resp.data.ids);
                         next();
                     }, function(error) {
                         next();

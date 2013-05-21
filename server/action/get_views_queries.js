@@ -13,6 +13,10 @@ function getViewsAndQueries(db, id) {
     var ids = [],
         tasks = 2;
 
+    if (id.substr(0,8) == '_design/') {
+        id = id.slice(8);
+    }
+
     // get views
     db.view('datamanager', 'views_queries', {
             startkey: ['v', id],
@@ -50,7 +54,9 @@ function getViewsAndQueries(db, id) {
     function next() {
         tasks--;
         if (tasks == 0) {
-            q.send_json(ids);
+            q.send_json({
+                ids: ids
+            });
         }
     }
 }

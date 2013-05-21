@@ -12,7 +12,6 @@ function(callback) {
 
     // get list of currently running replications
     rep.getAllReplications(function(replications) {
-            $.log('replications', replications);
             callback(replications);
         }, onError
     );
