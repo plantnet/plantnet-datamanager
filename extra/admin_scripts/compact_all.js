@@ -5,9 +5,6 @@ var http = require('http');
 var config, client, url;
 
 
-
-
-
 function main () {
 
     http.globalAgent.maxSockets = 30;
@@ -31,7 +28,6 @@ function main () {
         return;
 
     }
-
 
     
     client.allDbs(function(err, dbs) {

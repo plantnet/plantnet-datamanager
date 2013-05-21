@@ -99,7 +99,6 @@ function main () {
 
     }
 
-
     
     client.allDbs(function(err, dbs) {
         if(err) {
