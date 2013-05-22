@@ -22,7 +22,7 @@ Distributed and modular data management software based on CouchDB
 Licenses
 ========
 
-Plantnet-Datamanager is distributed under the Cecill V2 license (see license.md)
+Pl@ntnet-Datamanager is distributed under the Cecill V2 license (see license.md)
 
 This software uses the following libraries with the respective licenses
 
