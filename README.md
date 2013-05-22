@@ -1,4 +1,5 @@
 Pl@ntnet-Datamanager
+====================
 
 Copyright  ©  INRA/INRIA/CIRAD/IRD/Tela Botanica - 2011-2013
 
