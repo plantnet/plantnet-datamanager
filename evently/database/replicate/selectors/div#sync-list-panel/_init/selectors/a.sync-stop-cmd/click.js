@@ -9,7 +9,7 @@ function(e) {
     if (confirm('Cancel this synchronization?')) {
         rep.cancelReplication(id, function() {
             utilsLib.showSuccess('Synchronization cancelled');
-            $.pathbinder.begin();
+            $('#sync-list-panel').trigger('_init');
         }, function(err) {
             utilsLib.showError('Coud not cancel the synchronization: ' + err);
         });

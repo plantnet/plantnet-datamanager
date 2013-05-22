@@ -1,11 +1,15 @@
 function() {
-    var utilsLib = $$(this).app.getlib('utils');
+    var app = $$(this).app,
+        utilsLib = app.getlib('utils');
 
     utilsLib.hideBusyMsg('replicate');
 
-    /*$('select.ex-url', this).trigger('change');
-
-    $('#sync-nav-tabs').on('click', 'a[data-toggle="tab"]', function() {
-        $('select.ex-url', this).trigger('_init');
-    });*/
+    // auto-refresh sync list
+    if (app.refreshSyncList) {
+        clearInterval(app.refresh-sync-list);
+    }
+    var delay = 5000;
+    app.refreshSyncList = setInterval(function() {
+        $('#sync-list-panel').trigger('_init');
+    }, delay);
 }

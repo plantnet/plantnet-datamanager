@@ -34,8 +34,8 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
             }
             //$.log('_rep', rep);
             var repData = rep.doc;
-            if (repData._replication_id in activeTasks) {
-                $.extend(repData, activeTasks[repData._replication_id]); // merge objects
+            if (repData._id in activeTasks) {
+                $.extend(repData, activeTasks[repData._id]); // merge objects
             }
             compiledData.push(repData);
         }
@@ -46,15 +46,15 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
     $.couch.activeTasks({
         success: function(data) {
             var doc;
-            $.log('at got', data);
+            //$.log('at got', data);
             if (data && data.length) {
                 for (var i=0, l=data.length; i<l; i++) {
                     doc = data[i];
                     if (doc.type != 'replication') {
                         continue;
                     }
-                    $.log('adding activeTasks doc', doc);
-                    activeTasks[doc.replication_id] = doc;
+                    //$.log('adding activeTasks doc', doc);
+                    activeTasks[doc.doc_id] = doc;
                 }
             }
             compileData();
@@ -67,7 +67,7 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
     this.db.allDocs({
         include_docs: true,
         success: function(data) {
-            $.log('replicator info', data.rows);
+            //$.log('replicator info', data.rows);
             replications = data.rows;
             compileData();
         },
@@ -78,10 +78,10 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
 };
 
 // Pushes a new replication into the "_replicator" database
-exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filter, userCtx, onSuccess, onError) {
+exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filterParams, userCtx, onSuccess, onError) {
     // débrouille-toi :)
     $.log('ids', ids);
-    $.log('filter', filter);
+    $.log('filter', filterParams);
 
     var repDoc = {
         source: source,
@@ -96,17 +96,18 @@ exports.Replicator.prototype.replicate = function(source, target, continuous, id
     }
 
     // filter to apply?
-    if (filter) {
-        repDoc.filter = filter;
+    if (filterParams) {
+        repDoc.filter = 'datamanager/replication';
+        repDoc.query_params = filterParams;
     }
 
     this.db.saveDoc(repDoc, {
         success: function(data) {
-            $.log('replication created', data);
+            //$.log('replication created', data);
             onSuccess(data);
         },
         error: function(data) {
-            $.log('replication foirax', data);
+            //$.log('replication foirax', data);
             onError(data);
         }
     });
@@ -137,11 +138,9 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, userCtx, onSu
     if (database.host == 'local') {
         database = database.dbname;
     } else {
-        database = database.host + ':' + database.port + '/' + database.dbname;
+        database = 'http://' + data.login + ':' + data.password + '@' + database.host.slice(7) + ':' + database.port + '/' + database.dbname;
     }
 
-    //$.log('data', data);
-    //$.log('database URL', database);
     var source,
         target;
     if (data.direction == 'get') {
@@ -362,9 +361,33 @@ function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
             }
         }
         next();
-    } else {
-        var filter = {};
-        // @TODO build filter
+    } else { // build parameters for the "replication" filter
+        var filter = {
+            ids: {},
+            structures: {},
+            types: {}
+        };
+
+        for (var i=0, l=structures.length; i<l; i++) {
+            struct = structures[i];
+            if (struct.structure) {
+                filter.ids[struct.id] = true;
+            }
+            if (struct.data) {
+                filter.structures[struct.id] = true;
+            }
+            if (struct.vqd) {
+                filter.structures[struct.id] = {
+                    'view': true,
+                    'query': true
+                }
+            }
+        }
+
+        if (utilsLib.objectEmpty(filter.ids)) filter.ids = null;
+        if (utilsLib.objectEmpty(filter.structures)) filter.structures = null;
+        if (utilsLib.objectEmpty(filter.types)) filter.types = null;
+
         onSuccess(null, filter);
     }
 

@@ -2,15 +2,14 @@
   <tbody>
 
   <tr class="no-top-border">
-    <td colspan="7">
+    <td colspan="6">
       <h3>Incoming</h3>
     </td>
   </tr>
 
   <tr>
     <th>From (source database)</th>
-    <th>Launch date</th>
-    <th>Last activity</th>
+    <th>Status</th>
     <th>Achievement</th>
     <th>%</th>
     <th>Mode</th>
@@ -19,7 +18,7 @@
 
   {{^hasIncoming}}
   <tr>
-    <td colspan="7">
+    <td colspan="6">
       <p class="alert alert-info">
         There are no incoming synchronizations at the moment
       </p>
@@ -31,13 +30,15 @@
     {{#incoming}}
     <tr>
       <td>
-        <a href="/{{source}}/_design/datamanager/index.html" target="_blank">{{source}}</a>
+        {{#isRemote}}
+          <a href="{{source}}_design/datamanager/index.html" target="_blank">{{source}}</a>
+        {{/isRemote}}
+        {{^isRemote}}
+          <a href="/{{source}}/_design/datamanager/index.html" target="_blank">{{source}}</a>
+        {{/isRemote}}
       </td>
       <td>
-        {{date_started}}
-      </td>
-      <td>
-        {{date_updated}}
+        {{status_and_time}}
       </td>
       <td>
         <div class="progress progress-striped">
@@ -52,8 +53,13 @@
         {{^continuous}}one-shot{{/continuous}}
       </td>
       <td>
-        <a class="btn btn-mini sync-details-cmd has-tooltip"
-          data-id="{{_id}}"
+        <a class="btn btn-mini sync-info-cmd has-tooltip" data-id="{{_id}}"
+          data-rst="{{_replication_state_time}}" data-rs="{{_replication_state}}"
+          data-source="{{source}}" data-target="{{target}}"
+          data-continuous="{{continuous}}" data-owner="{{owner}}"
+          data-css="{{checkpointed_source_seq}}" data-dwf="{{doc_write_failures}}"
+          data-dr="{{docs_read}}" data-dw="{{docs_written}}"
+          data-mrf="{{missing_revisions_found}}" data-rc="{{revisions_checked}}"
           data-placement="left" title="Show details">?</a>
         <a class="btn btn-mini btn-danger sync-stop-cmd has-tooltip"
           data-id="{{_id}}"
@@ -64,15 +70,14 @@
 {{/hasIncoming}}
 
   <tr>
-    <td colspan="7">
+    <td colspan="6">
       <h3>Outgoing</h3>
     </td>
   </tr>
 
   <tr>
     <th>To (destination database)</th>
-    <th>Launch date</th>
-    <th>Last activity</th>
+    <th>Status</th>
     <th>Achievement</th>
     <th>%</th>
     <th>Mode</th>
@@ -81,7 +86,7 @@
 
   {{^hasOutgoing}}
   <tr>
-    <td colspan="7">
+    <td colspan="6">
       <p class="alert alert-info">
         There are no outgoing synchronizations at the moment
       </p>
@@ -93,13 +98,15 @@
   {{#outgoing}}
     <tr>
       <td>
-        <a href="/{{target}}/_design/datamanager/index.html" target="_blank">{{target}}</a>
+        {{#isRemote}}
+          <a href="{{target}}_design/datamanager/index.html" target="_blank">{{target}}</a>
+        {{/isRemote}}
+        {{^isRemote}}
+          <a href="/{{target}}/_design/datamanager/index.html" target="_blank">{{target}}</a>
+        {{/isRemote}}
       </td>
       <td>
-        {{date_started}}
-      </td>
-      <td>
-        {{date_updated}}
+        {{status_and_time}}
       </td>
       <td>
         <div class="progress progress-striped">
@@ -114,9 +121,16 @@
         {{^continuous}}one-shot{{/continuous}}
       </td>
       <td>
-        <a class="btn btn-mini sync-info-cmd has-tooltip"
+        <a class="btn btn-mini sync-info-cmd has-tooltip" data-id="{{_id}}"
+          data-rst="{{_replication_state_time}}" data-rs="{{_replication_state}}"
+          data-source="{{source}}" data-target="{{target}}"
+          data-continuous="{{continuous}}" data-owner="{{owner}}"
+          data-css="{{checkpointed_source_seq}}" data-dwf="{{doc_write_failures}}"
+          data-dr="{{docs_read}}" data-dw="{{docs_written}}"
+          data-mrf="{{missing_revisions_found}}" data-rc="{{revisions_checked}}"
           data-placement="left" title="Show details">?</a>
         <a class="btn btn-mini btn-danger sync-stop-cmd has-tooltip"
+          data-id="{{_id}}"
           data-placement="left" title="Stop this synchronization">X</a>
       </td>
     </tr>
