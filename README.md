@@ -4,9 +4,11 @@ Pl@ntnet-Datamanager
 Copyright  ©  INRA/INRIA/CIRAD/IRD/Tela Botanica - 2011-2013
 
 Main Author: 
+
      samuel dufour-kowalski <samuel.dufour@cirad.fr>
 
 Contributors: 
+
      mathias chouet <mathias.chouet@inria.fr>
      jean-pascal milcent <jpm@tela-botanica.org>
      benjamin liens <benjamin.liens@cirad.fr>, 
