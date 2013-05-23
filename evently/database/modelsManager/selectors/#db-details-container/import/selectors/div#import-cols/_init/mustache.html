@@ -5,7 +5,13 @@
     <tr>
       <th>CSV column</th>
       <th>Target field</th>
-      <th>Group</th>
+      <th>
+        <label class="checkbox">
+          <input type="checkbox" class="check-all-cmd has-tooltip"
+            title="Click to (un)check all boxes"/>
+          Group
+        </label>
+      </th>
       <th></th>
     </tr>
   </thead>
@@ -32,20 +38,21 @@
         </select>
       </td>
       <td>
-        <input type="checkbox" checked="checked"/>
+        <input type="checkbox" class="cb-group"/>
       </td>
       <td></td>
     </tr>
     {{/cols}}
   </tbody>
 </table>
-<label>
+<label class="checkbox">
   <input id="ignoreconflicts" type="checkbox" />
   Ignore conflicts
   <img src="img/icons/help.png" alt="help" class="has-tooltip" data-html="true" 
     title="Use this option if you want to merge data. 
     Conflict detection and data merging are based on the <i>index template</i> of the modules."/>
 </label>
+<br/><br/>
 <div>
   <button class="btn btn-primary" type="submit">
     Import
