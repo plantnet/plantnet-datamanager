@@ -409,15 +409,6 @@ div[data-spy="affix"].btn-toolbar.affix {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* Attempt for highlighting "data area" @TODO Use a dedicated class */
-/*.span10.proximate {
-    background-color: #FAFAFF;
-    margin-left: 5px;
-    margin-top: 5px;
-    min-height: 400px;
-    padding-left: 5px;
-}*/
-
 /* Widget : footer */
 footer.navbar {
     margin-bottom:0;
@@ -769,6 +760,13 @@ ul.treenode {
 }
 .row-fluid .proximate {
     margin-left: 1%;
+}
+
+/* Widget: edit structure */
+.indent-mark {
+    background-color: #999999;
+    height: 2px;
+    vertical-align: middle;
 }
 
 /* Widget: synchronization */

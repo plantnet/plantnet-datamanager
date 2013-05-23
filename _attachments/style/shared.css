@@ -57,6 +57,10 @@ html, body, .app { height:100% }
     display: inline-block;
 }
 
+.cell-nowrap {
+    white-space: nowrap;
+}
+
 /*+--------------------------------------------------------------------------------------------------------+*/
 /* BOOSTRAP HACKING */
 

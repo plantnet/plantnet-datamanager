@@ -907,12 +907,10 @@ exports.checkOpenStructureEditor = function(app) {
         if (confirm('Some changes in the structure have not been saved. Click "ok" to save structure now, or "cancel" to discard changes.')) {
             var saveStructButton = $('#save-structure-button');
             if (saveStructButton) {
-                $.log('clic!');
                 saveStructButton.trigger('click');
             }
             return true;
         } else {
-            $.log('discard');
             app.data.structureEditorOpen = false;
             return false;
         }

@@ -15,7 +15,7 @@ function(e) {
     vals = vals.unique();
     originInput.val(JSON.stringify(vals));
     // To reinitiate the default value
-    //originInput.trigger('blur');
+    originInput.trigger('change');
 
     $('#edit-enum-modal').modal('hide');
     return false;
