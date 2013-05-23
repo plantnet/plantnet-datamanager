@@ -374,13 +374,14 @@ function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
                 filter.ids[struct.id] = true;
             }
             if (struct.data) {
-                filter.structures[struct.id] = true;
+                filter.structures[struct.id] = {
+                    data: true
+                };
             }
             if (struct.vqd) {
-                filter.structures[struct.id] = {
-                    'view': true,
-                    'query': true
-                }
+                filter.structures[struct.id] = filter.structures[struct.id] || {};
+                filter.structures[struct.id].view = true;
+                filter.structures[struct.id].query = true;
             }
         }
 

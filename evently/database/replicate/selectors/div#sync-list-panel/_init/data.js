@@ -10,8 +10,14 @@ function(replications) {
         var rep = replications[i];
         //$.log('Replication ' + i + ':', rep);
 
-        if (rep._replication_state == 'triggered') {
-            rep._replication_state = 'running';
+        // class in "incoming" or "outgoing" - or ignore
+        if (rep.source == db.name) {
+            outgoing.push(rep);
+        } else if (rep.target == db.name) {
+            incoming.push(rep);
+        } else {
+            //$.log('cannot match replication ' + rep.source + ' => ' + rep.target + ' to ' + db.name);
+            continue;
         }
 
         // remove login/password from remote db url
@@ -22,6 +28,10 @@ function(replications) {
         if (rep.target.indexOf('@') > -1) {
             rep.isRemote = true;
             rep.target = 'http://' + rep.target.substr(rep.target.indexOf('@') + 1);
+        }
+
+        if (rep._replication_state == 'triggered') {
+            rep._replication_state = 'running';
         }
 
         rep.status_and_time = rep._replication_state;
@@ -38,14 +48,6 @@ function(replications) {
             rep.docs_written = rep._replication_stats.docs_written;
             rep.missing_revisions_found = rep._replication_stats.missing_revisions_found;
             rep.revisions_checked = rep._replication_stats.revisions_checked;
-        }
-
-        if (rep.source == db.name) {
-            outgoing.push(rep);
-        } else if (rep.target == db.name) {
-            incoming.push(rep);
-        } else {
-            $.log('cannot match replication ' + rep.source + ' => ' + rep.target + ' to ' + db.name);
         }
     }
 
