@@ -3,8 +3,13 @@ function() {
         utilsLib = app.getlib('utils'),
         mmLib = app.getlib('mm'),
         queryLib = app.getlib('query');
-    
+
     utilsLib.showBusyMsg('Checking structures...', 'checkingMms');
+
+    // invalidate tree data (labels have a large probability to be regenerated)
+    if (app.data && app.data.tree) {
+        delete app.data.tree;
+    }
 
     app.data.lock_changes = Date.now() + 5000; // do not execute up_changes for 5sec.
 
@@ -45,6 +50,6 @@ function() {
         
         });
     });
-    
+
     return false;
 }

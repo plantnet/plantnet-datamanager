@@ -46,6 +46,10 @@ function() {
     app.db.dm("update_mm", {mm : doc._id}, doc, onSuccess, onError, 1000000, 
               function (res) {
                   app.data.structureEditorOpen = false;
+                  // invalidate tree data (labels have a large probability to be regenerated)
+                  if (app.data && app.data.tree) {
+                      delete app.data.tree;
+                  }
                   $.log('COMPLETE', res);
                   if (doc.isref) {
                       $.pathbinder.go('/tree/' + doc._id.slice(8) + '/0/1');
