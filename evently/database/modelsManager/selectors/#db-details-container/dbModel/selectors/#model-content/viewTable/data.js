@@ -178,7 +178,8 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
             rows.push({
                 values: row_data,
                 _id: row.id, // for views, if of doc in the reference modi
-                odd: (num % 2 != 0)
+                odd: (num % 2 != 0),
+                isSynonym: row.$synonym
             });
             num++;
         }
@@ -282,7 +283,8 @@ function(_id, name, mm_id, cols, modi, data, skip, limit, nb_rows, sort_params, 
             rows.push({
                 values: row,
                 _id: r._id,
-                parent: parent || ' '
+                parent: parent || ' ',
+                is_synonym: r.$synonym
             });
             num++;
         }

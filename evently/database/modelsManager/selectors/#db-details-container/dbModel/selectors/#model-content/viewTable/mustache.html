@@ -209,7 +209,7 @@
             {{^has_attachments}}
               <div class="val" data-type="{{type}}"  title="{{header}}">
                 {{#is_label}}
-                  <i>
+                  <i {{#is_synonym}}class="muted"{{/is_synonym}}>
                 {{/is_label}}
                 {{#ref_id}}
                   <a class="ref-link{{#has_tooltip}} has-tooltip{{/has_tooltip}}"
