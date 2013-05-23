@@ -328,7 +328,7 @@ div[data-spy="affix"].btn-toolbar.affix {
 }
 
 /* Light backgrounds for buttons, inspired by bootstrap */
-.btn-light-views, .btn-light-structures, .btn-light-docs, .btn-light-other {
+.btn-light-views, .btn-light-structures, .btn-light-docs, .btn-light-other, .btn-light-tools {
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
     color: #FFFFFF;
@@ -342,14 +342,14 @@ div[data-spy="affix"].btn-toolbar.affix {
     background-image: -webkit-linear-gradient(top,#A6EBFF,#6DDEFF);
     background-image: -o-linear-gradient(top,#A6EBFF,#6DDEFF);
 }
-/*.btn-light-structures, .btn-light-structures:hover, .btn-light-structures:focus {
-    background-color: #F3B3A5;
-    background-image: linear-gradient(to bottom, #F6C8BE, #EFA090);
-    background-image: -moz-linear-gradient(top,#F6C8BE,#EFA090);
-    background-image: -webkit-gradient(linear,0 0,0 100%,from(#F6C8BE),to(#EFA090));
-    background-image: -webkit-linear-gradient(top,#F6C8BE,#EFA090);
-    background-image: -o-linear-gradient(top,#F6C8BE,#EFA090);
-}*/
+.btn-light-tools, .btn-light-tools:hover, .btn-light-tools:focus {
+    background-color: #FF6900;
+    background-image: linear-gradient(to bottom, #FF9400, #FF5800);
+    background-image: -moz-linear-gradient(top,#FF9400,#FF5800);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#FF9400),to(#FF5800));
+    background-image: -webkit-linear-gradient(top,#FF9400,#FF5800);
+    background-image: -o-linear-gradient(top,#FF9400,#FF5800);
+}
 .btn-light-docs, .btn-light-docs:hover, .btn-light-docs:focus, .btn-light-docs:active {
     background-color: #97ED9A;
     background-image: linear-gradient(to bottom, #B5F5B8, #7EF483);

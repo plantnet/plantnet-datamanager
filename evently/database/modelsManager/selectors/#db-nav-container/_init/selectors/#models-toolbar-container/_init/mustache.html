@@ -27,6 +27,16 @@
       {{/has_model_selected}}
     </div>
 
+    {{#has_model_selected}}
+    <div class="btn-group">
+      <a href="#/editmm/{{mm_id}}"
+        class="btn has-tooltip toggle-edit-model-view btn-light-tools"
+        data-placement="bottom"
+        title="Edit the modules and the layout of this structure">
+        <i class="icon-dm-model-edit"></i>
+      </a>
+    </div>
+
     <div class="btn-group dropdown for-model-tab {{^is_model_tab}}hide{{/is_model_tab}}">
       <a class="btn dropdown-toggle has-tooltip btn-light-structures" data-toggle="dropdown" data-placement="top" 
           title="Delete the selected structure's data/layout">
@@ -48,18 +58,8 @@
         </li>
       </ul>
     </div>
-  {{/is_admin}}
 
-  {{#has_model_selected}}
-
-    {{#is_admin}}
     <div class="btn-group">
-      <a href="#/editmm/{{mm_id}}"
-        class="btn has-tooltip toggle-edit-model-view btn-light-structures"
-        data-placement="bottom"
-        title="Edit the modules and the layout of this structure">
-        <i class="icon-dm-model-edit"></i>
-      </a>
       {{^is_ref}}
         <button class="view-links-break-cmd btn has-tooltip toggle-missing-ref-view btn-light-structures"
           data-placement="bottom"
@@ -68,7 +68,10 @@
         </button>
       {{/is_ref}}
     </div>
-    {{/is_admin}}
+    {{/has_model_selected}}
+  {{/is_admin}}
+
+  {{#has_model_selected}}
 
     <div class="btn-group dropdown">
       <button class="btn dropdown-toggle has-tooltip btn-light-docs" data-toggle="dropdown" data-placement="top" 
