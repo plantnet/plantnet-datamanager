@@ -11,5 +11,12 @@
         {{text}}<br />
       {{/message}}
     </p>
+    {{#show_progress}}
+    <br/>
+    <div class="progress progress-striped">
+      <div class="bar" style="width: 0%;"></div>
+    </div>
+    Processed <span class="docs-processed"></span> / <span class="docs-total"></span> docs
+    {{/show_progress}}
   </div>
 </div>

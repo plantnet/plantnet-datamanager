@@ -76,7 +76,9 @@ function index_docs(new_docs, index_field, full_index) {
 
 // save doc from parsed csv_data
 // col map : list of objects representing cols (contains fields name, modi and type)
-exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflicts, onSuccess, onError) {
+exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflicts, onSuccess, onError, updateStats) {
+
+    updateStats = updateStats || function() {};
 
     utils.showInfo("Parsing data...");
     var docs = exports.parse_docs(csv_data, mm, col_map, user_ctx.name);
@@ -98,7 +100,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
             success : function (results) {
                 utils.showInfo("Updating meta data...");
                 db.dm("update_mm", {mm : mm._id}, null, function() {
-                    onSuccess();
+                    onSuccess(attchs_err);
                     db.dm("match_ref_mm", {mm : mm._id}); 
                 }, onError);
 
@@ -142,7 +144,8 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
             save_all(db, docs, withConflicts, attchs_err);
         });
     } else { // save docs by slice
-        var docsProcessed = 0;
+        var docsProcessed = 0,
+            totalDocs = docs.length;
         // process by slices of 100 docs
         processBySlices(docs, slicesSize, function(slice, nextSlice) { // process
             slice.asyncForEach(function(d, next) {
@@ -176,13 +179,14 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflict
                 saveSlice(db, slice, withConflicts, function() {
                     docsProcessed += slice.length;
                     utils.showSuccess(docsProcessed + ' documents processed');
+                    updateStats(docsProcessed, totalDocs); // inform caller of progress (to update progress bar)
                     nextSlice();
                 });
             });
         }, function() { // onComplete all slices - update structures and link data
             utils.showInfo('Updating meta data...');
             db.dm('update_mm', {mm : mm._id}, null, function() {
-                onSuccess();
+                onSuccess(attchs_err);
                 db.dm('match_ref_mm', {mm : mm._id});
             }, onError);
             Query.triggerLuceneIndex(db);

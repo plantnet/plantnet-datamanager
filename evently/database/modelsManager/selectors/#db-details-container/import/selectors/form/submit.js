@@ -7,44 +7,54 @@ function(evt) {
 
     var withConflicts = !($("#ignoreconflicts", this).attr("checked"));
 
-    $('#dialog-bloc').trigger('busy', 'Import', 'Importing data');
+    $('#dialog-bloc').trigger('busy', ['Import', 'Importing data', true]);
     $('#busy-modal').modal('show');
     $('#import-error', form).empty();
+
+    // callback from import lib to update nb docs processed / progress bar
+    function updateStats(docsProcessed, totalDocs) {
+
+        var percent = (docsProcessed / totalDocs) * 100,
+            modal = $('#busy-modal'),
+            progressBar = modal.find('.progress .bar'),
+            spanDocsProcessed = modal.find('.docs-processed'),
+            spanTotalDocs = modal.find('.docs-total');
+
+        progressBar.attr('style', 'width: ' + percent + '%;');
+        spanDocsProcessed.html(docsProcessed);
+        spanTotalDocs.html(totalDocs);
+    }
 
     function complete() {
         $('#busy-modal').modal('hide');
         // do not redirect, so that the import report stays visible
-        /*if (mm.isref) {
-            $.pathbinder.go('/tree/' + mm._id.slice(8) + '/0/0');
-        } else {
-            $.pathbinder.go('/viewtable/' + mm._id.slice(8) + '/0/_id/0/0/0/0/0');
-        }*/
         utilsLib.showSuccess('Import complete');
     }
 
-    function onSuccess() {
-        //mmLib.validate_mm(e, app);
-        /*app.db.dm('update_mm', {mm: mm._id}, null, null, null, null,
-            function() { // onComplete
-                complete();
-            }
-        );*/
+    function onSuccess(attchs_err) {
+        if (attchs_err) {
+            showErrorReport(attchs_err);
+        }
         complete();
     }
 
     function onError(a, b, c, d) {
         $('#busy-modal').modal('hide');
         utilsLib.showError('Error : ' + (a ? a : '') + ' ' + (b ? b : '') + ' ' + (c ? c : ''));
-
         if (d) {
-            var err_txt = '<ul>';
-            for (var i = 0; i < d.length; d++) {
-                err_txt += '<li>Missing attachement : ' + d[i] + '</li>';
-            }
-            err_txt += '</ul>';
-            $.log(err_txt);
-            $('#import-error', form).append(err_txt);
+            showErrorReport(d);
         }
+        complete(); // to regenerate labels anyway
+    }
+
+    function showErrorReport(errData) {
+        var err_txt = '<ul>';
+        for (var i = 0; i < errData.length; i++) {
+            err_txt += '<li>Missing attachement : ' + errData[i] + '</li>';
+        }
+        err_txt += '</ul>';
+        //$.log(err_txt);
+        $('#import-error', form).append(err_txt);
     }
 
     // get col info
@@ -67,7 +77,7 @@ function(evt) {
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
     importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
-                         onSuccess, onError);
+                         onSuccess, onError, updateStats);
 
     return false;
 }

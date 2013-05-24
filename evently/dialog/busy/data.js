@@ -1,4 +1,4 @@
-function(event, msg, title) {
+function(event, msg, title, showProgress) {
     var utilsLib = $$(this).app.getlib('utils'),
         message = [];
 
@@ -12,6 +12,7 @@ function(event, msg, title) {
 
     return {
         title: title || 'System busy',
-        message: message || [{ text: 'working...' }]
+        message: message || [{ text: 'working...' }],
+        show_progress: showProgress
     };
 }
