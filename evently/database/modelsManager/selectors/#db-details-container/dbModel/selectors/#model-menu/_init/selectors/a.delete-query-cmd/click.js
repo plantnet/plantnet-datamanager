@@ -13,7 +13,7 @@ function(e) {
                 success: function(doc) {
                     app.db.removeDoc(doc, {
                         success : function() {
-                            queryRow.remove();
+                            $('#model-menu').trigger('_init');
                             utilsLib.showSuccess('Query "' + queryName + '" deleted');
                         },
                         error: function() {

@@ -92,7 +92,9 @@ function(mm, viewsAndQueries, mmLib) {
             isnotref: (!mm.isref),
             mm_id: mmId, // encoded id
             views: views,
+            hasViews: views.length,
             queries: queries,
+            hasQueries: queries.length,
             inStructure: (pathbinderModi && ! viewId),
             inModules: (pathbinderModt && ! filter_id && ! viewId),
             inViews: viewId,

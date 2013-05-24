@@ -72,6 +72,7 @@
       <div id="{{mm_id}}-views" class="accordion-body collapse {{#inViews}}in{{/inViews}}">
         <div class="accordion-inner">
           <ul class="nav nav-list">
+          {{#hasViews}}
             {{#views}}
             <li {{#active}}class="active"{{/active}}>
               {{#is_admin}}
@@ -89,6 +90,19 @@
               </a>
             </li>
             {{/views}}
+          {{/hasViews}}
+          {{^hasViews}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-view-cmd" title="Add a new view">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                No views. Add one!
+              </span>
+            </li>
+          {{/hasViews}}
           </ul>
         </div>
       </div>
@@ -107,6 +121,7 @@
       <div id="{{mm_id}}-queries" class="accordion-body collapse {{#inQueries}}in{{/inQueries}}">
         <div class="accordion-inner">
           <ul class="nav nav-list">
+          {{#hasQueries}}
             {{#queries}}
             <li {{#active}}class="active"{{/active}}>
               {{#is_admin}}
@@ -125,6 +140,19 @@
               </a>
             </li>
             {{/queries}}
+          {{/hasQueries}}
+          {{^hasQueries}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-query-cmd" title="Add a new query">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                No queries. Add one!
+              </span>
+            </li>
+          {{/hasQueries}}
           </ul>
         </div>
       </div>

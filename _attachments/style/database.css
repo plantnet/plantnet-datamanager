@@ -630,6 +630,11 @@ ul.selections > li > .delete-selection-cmd:hover {
 .model-menu .nav-list li a {
     margin-left: 0;
 }
+.model-menu .nav-list li .model-menu-cmd {
+    display: block;
+    margin-left: 0;
+    padding: 3px 15px;
+}
 #structure-accordion-group .accordion-inner, #modules-accordion-group .accordion-inner,
   #views-accordion-group .accordion-inner, #queries-accordion-group .accordion-inner {
     padding: 5px 2px;

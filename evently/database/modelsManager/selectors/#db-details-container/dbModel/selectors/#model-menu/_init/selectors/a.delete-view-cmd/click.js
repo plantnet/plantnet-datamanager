@@ -13,7 +13,7 @@ function(e) {
                 success: function(doc) {
                     app.db.removeDoc(doc, {
                         success : function() {
-                            viewRow.remove();
+                            $('#model-menu').trigger('_init');
                             utilsLib.showSuccess('View "' + viewName + '" deleted');
                         },
                         error: function() {
