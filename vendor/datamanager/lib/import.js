@@ -319,7 +319,9 @@ exports.parse_docs = function (csv_data, mm, col_map, user) {
                 break;
 
             default:
-                new_docs[modi][field] = value;
+                if(value) {
+                    new_docs[modi][field] = value;
+                }
                 break;
             }
         } // for each col

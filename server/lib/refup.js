@@ -152,7 +152,7 @@ exports.update_docs = function (db, docs, callback) {
                 function (err, view_data) { 
 
                     if (err) { 
-                        log("ERROR", err);
+                        log({ERROR: err});
                         end(); return; 
                     }
                     for (var j = 0, l = view_data.rows.length; j < l; j++) {
@@ -173,19 +173,29 @@ exports.update_docs = function (db, docs, callback) {
 
 
 // update ref data in all docs linked with any of the changed_doc_ids
-exports.update_ref = function (db, changed_doc_ids, callback) {
+// already changed ids
+exports.update_ref = function (db, changed_doc_ids, callback, already_processed_ids) {
     
+    
+    already_processed_ids = already_processed_ids || {};
     callback = callback || function () {};
+
+    changed_doc_ids = Commons.unique(changed_doc_ids || []);
+    changed_doc_ids.filter(function (id) { if (!already_processed_ids[id]) {return true;} return false; });
+
     if (!changed_doc_ids || !changed_doc_ids.length) {
         log('no ref to update');
         callback();
         return; // nothing to do
     }
-    changed_doc_ids = Commons.unique(changed_doc_ids);
+
+    // record processed id
+    changed_doc_ids.forEach(function (e) { alread_processed_ids[e] = true; });
+
 
     //log('using "sons" view on ' + changed_doc_ids.length + ' ids');
     // get all sons
-    db.view("datamanager", "sons", { keys: changed_doc_ids }, function (err, sons_data) {
+    db.view("datamanager", "sons", {keys:changed_doc_ids}, function (err, sons_data) {
 
         var son_ids = sons_data.rows.map(function (row) {
             return row.id;
@@ -197,16 +207,17 @@ exports.update_ref = function (db, changed_doc_ids, callback) {
             include_docs : true }, function (err, data) {
                 var docs = data.rows.map(function (e) { return e.doc; });
                 exports.update_docs(db, docs, function (docs, changed_docs) {
-                    // recursive call
                     if (changed_docs.length > 0) {
 
                         // check label template
                         Label.set_label_template(db, changed_docs, {}, function () {
                             // save changes
                             db.bulkDocs({docs:changed_docs, "all_or_nothing":true}, function () {
-                                // recursive update
+                                ///////////////////////
+                                // recursive call
+                                //////////////////////
                                 var changed_ids = changed_docs.map(function (e) {return e._id;});
-                                exports.update_ref(db, changed_ids, callback);
+                                exports.update_ref(db, changed_ids, callback, already_processed_ids);
                             });
                         });
 
@@ -226,37 +237,65 @@ exports.update_ref = function (db, changed_doc_ids, callback) {
 
 function _match_mm_modt (db, mm_modt, fields_to_up, cb) {
     // get docs
-    var docs = [];
+    
+    var docs = [], totaldoc = 0, LIMIT = 10000;
     // apply ref data to documents of modt
     // get docs
-    db.view("datamanager", "by_mod", {
-        key : mm_modt,
-        include_docs : true,
-        reduce : false},
-            function (err, by_modt) {
-                // get docs
-                docs = by_modt.rows.map( function (e) { return e.doc; }  );
 
-                if(!docs.length) { cb(0); return; }
-                
-                // Match by value
-                exports.match_docs(
-                    db, docs, function (docs, changed_docs) {
-                        // apply ref data
-                        exports.update_docs(db, changed_docs, 
-                                            function (docs, changed_docs) {
-                                                // save changes
-                                                db.bulkDocs({docs : changed_docs,
-                                                             "all_or_nothing":true}, 
-                                                            function () {
-                                                                var cpt = changed_docs.length;
-                                                                log("Save " + cpt + " docs");
-                                                                cb(cpt);
-                                                            }
-                                                           );
-                                           });
-                }, fields_to_up);
-           });
+    function process_slice(skip, next) {
+        log ("process slice");
+
+        db.view("datamanager", "by_mod", {
+            key : mm_modt,
+            include_docs : true,
+            reduce : false,
+            skip: skip,
+            limit:LIMIT,
+        },
+                function (err, by_modt) {
+                    if (err) {
+                        log({ERROR:err}); next(0, 0); return;
+                    }
+                    
+                    // get docs
+                    docs = by_modt.rows.map( function (e) { return e.doc; }  );
+                    var rowsize = docs.length; 
+
+                    if(!docs.length) { next(0, 0); return; }
+                    
+                    // Match by value
+                    exports.match_docs(
+                        db, docs, function (docs, changed_docs) {
+                            // apply ref data
+                            exports.update_docs(db, changed_docs, 
+                                                function (docs, changed_docs) {
+                                                    // save changes
+                                                    db.bulkDocs({docs : changed_docs,
+                                                                 "all_or_nothing":true}, 
+                                                                function () {
+                                                                    var cpt = changed_docs.length;
+                                                                    log("Save " + cpt + " docs");
+                                                                    next(cpt, rowsize);
+                                                                }
+                                                               );
+                                                });
+                        }, fields_to_up);
+                });
+    }
+
+    var gskip = 0;
+    function end (saved_cpt, rowsize) {
+        totaldoc += saved_cpt;
+        gskip += rowsize;
+        if (rowsize === LIMIT) { // all row have'nt been retrieved
+            process_slice(gskip, end); // process next slice
+            return;
+        }
+        
+        cb(totaldoc); 
+    }
+
+    process_slice(gskip, end);
 }
 
 
@@ -291,6 +330,7 @@ exports.match_mm = function(db, mm, cb, mm_filter) {
 // ref_fields is a map of field to update sorted by [mm,modt] 
 // Note : the docs are not saved !!
 exports.match_docs = function (db, docs, callback, ref_fields) {
+    log("match docs");
     var ref_keys = [];
     // get the values to expand
     if(!docs) { callback(); }
@@ -305,7 +345,7 @@ exports.match_docs = function (db, docs, callback, ref_fields) {
         for (var field_name in ref_fields[key]) {
             var ref_mm = ref_fields[key][field_name],
             v = d[field_name];
-            if(v) { v = v + ""; v = v.trim();}
+            if(v) { v = v + ""; /*v = v.trim();*/ }
             
             ref_keys.push([ref_mm, v]);
             ok = true;
@@ -333,7 +373,7 @@ var _match_docs_ref_keys = function (db, ref_keys, docs, ref_fields, callback) {
         keys : t,
         reduce : false },
             function (err, view_data) { 
-                if(err) { log(err); return; }
+                if (err) { log({ERROR : err}); callback(docs, []); return; }
   
                 for (var j = 0, l = view_data.rows.length; j < l; j++) {
                     var r = view_data.rows[j], k = r.key;
@@ -355,7 +395,7 @@ var _match_docs_ref_keys = function (db, ref_keys, docs, ref_fields, callback) {
                         d.$ref[field_name] = {_id:id};
                         changed = true;
                     }
-                    if(changed) { changed_docs.push(d); }
+                    if(changed) {changed_docs.push(d);}
                 }
                 callback(docs, changed_docs);
 

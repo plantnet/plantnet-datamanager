@@ -21,7 +21,12 @@ function match_ref_mm(db, mm_id, filter_mm_id) {
     db.getDoc(mm_id, function(err, mm) {
 
         if(err) { q.send_error(err); return; }
-        RefUp.match_mm(db, mm, function (cpt) {
+
+        RefUp.match_mm(db, mm, function (err, cpt) {
+            if (err) {
+                q.send_error(err);
+                return
+            }
             q.send_json(cpt + " docs updated");
         }, filter);
         
