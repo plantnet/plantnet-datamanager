@@ -15,7 +15,7 @@ function(e) {
         var answer = confirm('Delete selected docs and subdocs ?');
         if (answer) {
             var app = $$(this).app,
-            onError = app.libs.utils.show_err;
+            onError = app.libs.utils.showError;
             onSuccess = function (delete_ids) {
                 $.pathbinder.begin();
             },

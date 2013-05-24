@@ -238,7 +238,7 @@ exports.update_ref = function (db, changed_doc_ids, callback, already_processed_
 function _match_mm_modt (db, mm_modt, fields_to_up, cb) {
     // get docs
     
-    var docs = [], totaldoc = 0, LIMIT = 10000;
+    var docs = [], totaldoc = 0, LIMIT = 3000;
     // apply ref data to documents of modt
     // get docs
 

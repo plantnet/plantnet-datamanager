@@ -276,71 +276,48 @@ exports.showInfo = function(msg) {
     return exports;
 };
 
-/**
- *@deprecated use showSuccess() instead of this function
- */
-exports.show_msg = function(msg) {
-    $.log('deprecated use showSuccess() instead of show_msg function');
-    exports.showSuccess(msg);
-    return exports;
-};
 
-/**
- *@deprecated use showError() instead of this function
- */
-exports.show_err = function(msg) {
-    $.log('deprecated use showError() instead of show_err function');
-    exports.showError(msg);
-    return exports;
-};
 
-/*----------------------------------------------------------------------------------------------------------*/
 // BUSY MESSAGES
+var busy_ids = [], busy_msg = {};
 
-exports.showBusyMsg = function(msg, busyById, excludeOther) {
+exports.showBusyMsg = function(msg, busyId, excludeOther) {
     var busyElement = $('#busy-bloc'),
         busyMsgElement = $('#busy-msg');
 
     busyMsgElement.html(msg);
+    busy_ids.push(busyId);
+    busy_msg[busyId] = msg;
+
     if (excludeOther) {
-        busyElement.removeData();
+        //busyElement.removeData();
+        busy_ids = [];
+        busy_msg = {};
     }
-    busyElement.data(busyById, 'true').show();
+
+    busyElement.show();
     return exports;
 };
 
-exports.hideBusyMsg = function(busyById) {
+exports.hideBusyMsg = function(busyId) {
     var busyElement = $('#busy-bloc');
 
-    busyElement.removeData(busyById);
-    if (exports.objectEmpty(busyElement.data())) {
+    //busyElement.removeData(busyId);
+    var i = busy_ids.indexOf(busyId);
+    if (i >= 0) {
+        busy_ids.splice(i,1);
+        delete busy_msg[busyId]
+    }
+    
+
+    if (busy_ids.length === 0) {
         busyElement.hide();
-    }
-    return exports;
-};
-
-/**
- *@deprecated use showBusyMsg() instead of this function
- */
-exports.show_busy = function(busyBy, excludeOther) {
-    $.log('show_busy deprecated use showBusyMsg() instead of this function');
-    var busyElement = $('#busy-bloc');
-    if (excludeOther) {
-        busyElement.removeData();
-    }
-    busyElement.data(busyBy, 'true').show();
-    return exports;
-};
-
-/**
- *@deprecated use hideBusyMsg() instead of this function
- */
-exports.hide_busy = function(busyBy) {
-    $.log('hide_busy deprecated use hideBusyMsg() instead of this function');
-    var busyElement = $('#busy-bloc');
-    busyElement.removeData(busyBy);
-    if (!$.hasData(busyElement)) {
-        busyElement.hide();
+    } else {
+        var busyMsgElement = $('#busy-msg'),
+        busyId = busy_ids[busy_ids.length - 1],
+        msg = busy_msg[busyId];
+        busyMsgElement.html(msg);
+        busyElement.show();
     }
     return exports;
 };

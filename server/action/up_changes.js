@@ -83,12 +83,11 @@ function up_changes(db, ids, deleted_ids, cb) {
                 var docs = data.rows.map(function (e) {
                     return e.doc;
                 });
-                //log('calling update_docs on ' + docs.length + ' docs (' + ids.length + ' ids atm)');
                 RefUp.update_docs(db, docs, function (docs, doc_to_save) {
                     //log('calling bulk save on ' + doc_to_save.length + ' docs');
                     db.bulkDocs({docs:doc_to_save}, function () {
-                        log('calling update_ref on ' + ids.length + ' ids');
-                        RefUp.update_ref(db, ids, function () {
+                        log('calling update_ref on ' + subids.length + ' ids');
+                        RefUp.update_ref(db, subids, function () {
                             next();
                         });
                         // update sons labels
@@ -108,24 +107,13 @@ function update_all_sons_labels(db, ids, cb) {
     var tasks = ids.length,
         docsToSave = [];
 
-    for (var i=0, l=ids.length; i<l; i++) {
-        Label.update_labels(db, ids[i], null, function(sonsToSave) {
-            //log('PUSHING SONS TO SAVE: ' + sonsToSave.length);
-            docsToSave = docsToSave.concat(sonsToSave);
-            next();
+    Label.update_labels(db, ids, null, function(err, sonsToSave) {
+        db.bulkDocs({
+            docs: docsToSave
+        }, function(err, data) {
+            cb();
         });
-    }
-
-    function next() {
-        tasks--;
-        if (tasks == 0) {
-            db.bulkDocs({
-                docs: docsToSave
-            }, function(err, data) {
-                cb();
-            });
-        }
-    }
+    });
 }
 
 // launches the whole process, and unlocks at the end

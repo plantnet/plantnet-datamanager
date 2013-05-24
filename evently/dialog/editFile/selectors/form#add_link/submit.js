@@ -11,7 +11,7 @@ function () {
 
     var onError = function(a, b, c) {
         $("span.loading", form).remove();
-        app.libs.utils.show_err("Cannot add link :" + a + b + c);
+        app.libs.utils.showError("Cannot add link :" + a + b + c);
     };
 
     var onSuccess = function () {

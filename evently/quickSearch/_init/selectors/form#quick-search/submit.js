@@ -7,7 +7,7 @@ function(e) {
         trimmed = req.replace(/ /g, '');
 
     if (trimmed[0] == '*') {
-        app.libs.utils.show_err("You can't start a query with *");
+        app.libs.utils.showError("You can't start a query with *");
         return false;
     }
 

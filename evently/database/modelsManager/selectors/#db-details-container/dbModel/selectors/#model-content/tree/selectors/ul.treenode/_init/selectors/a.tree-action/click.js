@@ -27,7 +27,7 @@ function(e) {
                utilsLib.hideBusyMsg('viewTree');
            }, 
            function (e, a, b) {
-               utilsLib.showError(e + a + b);
+               utilsLib.showError(e);
            }, 
            showSynonyms);
     }

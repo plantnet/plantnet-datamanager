@@ -37,7 +37,7 @@ function parse_fields(fields) {
 }
 
 // edit all doc of a mm
-function edit_docs (rows, fields, cb) {
+function edit_docs(rows, fields, cb) {
 
     var docs = [], doc_cache = {};
 

@@ -40,7 +40,7 @@ function(callback, e, params) {
                     Query.query(app.db, q, function(ids) {
                         process_action._open_ids(ids, q.name, true);
                     }, function (err) {
-                        app.libs.utils.show_err(err);
+                        app.libs.utils.showError(err);
                         process_action._open_ids([], q.name, true);
                     });
                 }});
@@ -73,7 +73,7 @@ function(callback, e, params) {
                                 result.total_rows, result.rows.length, show_images);
                     }, 
                     function() {
-                        app.libs.utils.show_err('Query server error');
+                        app.libs.utils.showError('Query server error');
                         callback(label, true, action, id, 
                                 [], skip, limit, 0, 0, show_images);
                     }

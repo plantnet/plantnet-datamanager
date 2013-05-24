@@ -69,9 +69,11 @@ exports.get_label_template = function (doc, mm) {
 
 // set label template of docs
 // doc cache contains already retrieved docs,
+// call cb (err, to_save)
 exports.set_label_template = function (db, docs, doc_cache, cb) {
 
     log('preparing to set label templates on ' + docs.length + ' docs');
+
     doc_cache = doc_cache || {};
     var ids_to_retrieve = [];
 
@@ -133,7 +135,7 @@ exports.set_label_template = function (db, docs, doc_cache, cb) {
 
         if (cb) {
             log('launching cb() on ' + to_save.length + ' docs to save');
-            cb(to_save);
+            cb(err, to_save);
         }
     }
 
@@ -164,18 +166,18 @@ exports.set_label_template = function (db, docs, doc_cache, cb) {
     }
 }
 
-// update label of sons of doc
+// update label of sons of docs
 // doc_id : root
 // ltpl : label template of root
-exports.update_labels = function (db, doc_id, ltpl, cb) {
+exports.update_labels = function (db, doc_ids, cb) {
 
     var doc_cache = {}, docs = [];
     db.view("datamanager", "label_sons", {
-        key : doc_id,
+        keys : doc_ids,
         include_docs : true
     },
             function (err, data) {
-                if (err) { throw err; }
+                if (err) { cb(err): return; }
                 
                 // put doc in cache
                 for (var i = 0; i < data.rows.length; i++) {
@@ -184,9 +186,9 @@ exports.update_labels = function (db, doc_id, ltpl, cb) {
                     docs.push(d);
                 }
 
-                if (ltpl) {
-                    doc_cache[doc_id].$label_tpl = ltpl; // set label tpl of root
-                }
+                // if (ltpl) {
+                //     doc_cache[doc_id].$label_tpl = ltpl; // set label tpl of root
+                // }
 
                 // call update label for each
                 exports.set_label_template(db, docs, doc_cache, cb);
