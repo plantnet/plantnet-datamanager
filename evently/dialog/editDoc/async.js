@@ -35,7 +35,7 @@ function(callback, e, id, new_doc, trigger) {
                 doc = {
                     $mm: mm._id,
                     $modi: modi,
-                    $modt: mm.structure[modi][0]
+                    $modt: modi ? mm.structure[modi][0] : null
                 };
 
             getPresets(doc, mm, parent_id, parent_label, parent_mi);
