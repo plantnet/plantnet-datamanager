@@ -5,7 +5,7 @@ var utilsLib = require('vendor/datamanager/lib/utils'),
 // Abstraction for the _replicator database and mechanisms
 exports.Replicator = function(replicatorDbName) {
 
-    if (! replicatorDbName) {
+    if (!replicatorDbName) {
         replicatorDbName = '_replicator';
     }
     this.db = $.couch.db(replicatorDbName);
@@ -102,14 +102,8 @@ exports.Replicator.prototype.replicate = function(source, target, continuous, id
     }
 
     this.db.saveDoc(repDoc, {
-        success: function(data) {
-            //$.log('replication created', data);
-            onSuccess(data);
-        },
-        error: function(data) {
-            //$.log('replication foirax', data);
-            onError(data);
-        }
+        success: onSuccess,
+        error: onError
     });
 };
 
