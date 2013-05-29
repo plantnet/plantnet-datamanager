@@ -328,9 +328,7 @@ exports.update_app = function(db, onSuccess, onError) {
 
     $.couch.config({
             success: function(data) {
-                if (data) {
-                    source = data;
-                }
+                //if (data) { source = data;  }
                 _update_app(db, source, target, app_doc_id, onSuccess, onError);
             },
             error : function () {

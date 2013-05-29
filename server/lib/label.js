@@ -135,7 +135,7 @@ exports.set_label_template = function (db, docs, doc_cache, cb) {
 
         if (cb) {
             log('launching cb() on ' + to_save.length + ' docs to save');
-            cb(err, to_save);
+            cb(null, to_save);
         }
     }
 
@@ -177,7 +177,7 @@ exports.update_labels = function (db, doc_ids, cb) {
         include_docs : true
     },
             function (err, data) {
-                if (err) { cb(err): return; }
+                if (err) { cb(err); return; }
                 
                 // put doc in cache
                 for (var i = 0; i < data.rows.length; i++) {

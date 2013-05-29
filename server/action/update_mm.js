@@ -69,6 +69,7 @@ function update_mm(db, mm, cb) {
                     }
                     docs.push(e.doc);
                 });
+                log(Label);
                 Label.set_label_template(db, docs, doc_cache, function (err, docs) {
                     save(docs, cb);
                 });
