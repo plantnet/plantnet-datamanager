@@ -38,9 +38,7 @@ function(id, mm, related, synLabels) {
                 return "##";
             }
         });
-        $.log("AAA");
         pth = pth.join('@@');
-        $.log(pth);
 
         if(subDoc.$meta) {
             pth += subDoc.$meta.created_at;
