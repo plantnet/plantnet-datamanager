@@ -76,12 +76,12 @@ function index_docs(new_docs, index_field, full_index) {
 
 // save doc from parsed csv_data
 // col map : list of objects representing cols (contains fields name, modi and type)
-exports.import_csv = function (db, csv_data, mm, user_ctx, col_map, withConflicts, onSuccess, onError, updateStats) {
+exports.import_csv = function (db, csv_data, mm, user_ctx, notrim, col_map, withConflicts, onSuccess, onError, updateStats) {
 
     updateStats = updateStats || function() {};
 
     utils.showInfo("Parsing data...");
-    var docs = exports.parse_docs(csv_data, mm, col_map, user_ctx.name);
+    var docs = exports.parse_docs(csv_data, mm, col_map, user_ctx.name, notrim);
     if (!docs.length) {
         onError("0", "Nothing imported", "");
         return;
@@ -231,9 +231,8 @@ function processBySlices(data, size, process, onComplete) {
 
 // get doc from csv_data (2 dim array)
 // return parsed docs
-exports.parse_docs = function (csv_data, mm, col_map, user) {
+exports.parse_docs = function (csv_data, mm, col_map, user, notrim) {
     //csv_data = csv_data.unique();
-
     var nbcols = col_map.length,
         new_docs,
         doc,
@@ -275,7 +274,9 @@ exports.parse_docs = function (csv_data, mm, col_map, user) {
             // ignored column
             if (!modi || !field || !value) { continue; }
 
-            value = value.trim();
+            if(!notrim) {
+                value = value.trim();
+            }
             value = utils.readWidget(value, type);
 
             if (new_docs[modi]){

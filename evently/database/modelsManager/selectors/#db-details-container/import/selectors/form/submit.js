@@ -5,7 +5,8 @@ function(evt) {
         //mmLib = app.getlib('mm'),
         form = $(this);
 
-    var withConflicts = !($("#ignoreconflicts", this).attr("checked"));
+    var withConflicts = !($("#ignoreconflicts", this).attr("checked")),
+    notrim = !!($("#notrim", this).attr("checked")));
 
     $('#dialog-bloc').trigger('busy', ['Import', 'Importing data', true]);
     $('#busy-modal').modal('show');
@@ -76,7 +77,7 @@ function(evt) {
     csvData = app.data.csv;
 
     app.data.lock_changes = Date.now() + 120000; // lock for 120 sec; // porky it's me
-    importLib.import_csv(app.db, csvData, mm, app.userCtx, colMap, withConflicts,
+    importLib.import_csv(app.db, csvData, mm, app.userCtx, notrim, colMap, withConflicts,
                          onSuccess, onError, updateStats);
 
     return false;
