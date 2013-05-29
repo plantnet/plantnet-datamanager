@@ -1,6 +1,6 @@
 function(callback) {
-    var app = $$(this).app,
-        db = app.db,
+    var app = $$(this).app;
+    var db = app.db,
         mmLib = app.getlib('mm'),
         utilsLib = app.getlib('utils'),
         cacheLib = app.getlib('cache'),
@@ -35,6 +35,6 @@ function(callback) {
     }
 
     function readyToCallback() {
-        callback(mm, viewsQueries, mmLib);
+        callback(mm, viewsQueries, mmLib, app);
     }
 }

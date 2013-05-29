@@ -1,6 +1,7 @@
 function() {
-    var app = $$(this).app,
-        infos = app.infos,
+    var app = $$(this).app;
+
+    var infos = app.infos,
         mm_id = infos.model.id,
         cacheLib = app.getlib('cache'),
         utilsLib = app.getlib('utils'),

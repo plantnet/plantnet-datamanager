@@ -13,18 +13,26 @@ function (e, changes) {
             //$.log('up changes', d);
         });
     }
+    var mm_changed = false;
 
     changes = changes.results;
     for (var i = 0, l = changes.length; i < l; i++) {
         if (changes[i].id.slice(0, 10) == '_design/mm') {
             // renit cache if a design doc has changed
-            cacheLib.init_all_mms(app, function(newMms) {
-                $('#db-nav-container').trigger('_init');
-                $('#models-catalog').trigger('_init');
-            });
+            mm_changed = true;
         }
     }
-
+    
+    if (mm_changed) {
+        cacheLib.init_all_mms(app, function(newMms) {
+            setTimeout(function () {
+                $('#models-catalog').trigger('_init');
+                $('#db-nav-container').trigger('_init');
+            }, 2000); // timeout to avoid collision with other events
+        });
+    }
+    
     // propagate event
+
     $(".changes").trigger("changes", [changes]);
 }

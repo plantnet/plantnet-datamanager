@@ -20,7 +20,6 @@ function(e) {
     }
     app.db.saveDoc(view, {
         success: function(newdoc) {
-            $('#model-bloc').trigger('_init');
             $.pathbinder.go('/viewtable/' + newdoc.id + '/0/_id/0/0/0/0/0');
             utilsLib.showSuccess('View saved');
             $('#edit-view-modal').modal('hide');

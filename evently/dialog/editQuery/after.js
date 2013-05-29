@@ -1,7 +1,7 @@
 function() {
 
-    var app = $$(this).app,
-        utilsLib = app.getlib('utils'),
+    var app = $$(this).app;
+    var utilsLib = app.getlib('utils'),
         htmlLib = app.getlib('html');
 
     htmlLib.indent();

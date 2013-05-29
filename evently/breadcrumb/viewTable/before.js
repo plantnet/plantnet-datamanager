@@ -1,6 +1,6 @@
 function (e, pathBinderParams) {
-    var app = $$(this).app,
-        utilsLib = app.getlib('utils');
+    var app = $$(this).app;
+    var utilsLib = app.getlib('utils');
     if (utilsLib.checkOpenStructureEditor(app)) return false;
 
     // Refresh/Actualize currentPath

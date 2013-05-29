@@ -5,9 +5,9 @@ function(callback) {
 
     if (currentStructureId) {
         mmLib.get_docs_count(app, currentStructureId, function(nbDocs) {
-            callback(nbDocs);
+            callback(app, nbDocs);
         });
     } else {
-        callback(0);
+        callback(app, 0);
     }
 }

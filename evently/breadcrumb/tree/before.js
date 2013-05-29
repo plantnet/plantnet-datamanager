@@ -6,7 +6,7 @@ function(e, pathBinderParams) {
     }
 
     // Refresh/Actualise app infos
-    var infos = $$(this).app.infos;
+    var infos = app.infos;
     infos.model.activeView = 'tree-view';
     infos.model.id = pathBinderParams.mmId;
     infos.module.id = null;

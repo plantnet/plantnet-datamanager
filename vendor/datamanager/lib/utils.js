@@ -285,15 +285,16 @@ exports.showBusyMsg = function(msg, busyId, excludeOther) {
     var busyElement = $('#busy-bloc'),
         busyMsgElement = $('#busy-msg');
 
-    busyMsgElement.html(msg);
-    busy_ids.push(busyId);
-    busy_msg[busyId] = msg;
-
     if (excludeOther) {
         //busyElement.removeData();
         busy_ids = [];
         busy_msg = {};
     }
+
+    busyMsgElement.html(msg);
+    busy_ids.push(busyId);
+    busy_msg[busyId] = msg;
+
 
     busyElement.show();
     return exports;
@@ -304,11 +305,14 @@ exports.hideBusyMsg = function(busyId) {
 
     //busyElement.removeData(busyId);
     var i = busy_ids.indexOf(busyId);
+
     if (i >= 0) {
         busy_ids.splice(i,1);
         delete busy_msg[busyId]
     }
     
+    
+
 
     if (busy_ids.length === 0) {
         busyElement.hide();

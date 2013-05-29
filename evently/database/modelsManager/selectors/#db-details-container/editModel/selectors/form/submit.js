@@ -13,11 +13,8 @@ function() {
         msg = 'Structure updated';
 
     function onSuccess() {
-        utilsLib.hideBusyMsg('editMm');
         app.db.dm("up_changes", null, null, function (d) {
             //$.log("up changes from save mm complete", d);
-            $('#busy-modal').modal('hide');
-            $('#model-bloc').trigger('_init');
             $.pathbinder.begin();
             utilsLib.showSuccess(msg);
         });
@@ -25,8 +22,6 @@ function() {
 
     function onError(err_id, err_str, details) {
         $.log(err_id, err_str, details);
-        $('#busy-modal').modal('hide');
-        utilsLib.hideBusyMsg('editMm');
         var msg = err_id.responseText || err_str;
         utilsLib.showError('Error : ' + err_id + err_str + details);
     }
@@ -50,7 +45,9 @@ function() {
                   if (app.data && app.data.tree) {
                       delete app.data.tree;
                   }
-                  $.log('COMPLETE', res);
+                  $('#busy-modal').modal('hide');
+                  utilsLib.hideBusyMsg('editMm');
+
                   if (doc.isref) {
                       $.pathbinder.go('/tree/' + doc._id.slice(8) + '/0/1');
                   } else {

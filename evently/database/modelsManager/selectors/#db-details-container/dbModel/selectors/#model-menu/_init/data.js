@@ -1,8 +1,7 @@
-function(mm, viewsAndQueries, mmLib) {
+function(mm, viewsAndQueries, mmLib, app) {
 
-    var dataMustache = {},
-        app = $$(this).app,
-        userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
+    var dataMustache = {};
+    var userRole = (app.userCtx && app.userCtx.currentDbRole) ? app.userCtx.currentDbRole : null,
         isSuperAdmin = (app.userCtx && app.userCtx.isSuperAdmin) ? app.userCtx.isSuperAdmin : null,
         isAdmin = (isSuperAdmin || userRole == 'admin') ? true : false,
         isWriter = (userRole == 'writer' || isAdmin) ? true : false,
@@ -25,8 +24,7 @@ function(mm, viewsAndQueries, mmLib) {
             has_menu : false
         };
     } else {
-        var app = $$(this).app,
-            utilsLib = app.getlib('utils'),
+        var utilsLib = app.getlib('utils'),
             mmId = utilsLib.encode_design_id(mm._id),
             modules = [],
             spActions = [],
