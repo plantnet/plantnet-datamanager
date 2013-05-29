@@ -295,7 +295,6 @@ exports.showBusyMsg = function(msg, busyId, excludeOther) {
     busy_ids.push(busyId);
     busy_msg[busyId] = msg;
 
-
     busyElement.show();
     return exports;
 };
@@ -311,8 +310,6 @@ exports.hideBusyMsg = function(busyId) {
         delete busy_msg[busyId]
     }
     
-    
-
 
     if (busy_ids.length === 0) {
         busyElement.hide();

@@ -38,7 +38,8 @@ function(id, mm, related, synLabels) {
                 return "##";
             }
         });
-        pth = pth.join('');
+        $.log("AAA");
+        pth = pth.join('@@');
         $.log(pth);
 
         if(subDoc.$meta) {
@@ -212,7 +213,7 @@ function(id, mm, related, synLabels) {
     // sort by path
     docs.sort(function(a,b) {
         //$.log(a.path, b.path);
-        return a.path < b.path ? -1 : 1;
+        return a.path < b.path ? 1 : -1;
     });
 
     return {
