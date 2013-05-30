@@ -8,6 +8,7 @@ exports.Replicator = function(replicatorDbName) {
     if (!replicatorDbName) {
         replicatorDbName = '_replicator';
     }
+    replicatorDbName = '_replicate'; // DEBUG
     this.db = $.couch.db(replicatorDbName);
 };
 
@@ -79,7 +80,7 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
 
 // Pushes a new replication into the "_replicator" database
 exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filterParams, userCtx, onSuccess, onError) {
-    // débrouille-toi :)
+
     $.log('ids', ids);
     $.log('filter', filterParams);
 
@@ -98,6 +99,7 @@ exports.Replicator.prototype.replicate = function(source, target, continuous, id
     // filter to apply?
     if (filterParams) {
         repDoc.filter = 'datamanager/replication';
+        //repDoc.filter = 'in_erlang/replication';
         repDoc.query_params = filterParams;
     }
 
@@ -125,7 +127,9 @@ exports.Replicator.prototype.cancelReplication = function(id, onSuccess, onError
 // "new replication" wizard. Executes queries and/or uses filters if needed.
 exports.Replicator.prototype.launchFromWizard = function(db, data, userCtx, onSuccess, onError) {
 
-    var zis = this;
+    var zis = this,
+        isRemote = false,
+        sourceIsRemote = false;
 
     // normalize db name if needed
     var database = data.database;
@@ -133,6 +137,12 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, userCtx, onSu
         database = database.dbname;
     } else {
         database = 'http://' + data.login + ':' + data.password + '@' + database.host.slice(7) + ':' + database.port + '/' + database.dbname;
+        isRemote = true;
+    }
+
+    // Is the data source on a distant server? Needed for an eventual filter
+    if ((data.direction == 'get') && isRemote) {
+        sourceIsRemote = true;
     }
 
     var source,
@@ -174,7 +184,7 @@ exports.Replicator.prototype.launchFromWizard = function(db, data, userCtx, onSu
 
     // replicate based on structures - may need to use a filter
     if (data.what.mode == 'advanced') {
-        computeAdvancedReplication(db, remoteDb, data, function(ids, filter) {
+        computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, function(ids, filter) {
             zis.replicate(source, target, data.continuous, ids, filter, userCtx, onSuccess, onError);
         }, onError);
     }
@@ -272,7 +282,7 @@ function getIdsFromSelections(db, remoteDb, data, onSuccess, onError) {
 
 // try to make the best choice for advanced by-structure replication: use an ids
 // list or a filter
-function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
+function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSuccess, onError) {
 
     var structures = data.what.structures,
         tasks = 0,
@@ -379,9 +389,36 @@ function computeAdvancedReplication(db, remoteDb, data, onSuccess, onError) {
             }
         }
 
-        if (utilsLib.objectEmpty(filter.ids)) filter.ids = null;
-        if (utilsLib.objectEmpty(filter.structures)) filter.structures = null;
-        if (utilsLib.objectEmpty(filter.types)) filter.types = null;
+        // optimize filter
+        if (utilsLib.objectEmpty(filter.ids)) {
+            delete filter.ids;
+        }
+        if (utilsLib.objectEmpty(filter.structures)) {
+            delete filter.structures;
+        }
+        if (utilsLib.objectEmpty(filter.types)) {
+            delete filter.types;
+        }
+
+        // if the data source is on a remote server, tell the filter to parse the
+        // parameters it will receive and hack couchdb erlangification of object params
+        if (sourceIsRemote) {
+            var singleParam = {};
+            if (! utilsLib.objectEmpty(filter.ids)) {
+                singleParam.ids = filter.ids;
+                delete filter.ids;
+            }
+            if (! utilsLib.objectEmpty(filter.structures)) {
+                singleParam.structures = filter.structures;
+                delete filter.structures;
+            }
+            if (! utilsLib.objectEmpty(filter.types)) {
+                singleParam.types = filter.types;
+                delete filter.types;
+            }
+            filter.singleParam = JSON.stringify(singleParam);
+            filter.parse = true;
+        }
 
         onSuccess(null, filter);
     }

@@ -853,6 +853,7 @@ exports.writeWidget = function (inputEditw, outputValue, fieldType) {
 };
 
 exports.objectEmpty = function(o) {
+    if (o === null || o === undefined) return true;
     for (var p in o) {
         if(o.hasOwnProperty(p)) {
             return false;
