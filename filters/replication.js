@@ -3,16 +3,20 @@ function(doc, req) {
     try {
 
     var parse = req.query.parse,
+        includedeleted = req.query.includedeleted,
         parsedParam = req.query;
 
     //log(['req', req]);
+    if (doc._deleted) {
+        return (includedeleted == 'true');
+    }
 
-    if (parse) {
+    if (parse == 'true') {
         //log('JE PARSE!!');
         parsedParam = JSON.parse(req.query.singleParam);
     }
 
-    var filter_ids = parsedParam.ids,
+    var filter_ids = parsedParam.idslist,
         filter_structures = parsedParam.structures,
         filter_types = parsedParam.types;
 

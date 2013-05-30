@@ -33,6 +33,13 @@
     {{#continuous}}continuous{{/continuous}}
     {{^continuous}}one-shot{{/continuous}}
     <br/>
+    {{#what}}{{#needsFilter}}
+    <label class="field-label-large">
+      Include deleted
+    </label>
+    {{#includedeleted}}yes{{/includedeleted}}{{^includedeleted}}no{{/includedeleted}}
+    <br/>
+    {{/needsFilter}}{{/what}}
     <label class="field-label-large">
       Data exchanged
     </label>

@@ -8,7 +8,7 @@ exports.Replicator = function(replicatorDbName) {
     if (!replicatorDbName) {
         replicatorDbName = '_replicator';
     }
-    replicatorDbName = '_replicate'; // DEBUG
+    //replicatorDbName = '_replicate'; // DEBUG
     this.db = $.couch.db(replicatorDbName);
 };
 
@@ -81,8 +81,8 @@ exports.Replicator.prototype.getAllReplications = function(onSuccess, onError) {
 // Pushes a new replication into the "_replicator" database
 exports.Replicator.prototype.replicate = function(source, target, continuous, ids, filterParams, userCtx, onSuccess, onError) {
 
-    $.log('ids', ids);
-    $.log('filter', filterParams);
+    //$.log('ids', ids);
+    //$.log('filter', filterParams);
 
     var repDoc = {
         source: source,
@@ -285,6 +285,7 @@ function getIdsFromSelections(db, remoteDb, data, onSuccess, onError) {
 function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSuccess, onError) {
 
     var structures = data.what.structures,
+        includeDeleted = data.includedeleted,
         tasks = 0,
         localServer = (remoteDb && (remoteDb.host == 'local')),
         dbToOpen = db,
@@ -367,15 +368,15 @@ function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSucces
         next();
     } else { // build parameters for the "replication" filter
         var filter = {
-            ids: {},
+            idslist: {},
             structures: {},
-            types: {}
+            types: {},
         };
 
         for (var i=0, l=structures.length; i<l; i++) {
             struct = structures[i];
             if (struct.structure) {
-                filter.ids[struct.id] = true;
+                filter.idslist[struct.id] = true;
             }
             if (struct.data) {
                 filter.structures[struct.id] = {
@@ -390,8 +391,8 @@ function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSucces
         }
 
         // optimize filter
-        if (utilsLib.objectEmpty(filter.ids)) {
-            delete filter.ids;
+        if (utilsLib.objectEmpty(filter.idslist)) {
+            delete filter.idslist;
         }
         if (utilsLib.objectEmpty(filter.structures)) {
             delete filter.structures;
@@ -404,9 +405,9 @@ function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSucces
         // parameters it will receive and hack couchdb erlangification of object params
         if (sourceIsRemote) {
             var singleParam = {};
-            if (! utilsLib.objectEmpty(filter.ids)) {
-                singleParam.ids = filter.ids;
-                delete filter.ids;
+            if (! utilsLib.objectEmpty(filter.idslist)) {
+                singleParam.ids = filter.idslist;
+                delete filter.idslist;
             }
             if (! utilsLib.objectEmpty(filter.structures)) {
                 singleParam.structures = filter.structures;
@@ -417,8 +418,10 @@ function computeAdvancedReplication(db, remoteDb, data, sourceIsRemote, onSucces
                 delete filter.types;
             }
             filter.singleParam = JSON.stringify(singleParam);
-            filter.parse = true;
+            filter.parse = 'true'; // param values must be strings, at least in _replicate (may cause a problem in _replicator too ?)
         }
+        // include deleted docs in replication?
+        filter.includedeleted = (includeDeleted ? 'true' : 'false');
 
         onSuccess(null, filter);
     }
