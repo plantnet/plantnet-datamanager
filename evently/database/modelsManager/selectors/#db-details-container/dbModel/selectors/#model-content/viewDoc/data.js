@@ -210,10 +210,16 @@ function(id, mm, related, synLabels) {
 
     // sort by path
     docs.sort(function(a,b) {
-        //$.log(a.path, b.path);
-        return a.path < b.path ? 1 : -1;
+        //$.log(a.path, b.path); 
+        if (a.path == b.path)
+            return 0;
+        if (a.path > b.path)
+            return 1;
+        if (a.path < b.path)
+            return -1;
     });
-
+    
+    
     return {
         id: id,
         rev: subDocs[id]._rev,
