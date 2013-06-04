@@ -190,7 +190,7 @@ exports.update_ref = function (db, changed_doc_ids, callback, already_processed_
     }
 
     // record processed id
-    changed_doc_ids.forEach(function (e) { alread_processed_ids[e] = true; });
+    changed_doc_ids.forEach(function (e) { already_processed_ids[e] = true; });
 
 
     //log('using "sons" view on ' + changed_doc_ids.length + ' ids');
