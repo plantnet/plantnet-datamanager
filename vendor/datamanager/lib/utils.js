@@ -785,12 +785,21 @@ exports.readWidget = function (inputValue, fieldType, defaultValue) {
                 }
                 break;
             case 'geoloc':
-                try {
-                    ret = JSON.parse(inputValue);
-                } catch(e) {
+            try {
+                ret = JSON.parse(inputValue);
+            } catch(e) {
+                if (inputValue.split(',').length == 2) {
+                    try {
+                        ret = JSON.parse('[' + inputValue + ']');
+                    } catch(e) {
+                        $.log('could not parse geoloc', inputValue);
+                    }
+                }
+                else {
                     $.log('could not parse geoloc', inputValue);
                 }
-                break;
+            }
+            break;
             case 'multi-enum':
                 ret = inputValue.split(',');
                 break;
