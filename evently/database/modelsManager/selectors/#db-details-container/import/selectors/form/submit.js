@@ -6,7 +6,7 @@ function(evt) {
         form = $(this);
 
     var withConflicts = !($("#ignoreconflicts", this).attr("checked")),
-    notrim = !!($("#notrim", this).attr("checked")));
+    notrim = !!($("#notrim", this).attr("checked"));
 
     $('#dialog-bloc').trigger('busy', ['Import', 'Importing data', true]);
     $('#busy-modal').modal('show');
