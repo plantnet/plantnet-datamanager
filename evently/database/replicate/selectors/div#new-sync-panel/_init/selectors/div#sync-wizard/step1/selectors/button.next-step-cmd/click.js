@@ -36,6 +36,7 @@ function(e) {
             //$.log('erre', error);
             var errMsg= 'Could not connect to host. Wrong login / password?';
             utilsLib.showWarning(errMsg);
+            end();
             return false;
         });
     } else {

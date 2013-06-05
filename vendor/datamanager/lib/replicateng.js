@@ -240,7 +240,7 @@ function getIdsFromSelections(db, remoteDb, data, onSuccess, onError) {
         }
     }
 
-    for (var i=0, l=selections.length; i<l; i++) {
+    for (var i = 0, l = selections.length; i<l; i++) {
         selection = selections[i];
         if ((remoteDb != null) && (! localServer)) {
             // use a service to get selections contents from remote server
