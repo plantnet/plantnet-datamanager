@@ -48,8 +48,7 @@ function update_mm(db, mm, cb) {
         db.allDocs({
             startkey : key,
             endkey : key + "\ufff0",
-            include_docs : true,
-            stale : "ok"
+            include_docs : true
         }, function (err, r) {
             if(!err) {
                 log('propagating label / index templates to ' + r.rows.length + ' docs');
@@ -69,13 +68,13 @@ function update_mm(db, mm, cb) {
                     }
                     docs.push(e.doc);
                 });
-                log(Label);
                 Label.set_label_template(db, docs, doc_cache, function (err, docs) {
                     save(docs, cb);
                 });
+            } else {
+                cb();
             }
         });
-    
 }
 
 function finish(err, data) {
@@ -98,6 +97,7 @@ Lock.protect(q.db, "update_mm", 60 * 60, function (unLockCb) {
         db.saveDoc(mm, function (err, data) {
             if(err) {
                 q.send_error(err);
+                unLockCb();
                 return;
             }
             
@@ -110,6 +110,7 @@ Lock.protect(q.db, "update_mm", 60 * 60, function (unLockCb) {
         db.getDoc(q.params.mm, function(err, mm) {
             if(err) {
                 q.send_error(err);
+                unLockCb();
                 return;
             }
 
