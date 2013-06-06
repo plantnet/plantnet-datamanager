@@ -107,7 +107,7 @@ function update_all_sons_labels(db, ids, cb) {
     var tasks = ids.length,
         docsToSave = [];
 
-    Label.update_labels(db, ids, null, function(err, sonsToSave) {
+    Label.update_labels(db, ids, function(err, sonsToSave) {
         db.bulkDocs({
             docs: docsToSave
         }, function(err, data) {
