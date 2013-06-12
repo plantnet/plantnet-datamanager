@@ -35,13 +35,13 @@ function(id, mm, related, synLabels) {
             if(e) {
                 return e + mm.modules[d.$modt].name + d.$label;
             } else {
-                return "##";
+                return "~~";
             }
         });
-        pth = pth.join('@@');
+        pth = pth.join('~~');
 
         if(subDoc.$meta) {
-            pth += subDoc.$meta.created_at;
+            pth += "~~" + subDoc.$meta.created_at;
         }
 
         var module = mm.modules[subDoc.$modt],
