@@ -13,7 +13,7 @@ function (doc) {
     //         }
     //     }
     
-    geoloc = doc.geoloc || doc.position || doc.location || doc.gps;
+    geoloc = doc.geoloc || doc.position || doc.location || doc.gps || doc.geoposition;
     if (geoloc && geoloc.length !== 2) {
         geoloc = undefined;
     }
