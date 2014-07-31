@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Download Pl@ntNet-DataManager for offline usage</title>
+
+    <meta charset="UTF-8" />
+    <meta name="description" content="Download Pl@ntNet-Datamanager." />
+    <meta name="keywords" content="Pl@ntnet, Datamanager, botany, management system, download" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="img/favicons/datamanager.png"> 
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicons/datamanager.ico">
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="vendor/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/shared.css" />
+    <link rel="stylesheet" href="style/projects.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="header" class="navbar navbar-fixed-top"></div>
+
+      <div id="main-bloc" class="container">
+        <ul class="breadcrumb">
+          <li>
+            <a href="projects.html">
+              <i class="icon-home"></i> 
+              Home
+            </a> 
+            <span class="divider"> > </span>
+          </li>
+          <li class="active">Download</li>
+        </ul>
+
+        <h2>Download Pl@ntNet DataManager for offline usage</h2>
+
+        It is <strong>not necessary</strong> to download Pl@ntNet DataManager for online usage.
+        <br/>
+        Downloading and installing it on your computer allows you to use it <strong>offline</strong>.
+        <br/><br/>
+
+        <ul id="terms-tabs" class="nav nav-tabs">
+          <li class="active">
+            <a href="#download-en" data-toggle="tab">
+              <img src="img/flags/gb.png" alt="en" />
+              Download instructions
+            </a>
+          </li>
+          <li>
+            <a href="#download-fr" data-toggle="tab">
+              <img src="img/flags/fr.png" alt="fr" />
+              Instructions pour le téléchargement
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content bottom-space">
+          <article id="download-en" class="tab-pane active">
+
+            <h4>
+              Click here and choose the package that corresponds to your system
+              <br/><br/>
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/files">
+                http://amap-dev.cirad.fr/projects/p2pnote/files
+              </a>
+            </h4>
+            <br/>
+            <p>
+              <strong>Install instructions for Ubuntu</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/Ubuntu">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/Ubuntu
+              </a>
+            </p>
+            <br/>
+            <p>
+              <strong>Install instructions for Windows</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/Windows">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/Windows
+              </a>
+            </p>
+            <br/>
+            <p>
+              <strong>Install instructions for Mac OS</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/MacOSX">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/MacOSX
+              </a>
+            </p>
+            <br/>
+          </article>
+
+          <article id="download-fr" class="tab-pane">
+
+            <h4>
+              Cliquez ici et choisissez le paquetage correspondant à votre système
+              <br/><br/>
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/files">
+                http://amap-dev.cirad.fr/projects/p2pnote/files
+              </a>
+            </h4>
+            <br/>
+            <p>
+              <strong>Instructions d'installation pour Ubuntu</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/Ubuntu">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/Ubuntu
+              </a>
+            </p>
+            <br/>
+            <p>
+              <strong>Instructions d'installation pour Windows</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/Windows">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/Windows
+              </a>
+            </p>
+            <br/>
+            <p>
+              <strong>Instructions d'installation pour Mac OS</strong><br />
+              <a href="http://amap-dev.cirad.fr/projects/p2pnote/wiki/MacOSX">
+                http://amap-dev.cirad.fr/projects/p2pnote/wiki/MacOSX
+              </a>
+            </p>
+            <br/>
+          </article>
+        </div>
+
+      </div>
+  
+      <footer id="footer" class="footer navbar navbar-fixed-bottom"></footer>
+      
+      <div id="dialog-bloc"></div>
+      
+      <div id="msg-bloc"></div>
+      
+      <div id="busy-bloc" class="alert true">
+        <img src="img/animate/loader.gif" alt="Loading..." />
+        <span id="busy-msg">Download page is loading</span>
+      </div>
+    </div>
+    
+    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/datamanager/loader.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        // Boostrap actions
+        $(document).ready(function() {
+            $('#app').on('click', 'button[data-toggle="modal"], a[data-toggle="modal"]', openModal);
+            $('#app').on('hover', 'a[rel="tooltip"], .has-tooltip', startTooltip);
+        });
+        
+        function startTooltip(event) {
+            if ($(this).data('original-title') == undefined) {
+                $(this).tooltip('show');
+            }
+        }
+
+        function openModal(event) {
+            var targetId = $(this).is('button') ? $(this).attr('data-target') : $(this).attr('href'),
+                targetDialogName = convertTargetIdToDialogName(targetId)
+
+            $('#dialog-bloc').trigger(targetDialogName);
+            $(targetId + '-modal').modal('show');
+
+            event.stopPropagation()
+            return false;
+        }
+        
+        function convertTargetIdToDialogName(id) {
+            id = id.slice(1);
+            id = id.replace(/-/g, ' ');
+            id = id.replace(/\w\S*/g, function(txt) {
+                  return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+              });
+            id = id.charAt(0).toLowerCase() + id.substr(1);
+            id = id.replace(/ /g, '');
+            return id;
+        }
+        
+        $.couch.app(function(app) {
+            app.libs = {}
+            app.libs.utils = app.require('vendor/datamanager/lib/utils');
+          
+            // Initialisation DataManager
+            app.libs.utils.init_app(app, executeEvently);
+        });
+        
+        function executeEvently(app) {
+            // evently event connections
+            $('#header').evently('header', app);
+            $('#footer').evently('footer', app);
+            $('#dialog-bloc').evently('dialog', app);
+        }
+    </script>
+  </body>
+</html>

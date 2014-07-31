@@ -1,0 +1,248 @@
+<div id="edit-doc-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-doc-modal-label" 
+    aria-hidden="true">
+
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal" aria-hidden="true">×</a>
+    <h3 id="edit-doc-modal-label">Edit data</h3>
+  </div>
+
+  <form id="edit-doc" class="form-inline form-horizontal">
+
+    <div class="modal-body">
+
+      <div class="btn-toolbar">
+        <div class="btn-group">
+          <div class="input-append">
+            <input id="preset-select-text" type="text" class="has-tooltip input-medium btn-small"
+              title="Type a custom name to save a new preset" data-placement="bottom"
+              placeholder="Create or select a preset" value="{{last_used_preset}}">
+            <a class="btn dropdown-toggle has-tooltip btn-small" data-toggle="dropdown"
+              title="Select an existing preset to load, overwrite or delete it" data-placement="bottom">
+              <span class="caret"></span>
+            </a>
+            <ul id="available-presets-list" class="dropdown-menu">
+              {{#presets}}
+                <li>
+                  <a class="select-preset-cmd" value="{{name}}">{{name}}</a>
+                </li>
+              {{/presets}}
+              {{^presets}}
+                <li></li>
+              {{/presets}}
+            </ul>
+          </div>
+        </div>
+        <div class="btn-group">
+          <a class="btn load-preset-cmd has-tooltip btn-small" tabindex="-1"
+            title="Load the selected preset into the form" data-placement="bottom">
+            Load preset
+          </a>
+          <a class="btn dropdown-toggle btn-small" tabindex="-1" data-toggle="dropdown">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="save-preset-cmd has-tooltip"
+                title="Save / overwrite the selected preset" data-placement="bottom">
+                Save preset</a>
+              <a class="delete-preset-cmd has-tooltip"
+                title="Delete the selected preset" data-placement="bottom">
+                Delete preset</a>
+            </li>
+          </ul>
+        </div>
+        {{#attchid}}
+          <a class="btn pull-right edit-attch-cmd btn-small has-tooltip" data-id="{{_id}}"
+            title="Edit attachments (images / files) for this document" data-placement="left">
+            <i class="icon-dm-attachment"></i>
+            Edit attach.
+          </a>
+        {{/attchid}}
+        {{#editsyn}}
+          <a class="btn pull-right edit-syn-cmd btn-small has-tooltip" data-id="{{_id}}"
+            title="Edit synonyms for this document" data-placement="left">
+            <i class="icon-dm-synonym-show"></i>
+            Edit syn.
+          </a>
+        {{/editsyn}}
+      </div>
+
+      <input id="_id" value="{{_id}}}" type="hidden"/>
+      <input id="_rev" value="{{_rev}}}" type="hidden"/>
+
+      <fieldset id="meta-infos" class="edit-doc-fieldset">
+
+        <legend>Meta-infos</legend>
+        <label class="edit-doc-meta-label">Module:</label>
+        {{#module}}{{name}}{{/module}} - {{modiName}} &nbsp;&nbsp;&nbsp;
+        <a class="edit-modi-cmd pull-right btn btn-mini has-tooltip"
+          title="Change module instance of that document, when applicable" data-placement="left">
+          Change
+        </a>
+        <div id="edit-modi" style="display:none;">
+          <select id="new-modi" required="required" class="has-tooltip"
+            title="Select the module instance you wish to set the document in">
+            {{#possible_modis}}
+              <option value={{id}} {{#active}}selected="selected"{{/active}}>{{name}} ({{id}})</option>
+            {{/possible_modis}}
+          </select>
+        </div>
+
+        <input id="parent-id-old" type="hidden" value="{{parent_id}}"/>
+        <input id="parent-modi-old" type="hidden" value="{{parent_modi}}"/>
+        <input id="parent-deleted" type="hidden" value="false"/>
+        <input id="possible-modis" type="hidden" value="{{stringified_possible_modis}}"/>
+
+        <br/>
+        <label class="edit-doc-meta-label">Parent:</label>
+        {{parent_label}} &nbsp;&nbsp;&nbsp;
+        <a class="edit-parent-cmd pull-right btn btn-mini has-tooltip"
+          title="Change that document's parent, when applicable" data-placement="left">
+          Change
+        </a>
+        <div id="edit-parent" style="display:none;">
+          <input id="parent-label" type="text" value="" class="has-tooltip"
+            title="Select the parent you wish to move the document under"/>
+          <label class="checkbox has-tooltip" for="no-parent"
+            title="Click here if you wish the document was set in a module without having a parent, when applicable">
+            <input type="checkbox" id="no-parent"/>
+            Define no parent
+          </label>
+          <input id="parent-id" type="hidden" value="{{parent_id}}"/>
+          <input id="parent-modi" type="hidden" value=""/>
+        </div>
+
+        {{#has_label_tpl}}
+          <br/>
+          <label class="edit-doc-meta-label">Label:</label>
+          <strong>{{doc_label}}</strong>
+        {{/has_label_tpl}}
+
+        {{#synonym_label}}
+          <br/>
+          <label class="edit-doc-meta-label">Valid name:</label>
+          <span id="syn-label">{{synonym_label}}</span>
+        {{/synonym_label}}
+
+      </fieldset>
+
+      <fieldset id="fields-editor" class="edit-doc-fieldset">
+        <legend>Fields</legend>
+        {{#fields}}
+        <div class="control-group {{#extra}}hide extra-field{{/extra}}">
+          <label id="label-{{name}}" for="{{name}}" class="control-label">
+            <span {{#has_desc}}class="has-tooltip"{{/has_desc}}
+                  {{#has_desc}}title="{{description}}" data-placement="right"{{/has_desc}}>
+              {{label}}
+            </span>
+            {{#mandatory}}
+            <span class="red-star has-tooltip" data-placement="right" title="This field is required">
+                  *
+            </span>
+            {{/mandatory}}
+          </label>
+
+          {{^is_geoloc}}
+            <div class="controls">
+          {{/is_geoloc}}
+          <div id="field-{{name}}"
+            class="edit {{type}} field-input"
+            data-type="{{type}}"
+            data-index="{{index}}"
+            data-name="{{name}}"
+            data-field-label="{{label}}"
+            {{#mandatory}}required{{/mandatory}}
+            data-mandatory="{{mandatory}}"
+            data-is-serial="{{is_serial}}"
+            data-default-value="{{default_value}}"
+            {{#has_min}}data-min="{{min}}"{{/has_min}}
+            {{#has_max}}data-max="{{max}}"{{/has_max}}
+            {{#has_step}}data-step="{{step}}"{{/has_step}}
+          ></div>
+          {{#extra}}
+            <a class="btn btn-danger btn-small remove-extra-field-cmd">x</a>
+          {{/extra}}
+          {{^is_geoloc}}
+            </div>
+          {{/is_geoloc}}
+        </div>
+        {{/fields}}
+
+        <a id="extra-data-toggle-cmd" class="has-tooltip" data-placement="right" title="Show extra fields">>>></a>
+
+        <div class="add-extra-field hide">
+          <hr class="thin"/>
+          Add extra field
+          <div class="control-group new-extra-field">
+            <label for="extra-field-key" class="control-label">
+              Key
+            </label>
+            <div class="controls">
+              <input pattern="[^ ]+" type="text" id="extra-field-key" placeholder="no special chars or spaces"/>
+            </div>
+          </div>
+          <div class="control-group new-extra-field">
+            <label for="extra-field-value" class="control-label">
+              Value
+            </label>
+            <div class="controls">
+              <input type="text" id="extra-field-value"/>
+            </div>
+          </div>
+          <div class="control-group new-extra-field">
+            <label for="extra-field-value" class="control-label">
+            </label>
+            <div class="controls">
+              <a class="btn btn-small add-extra-field-cmd">
+                add
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <br/>
+        <a id="extra-data-add-toggle-cmd" class="has-tooltip" data-placement="right" title="Add extra fields">+</a>
+      </fieldset>
+
+      <div class="error" id="error_msg"></div>
+
+      <div class="btn-toolbar">
+      {{#attchid}}
+        <a class="btn pull-right edit-attch-cmd btn-small has-tooltip" data-id="{{_id}}"
+          title="Edit attachments (images / files) for this document" data-placement="left">
+          <i class="icon-dm-attachment"></i>
+          Edit attach.
+        </a>
+      {{/attchid}}
+      {{#editsyn}}
+        <a class="btn pull-right edit-syn-cmd btn-small has-tooltip" data-id="{{_id}}"
+          title="Edit synonyms for this document" data-placement="left">
+          <i class="icon-dm-synonym-show"></i>
+          Edit syn.
+        </a>
+      {{/editsyn}}
+      </div>
+      <br/><br/>
+    </div>
+
+    <div class="modal-footer">
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</a>
+      <button id="save" class="btn btn-primary" type="submit">
+        Save &amp; close
+      </button>
+      {{#new_doc}}
+        <button id="savenew" class="btn btn-primary has-tooltip" type="button"
+          title="Save this document and create a new one">
+          Save &amp; new
+        </button>
+      {{/new_doc}}
+      {{#attch}}
+        <button id="saveattch" class="btn btn-primary has-tooltip" type="button"
+          title="Save this document and add images / files">
+          Save &amp; attach
+        </button>
+      {{/attch}}
+    </div>
+
+  </form>
+</div>

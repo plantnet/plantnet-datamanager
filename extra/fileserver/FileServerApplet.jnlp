@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp codebase="." href="FileServerApplet.jnlp">
+    <information>
+        <title>Local File Server</title>
+        <vendor>Pl@ntNet</vendor>
+    </information>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.6+"
+              href="http://java.sun.com/products/autodl/j2se" />
+        <jar href="FileServerApplet.jar" main="true" />
+    </resources>
+    <applet-desc 
+         name="Local File Server"
+         main-class="FileServerApplet"
+         width="500"
+         height="100">
+     </applet-desc>
+     <update check="background"/>
+</jnlp>            

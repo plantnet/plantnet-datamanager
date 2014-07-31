@@ -1,0 +1,106 @@
+<div id="{{_id}}">
+  {{#module}}
+  <h4>Properties</h4>
+
+  <div class="control-group">
+    <label for="{{_id}}name">Name</label>
+    <input id="{{_id}}name" type="text" class="input-large modname" name="name" value="{{name}}" required/>
+
+    <label for="{{_id}}desc">Description </label>
+    <input id="{{_id}}desc" type="text" class="input-large" name="desc" value="{{desc}}"/>
+
+    <label for="{{_id}}color">
+      Color
+    </label>
+    <input type="color" id="{{_id}}color" class="module-color has-tooltip"
+      title="This color will be used in document view to distinguish documents from different modules"
+      style="border-color: {{color}}" value="{{color}}"/>
+  </div>
+
+  <div class="control-group">
+    <label for="{{_id}}index_tpl">Index Template</label>
+    <div class="input-append">
+      <input id="{{_id}}index_tpl" type="text" class="input-xxlarge" name="index_tpl" 
+        value="{{index_tpl}}" placeholder="${field_name}"/>
+      <button class="btn has-popover" data-html="true"
+        data-content="Possible variables are :
+          <ul>
+            <li><tt>${field_name}</tt></li>
+            <li><tt>${_attachments}</tt></li>
+            <li><tt>${parent}</tt></li>
+          </ul>" 
+        data-placement="left" data-trigger="hover" 
+        title="Unique id template">
+        <i class="icon-dm-help"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label for="{{_id}}label_tpl">Label Template</label>
+    <div class="input-append">
+      <input id="{{_id}}label_tpl" type="text" class="input-xxlarge" name="label_tpl" required
+        value="{{label_tpl}}" placeholder="${field_name}"/>
+      <button class="btn has-popover" data-html="true"
+        data-content="Possible variables are :
+          <ul>
+            <li><tt>${field_name}</tt></li>
+            <li><tt>${_attachments}</tt></li>
+            <li><tt>${parent.field_name}</tt></li>
+            <li><tt>${parent.parent.field_name}</tt></li>
+            <li><i>etc.</i></li>
+          </ul>
+          <div>
+            For a species: <pre>${parent.name} ${name} ${author} sp.</pre>
+          </div>" 
+        data-placement="left" data-trigger="hover" 
+        title="Display label template">
+        <i class="icon-dm-help"></i>
+      </button>
+    </div>
+  </div>
+
+  <label for="{{_id}}withattchs" class="checkbox">
+    <input id="{{_id}}withattchs" name="withattchs" type="checkbox" class="has-tooltip"
+      title="Allow users to add attachments (images, files) to this module" {{#withattchs}}checked{{/withattchs}}/>
+  With attachments</label>
+  {{/module}}
+</div>
+
+<br/>
+<h4>Fields</h4>
+
+<div>
+  <div id="fields-bloc-{{_id}}" class="fields-bloc">
+    <div class="btn-toolbar">
+      <!-- <div class="btn-group">
+        <a class="btn has-tooltip" data-placement="bottom" data-title="Select or Unselect all rows on this page">
+          <input class="toggle-all" type="checkbox"/>
+        </a>
+      </div> -->
+      <div class="btn-group">
+        <div class="input-append">
+          <input name="newfield" type="text" placeholder="New field name" class="field-name"/>
+          <button class="btn btn-success new-field-cmd has-tooltip"
+            data-modt="{{#module}}{{_id}}{{/module}}"
+            title="Add a new field to this module">
+            Add field</button>
+        </div>
+      </div>
+      <button class="btn btn-danger delete-field-cmd has-tooltip"
+        title="Remove the selected field from the module">
+        Remove field</button>
+      <div class="btn-group">
+        <button class="btn up-field-cmd has-tooltip"
+          title="Move the selected field up">
+            <i class="icon-dm-bullet-arrow-up"></i>
+          Move up</button>
+        <button class="btn down-field-cmd has-tooltip"
+          title="Move the selected field down">
+            <i class="icon-dm-bullet-arrow-down"></i>
+          Move down</button>
+      </div>
+    </div>
+    <div id="{{_id}}" class="fields editor"></div>
+  </div>
+</div>

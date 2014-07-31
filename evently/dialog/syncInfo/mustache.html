@@ -1,0 +1,81 @@
+<div id="sync-info-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirm-sync-modal-label" 
+    aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="confirm-sync-modal-label">Synchronization details</h3>
+  </div>
+
+  <div class="modal-body">
+    {{#data}}
+      <label class="field-label-very-large inline-block">From</label> {{source}}
+      <br/>
+      <label class="field-label-very-large inline-block">To</label> {{target}}
+      <br/>
+      <label class="field-label-very-large inline-block">Launched by</label> {{owner}}
+      <br/>
+      <label class="field-label-very-large inline-block">Mode</label> {{#continuous}}continuous{{/continuous}}{{^continuous}}one-shot{{/continuous}}
+      <br/>
+      <label class="field-label-very-large inline-block">Status</label> {{replication_state}}
+      <br/>
+      <label class="field-label-very-large inline-block">Last activity</label> {{replication_state_time}}
+      <br/>
+      <br/>
+
+      {{#what}}
+        {{#needsFilter}}
+        <label class="field-label-very-large inline-block">Include deleted</label>
+        {{#includedeleted}}yes{{/includedeleted}}
+        {{^includedeleted}}no{{/includedeleted}}
+        <br/>
+        {{/needsFilter}}
+        <label class="field-label-very-large inline-block">Data exchanged</label>
+        <strong>{{mode}}</strong>
+        <br/>
+      {{/what}}
+      {{^all}}
+        <label class="field-label-very-large inline-block"></label>
+        <div class="inline-block">
+        {{#structures}}{{#what}}{{#structures}}
+              {{name}}
+              {{^all}}
+                {{#structure}}(structure){{/structure}}
+                {{#data}}(data){{/data}}
+                {{#vqd}}(views & queries definitions){{/vqd}}
+              {{/all}}
+              <br/>
+        {{/structures}}{{/what}}{{/structures}}
+        {{#selections}}{{#what}}{{#selections}}
+              {{name}}
+              <br/>
+        {{/selections}}{{/what}}{{/selections}}
+        {{#queries}}{{#what}}{{#queries}}
+              {{structureName}} - {{name}}
+              <br/>
+        {{/queries}}{{/what}}{{/queries}}
+        </div>
+        <br/>
+      {{/all}}
+      <br/>
+
+      <label class="field-label-very-large inline-block">checkpointed_source_seq</label> {{checkpointed_source_seq}}
+      <br/>
+      <label class="field-label-very-large inline-block">docs_read</label> {{docs_read}}
+      <br/>
+      <label class="field-label-very-large inline-block">docs_written</label> {{docs_written}}
+      <br/>
+      <label class="field-label-very-large inline-block">doc_write_failures</label> {{doc_write_failures}}
+      <br/>
+      <label class="field-label-very-large inline-block">revisions_checked</label> {{revisions_checked}}
+      <br/>
+      <label class="field-label-very-large inline-block">missing_revisions_found</label> {{missing_revisions_found}}
+      <br/>
+      <br/>
+
+    {{/data}}
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

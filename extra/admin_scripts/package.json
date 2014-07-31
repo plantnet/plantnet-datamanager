@@ -1,0 +1,20 @@
+{
+  "name": "plantnet-datamanager-admin-scripts",
+  "version": "0.1.0",
+  "author": "Samuel Dufour-Kowalski <samuel.dufour@cirad.fr>",
+  "description": "",
+  "keywords": [
+  ],
+  "engines": [
+    "node"
+  ],
+  "directories": {
+  },
+  "main": "",
+  "bin" : {},
+  "dependencies": {
+     "iniparser" : "*",
+     "plantnet-node-couchdb" : "git://github.com/plantnet/node-couchdb.git"
+  },
+  "devDependencies": {}
+}

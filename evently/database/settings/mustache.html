@@ -1,0 +1,213 @@
+<div id="db-settings">
+
+<h2 class="page-title">Settings</h2>
+
+{{#is_db_admin}}
+<h3>Data management</h3>
+<ul>
+  <li>
+    <a class="clean-cmd has-tooltip" data-placement="right"
+      title="Try to gain a little disk space by compacting your database. This may take some time!">
+      Compact database
+    </a>
+  </li>
+  <li>
+    <a class="relink-cmd has-tooltip" data-placement="right"
+      title="Restore links to dictionaries based on the label template">
+      Relink data with dictionnaries
+    </a>
+  </li>
+  <li>
+    <a class="upmm-cmd has-tooltip" data-placement="right"
+      title="Force re-validation of all structures, including labels computations if needed">
+      Check structures / rebuild labels
+    </a>
+  </li>
+  <li>
+    <a class="rebuild-paths-cmd has-tooltip" data-placement="right"
+      title="Try this if your hierarchy is broken">
+      Rebuild all paths
+    </a>
+  </li>
+  <li>
+    <a class="rmdl-cmd has-tooltip" data-placement="right"
+      title="Try this if you get error messages saying something is locked">
+      Remove deadlocks
+    </a>
+  </li>
+  <li>
+    <a class="rm-conflicts-cmd has-tooltip" data-placement="right"
+       title="Force to resolve all conflicts">
+      Resolve all conflicts by revision number
+    </a>
+  </li>
+  <li>
+    <a class="rm-conflicts-cmd has-tooltip resolve_conflicts_by_date" data-placement="right"
+       title="Force to resolve all conflicts">
+      Resolve all conflicts by date
+    </a>
+  </li>
+</ul>
+
+<h3>Update software</h3>
+<ul>
+  <li>
+    <a class="upsoft-cmd has-tooltip"
+      title="Replace the DataManager software in this database by the latest available version on Pl@ntNet server">
+      Get the latest version of the software
+    </a>. (This will affect only this base)
+  </li>
+</ul>
+
+
+<h3>Dump</h3>
+<ul>
+  <li>
+    <a class="dump-cmd has-tooltip"
+      title="Produces a dump file containing all the data in the database, including images and other files">
+      Dump all docs with attachments
+    </a>
+  </li>
+  <li>Import Dump : <input type="file" id="import_file"/></li>
+</ul>
+
+{{#has_addon}}
+<h3>Addons</h3>
+{{#has_addon_import}}
+<ul>
+{{#addon_imports}}
+  <li>
+    Import {{name}} :
+    <br/>
+    <select>
+      <option value="" selected>New structure</option>
+      {{#mms}}
+      <option value="{{_id}}">{{name}}</option>
+      {{/mms}}
+    </select>
+    <br/>
+    <label>Parameter</label><input type="text" class="param"/><br/>
+    <input type="file" id="{{key}}" class="import-addon-cmd"/>
+  </li>
+{{/addon_imports}}
+</ul>
+{{/has_addon_import}}
+
+{{#has_addon_export}}
+<ul>
+{{#addon_exports}}
+  <li>Export {{name}} : 
+    <select>
+    {{#mms}}
+      <option value="{{_id}}" selected>{{name}}</option>
+    {{/mms}}
+    </select>
+    <a href="#{{key}}" class="export-addon-cmd">Download</a>
+  </li>
+{{/addon_exports}}
+</ul>
+{{/has_addon_export}}
+{{/has_addon}}
+{{/is_db_admin}}
+
+<h3>Users rights for this database</h3>
+{{#is_db_admin}}
+<form class="form-inline">
+  <label class="checkbox has-tooltip"
+    title="Check this if you want everyone to have read access to this database. The base will be visible on the projects page.">
+    <input id="publicdb" type="checkbox" {{#is_public}}checked{{/is_public}}/>
+    Public database (everyone can read it)
+  </label>
+</form>
+{{/is_db_admin}}
+{{^is_db_admin}}
+<p>
+  {{#is_public}}This is a public database (everyone can read it; it appears on the projects page).{{/is_public}}
+  {{^is_public}}This is a private database ("admin" and "writer" users can write data, "reader" users only can read data).{{/is_public}}
+</p>
+{{/is_db_admin}}
+
+<p class="alert alert-info midwidth">
+  You are : 
+  {{#is_sys_admin}}<span class="auth sys-admin"><strong>system administrator</strong></span> and {{/is_sys_admin}}
+  <span class="auth {{session_user_role}}"> "{{session_user_role}}"</span>
+</p>
+
+{{#erreur}}
+<p class="error">{{infos}}</p>
+{{/erreur}}
+
+{{#is_db_admin}}
+{{#has_users}}
+<div>
+  <form id="db-users-rights">
+    <table class="table table-condensed table-hover table-striped">
+      <caption>You can modify the users rights :</caption>
+      <tbody>
+        {{#users}}
+        {{^is_session_user}}
+        <tr data-user="{{name}}">
+          {{! à quoi sert ce test? }}
+          <td {{^isexclude}}class="selected"{{/isexclude}}>{{name}}</td>
+          <td>
+            <label for="{{id}}-a" class="radio has-tooltip" data-placement="right"
+              title="An admin has the right to do everything on the database, including deleting data and structures!">
+              <input id="{{id}}-a" name="{{id}}-{{number}}" class="auth admin" type="radio" {{#isadmin}} checked {{/isadmin}}/>
+              Admin
+            </label>
+          </td>
+          <td>
+            <label for="{{id}}-w" class="radio has-tooltip" data-placement="right"
+              title="A writer can insert new data, update existing data, but cannot modify the structures">
+              <input id="{{id}}-w" name="{{id}}-{{number}}" class="auth writer" type="radio" {{#iswriter}} checked {{/iswriter}}/>
+              Writer
+            </label>
+          </td>
+          <td>
+            <label for="{{id}}-r" class="radio has-tooltip" data-placement="right"
+              title="A reader may read data, execute queries, export data, but cannot write or delete anything">
+              <input id="{{id}}-r" name="{{id}}-{{number}}" class="auth reader" type="radio" {{#isreader}} checked {{/isreader}}/>
+              Reader
+            </label>
+          </td>
+          <td>
+            <label for="{{id}}-e" class="radio has-tooltip" data-placement="right"
+              title="No rights at all. Unless the database is marked as public, this user won't even see it.">
+              <input id="{{id}}-e" name="{{id}}-{{number}}" class="auth exclude" type="radio" {{#isexclude}} checked {{/isexclude}}/>
+              None
+            </label>
+          </td>
+        </tr>
+        {{/is_session_user}}
+        {{/users}}
+      </tbody>
+    </table>
+    <button class="btn btn-primary" type="submit">Apply rights</button>
+  </form>
+</div>
+{{/has_users}}
+{{/is_db_admin}}
+
+{{^is_db_admin}}
+<div>
+  <table class="table table-condensed table-hover">
+    <tbody>
+      {{#users}}
+      {{^is_session_user}}
+      <tr data-user="{{name}}" >
+        <td>{{name}} : </td>
+        <td>
+          {{#isadmin}}<span class="auth admin">administrator</span>{{/isadmin}}
+          {{#iswriter}}<span class="auth writer">writer</span>{{/iswriter}}
+          {{#isreader}}<span class="auth reader">reader</span>{{/isreader}}
+          {{^isadmin}}{{^iswriter}}{{^isreader}}<span class="auth excluded">excluded</span>{{/isreader}}{{/iswriter}}{{/isadmin}}
+        </td>
+      </tr>
+      {{/is_session_user}}
+      {{/users}}
+    </tbody>
+  </table>
+</div>
+{{/is_db_admin}}
+
+</div>

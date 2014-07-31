@@ -1,0 +1,21 @@
+<h4>Which selection(s) of documents would you like to exchange?</h4>
+
+<a class="btn btn-mini has-tooltip check-all-selections-cmd" title="Check all selections">
+  Check all
+</a>
+<a class="btn btn-mini has-tooltip uncheck-all-selections-cmd" title="Uncheck all selections">
+  Check none
+</a>
+
+<ul id="sync-selections-selection">
+{{#selections}}
+  <li>
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox" data-id="{{id}}" data-name="{{#value}}{{name}}{{/value}}" checked/>
+      {{#value}}
+        {{name}} ({{length}} docs)
+      {{/value}}
+    </label>
+  </li>
+{{/selections}}
+</ul>

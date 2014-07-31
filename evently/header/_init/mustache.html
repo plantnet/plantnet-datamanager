@@ -1,0 +1,75 @@
+<div class="navbar-inner">
+  <div class="{{#is_start}}container{{/is_start}}{{^is_start}}container-fluid{{/is_start}}">
+    <a class="brand" href="/datamanager/_design/datamanager/projects.html"
+      rel="tooltip"
+      data-placement="bottom" 
+      title="Return to database management interface.">
+      <img src="img/logos/datamanager.png" alt="Pl@ntnet Logo"/>
+      <span class="dmtitle">DataManager</span>
+    </a>
+    <div id="plantnet-ribbon-toggle" class="pull-left">
+     <a class="plantnet-ribbon-toggle-cmd has-tooltip" title="Toggle Pl@ntNet ribbon"
+       data-placement="bottom">
+       >>
+     </a>
+    </div>
+    <div id="plantnet-ribbon" class="pull-left hide">
+      <span class="ribbon-item-block">
+        <a class="ribbon-item" href="http://community.plantnet-project.org/pg/groups/5320/plntnetdatamanager/" target="_blank">
+          <img src="http://community.plantnet-project.org/pg/groupicon/5320/large/1347453942.jpg">
+          <span class="ribbon-item-caption">
+            Pl@ntNet Community
+          </span>
+        </a>
+      </span>
+      <div class="ribbon-item-separator"></div>
+      <span class="ribbon-item-block">
+        <a class="ribbon-item" href="http://amap-dev.cirad.fr/projects/p2pnote/wiki" target="_blank">
+          <img src="http://community.plantnet-project.org/mod/plantnet_theme/graphics/logoAMAP.png">
+          <span class="ribbon-item-caption">
+            Doc & Wiki
+          </span>
+        </a>
+      </span>
+      <div class="ribbon-item-separator"></div>
+      <span class="ribbon-item-block">
+        <a class="ribbon-item" href="https://github.com/plantnet/plantnet-datamanager" target="_blank">
+          <img src="https://github.com/silexlabs/Cocktail/diff_blob/1351bf6d56b6b4b8940b2dd5e4361845931c3ff1/demo/simple-webapp/bin/images/github.jpg?raw=true">
+          <span class="ribbon-item-caption">
+            Fork me on GitHub
+          </span>
+        </a>
+      </span>
+    </div>
+    <ul class="nav pull-left">
+      <li id="version-container"></li>
+      <li id="db-info-container">
+        <ul id="db-infos" class="nav">
+          {{^is_start}}
+          <li id="db-name" class="navbar-text has-tooltip" 
+              data-placement="bottom" title="Name of your database.">
+            {{db_name}}
+          </li>
+          {{/is_start}}
+          <li id="server-name"></li>
+          {{^is_start}}
+          <li id="db-docs-info" class="navbar-text"></li>
+          {{/is_start}}
+        </ul>
+      </li>
+    </ul>
+    <ul id="account-menu" class="nav pull-right"></ul>
+    {{^is_start}}
+    <ul id="db-menu" class="nav pull-right"></ul>
+    <ul id="db-menu" class="nav pull-right">
+      <li>
+        <a href="#/db-manager" class="has-tooltip" data-placement="left"
+          title="Return to database overview">
+          <i class="icon-dm-home-medium"></i>
+          Home
+        </a>
+      </li>
+    </ul>
+    {{/is_start}}
+  </div>
+</div>

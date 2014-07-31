@@ -1,0 +1,15 @@
+[
+  // filenames matching these regexps will not be pushed to the database
+  // uncomment to activate; separate entries with ","
+  ".*~$",
+  ".*\\.swp$",
+  ".*\\.bak$",
+  ".*\\.svn*",
+  ".*\\.pyc$",
+  "extra*",
+  "tmp*",
+  "build.py",
+  "build.xml",
+  "couchdb.stderr",
+  "couchdb.stdout"
+]

@@ -1,0 +1,8 @@
+#!
+# update node server
+
+npm install -g git://github.com/plantnet/node-datamanager.git
+
+# replicate datamanager app
+curl -X PUT http://localhost:5984/datamanager 
+curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 

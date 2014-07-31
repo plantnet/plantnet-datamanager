@@ -1,0 +1,27 @@
+<div id="restart-sync-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="restart-sync-modal-label" aria-hidden="true">
+  
+  <form class="form-inline">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="restart-sync-modal-label">Restart synchronization</h3>
+    </div>
+
+    <div class="modal-body">
+      <br/>
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right"
+          title="Ignores the progression achieved until now, and restarts everything from the beginning. Useful if you purged documents and want to get them again.">
+          <input id="restart-sync-from-beginning" name="restart-sync-from-beginning" type="checkbox"/>
+          Restart from the beginning
+        </label>
+      </div>
+      <br/>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary" type="submit">Restart</button>
+    </div>
+  </form>
+</div>

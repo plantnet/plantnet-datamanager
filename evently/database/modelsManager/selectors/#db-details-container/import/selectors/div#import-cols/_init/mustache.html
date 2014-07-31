@@ -1,0 +1,83 @@
+{{#has_cols}}
+<table id="colmap" class="table table-striped table-hover">
+  <caption>Columns to import</caption>
+  <thead>
+    <tr>
+      <th>CSV column</th>
+      <th>Target field</th>
+      <th>
+        <label class="checkbox">
+          <input type="checkbox" class="check-all-cmd has-tooltip"
+            title="Click to (un)check all boxes"/>
+          Group
+        </label>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#cols}}
+    <tr>
+      <td>
+        <span class="csv-col">{{label}}<span>
+      </td>
+      <td>
+        <select class="mm-col">
+          <option value="#"></option>
+          {{#modules}}
+          {{#fields}}
+          <option value="{{name}}#{{modi}}#{{type}}" data-name="{{label}}.{{name}}" data-label="{{modi_label}}">{{modi_label}}</option>
+          {{/fields}}
+          {{#withattchs}}
+          <option value="$attachment#{{modi}}#{{text}}" data-name="{{label}}._attchs_urls">{{label}}.$attachments (url)</option>
+          <option value="$local_file#{{modi}}#{{text}}" data-name="{{label}}._attchs_files">{{label}}.$attachments (local files)</option>
+          {{/withattchs}}
+          <option value="$id#{{modi}}#{{text}}" data-name="{{label}}.$valid_name_id">{{label}}.$valid_name_id</option>
+          <option value="$synid#{{modi}}#{{text}}" data-name="{{label}}.$synonym_of">{{label}}.$synonym_of</option>
+          {{/modules}}
+        </select>
+      </td>
+      <td>
+        <input type="checkbox" class="cb-group"/>
+      </td>
+      <td></td>
+    </tr>
+    {{/cols}}
+  </tbody>
+</table>
+
+<p class="alert alert-info" style="width:500px;">
+  <strong>Important:</strong> if you have defined an "id_template" on a module,
+  and if one or more imported documents produce the same "id", then
+  <br>→
+  <span id="import-docs-conflicts">those documents will be <strong>put in conflict</strong> with the existing one</span>
+  <span id="import-docs-ignore" class="hide">those documents will be <strong>ignored</strong> (not imported)</span>
+  <span id="import-docs-overwrite" class="hide">the last of those documents will <strong>overwrite</strong> the existing one</span>
+</p>
+
+<label class="checkbox">
+  <input id="ignoreconflicts" type="checkbox"/>
+  Ignore conflicts
+  <img src="img/icons/help.png" alt="help" class="has-tooltip" data-html="true" 
+    title="Use this option if you want to merge data. 
+    Conflict detection and data merging are based on the <i>index template</i> of the modules."/>
+</label>
+<br/>
+<label class="checkbox">
+  <input id="overwrite" type="checkbox" disabled="disabled"/>
+  Overwrite existing values
+</label>
+<br/>
+<label class="checkbox">
+  <input id="notrim" type="checkbox"/>
+  Do not trim value (not recommended)
+</label>
+<br/>
+
+<br/>
+<div>
+  <button class="btn btn-primary" type="submit">
+    Import
+  </button>
+</div>
+{{/has_cols}}

@@ -1,0 +1,171 @@
+<div class="btn-toolbar model-toolbar">
+
+  {{#is_admin}}
+    <div class="btn-group">
+      <button class="btn new-mm-cmd has-tooltip btn-light-structures" data-placement="top"  data-toggle="modal" data-target="#new-mm"
+          title="Create a new empty structure">
+        <i class="icon-dm-ui-tab-plus"></i>
+      </button>
+      {{#has_model_selected}}
+      <button class="btn dropdown-toggle for-model-tab {{^is_model_tab}}hide{{/is_model_tab}} btn-light-structures" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu for-model-tab {{^is_model_tab}}hide{{/is_model_tab}}">
+        <li class="has-tooltip" data-placement="right" title="Create a new structure based on the layout of the currently selected structure">
+          <a class="copy-mm-cmd">
+            <i class="icon-dm-model-copy"></i>
+            Copy selected structure layout
+          </a>
+        </li>
+        <li class="has-tooltip" data-placement="right" title="Create a new structure based on the layout and data of the currently selected structure.">
+          <a class="copy-mm-data-cmd">
+            <i class="icon-dm-model-copy"></i>
+            Copy selected structure layout &amp; data
+          </a>
+        </li>
+      </ul>
+      {{/has_model_selected}}
+    </div>
+
+    {{#has_model_selected}}
+    <div class="btn-group">
+      <a href="#/editmm/{{mm_id}}"
+        class="btn has-tooltip toggle-edit-model-view btn-light-tools"
+        data-placement="bottom"
+        title="Edit the modules and the layout of this structure">
+        <i class="icon-dm-model-edit"></i>
+      </a>
+    </div>
+
+    <div class="btn-group dropdown for-model-tab {{^is_model_tab}}hide{{/is_model_tab}}">
+      <a class="btn dropdown-toggle has-tooltip btn-light-structures" data-toggle="dropdown" data-placement="top" 
+          title="Delete the selected structure's data/layout">
+        <i class="icon-dm-delete"></i>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li class="has-tooltip" data-placement="right" title="Delete all data for the selected structure">
+          <a class="delete-mm-cmd">
+            <i class="icon-dm-delete"></i>
+            Structure's data
+          </a>
+        </li>
+        <li class="has-tooltip" data-placement="right" title="Delete the whole structure. All data and layout will be destroyed for the selected structure">
+          <a class="delete-mm-data-cmd">
+            <i class="icon-dm-delete"></i>
+            Structure's data &amp; layout
+          </a>
+        </li>
+      </ul>
+    </div>
+    {{/has_model_selected}}
+  {{/is_admin}}
+
+  {{#is_writer}}
+    {{#has_model_selected}}
+    <div class="btn-group">
+        <button class="view-links-break-cmd btn has-tooltip toggle-missing-ref-view btn-light-structures"
+          data-placement="bottom"
+          title="Find unreferenced values between a dictionary and the current structure">
+          <i class="icon-dm-link-break"></i>
+        </button>
+    </div>
+    {{/has_model_selected}}
+  {{/is_writer}}
+
+  {{#has_model_selected}}
+
+    {{#is_writer}}
+    <div class="btn-group dropdown">
+      <button class="btn dropdown-toggle has-tooltip btn-light-docs" data-toggle="dropdown" data-placement="top" 
+          title="Add a new document">
+        <i class="icon-dm-add"></i>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#add_prone_modules}}
+        <li class="has-tooltip" data-placement="left" title="Add a new doc in module '{{longLabel}}'">
+          <a data-modi="{{modi}}" class="add-doc-cmd">
+            <i class="icon-dm-add"></i> New doc for "{{longLabel}}"
+          </a>
+        </li>
+        {{/add_prone_modules}}
+      </ul>
+    </div>
+    {{/is_writer}}
+
+    <div class="btn-group">
+      <a href="#/tree/{{mm_id}}/0/1"
+        class="btn has-tooltip toggle-tree-view btn-light-views"
+        data-placement="bottom"
+        title="Tree view">
+        <i class="icon-dm-view-tree"></i>
+      </a>
+      <a href="#/viewtable/{{mm_id}}/{{#modToGo}}{{#goToModt}}*{{/goToModt}}{{modToGo}}{{/modToGo}}{{#mmOnly}}0{{/mmOnly}}/_id/0/0/0/0/0/1"
+        class="btn has-tooltip toggle-table-view btn-light-views"
+        data-placement="bottom"
+        title="Table view">
+        <i class="icon-dm-view-table"></i>
+      </a>
+      <a href="#/map/{{mm_id}}"
+        class="btn has-tooltip toggle-map-view btn-light-views"
+        data-placement="bottom"
+        title="Map view">
+        <i class="icon-dm-map"></i>
+      </a>
+      <a href="#/images/{{mm_id}}/0/{{#modToGo}}{{#goToModt}}modt{{/goToModt}}{{^goToModt}}modi{{/goToModt}}/{{modToGo}}{{/modToGo}}{{#mmOnly}}0/0{{/mmOnly}}"
+        class="btn has-tooltip toggle-images-view btn-light-views"
+        data-placement="bottom"
+        title="Pictures gallery">
+        <i class="icon-dm-pictures"></i>
+      </a>
+    </div>
+
+    {{#is_writer}}
+    <div class="btn-group dropdown">
+      <button class="btn dropdown-toggle has-tooltip" data-toggle="dropdown" data-placement="top" 
+          title="Add a new query or view to the structure">
+        <i class="icon-dm-query-add"></i>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu right-aligned-dropdown">
+        <li class="has-tooltip" data-placement="left" title="Add a new query to the structure">
+          <a class="add-query-cmd">
+            <i class="icon-dm-query-add"></i> New query
+          </a>
+        </li>
+        <li class="has-tooltip" data-placement="left" title="Add a new view to the structure">
+          <a class="add-view-cmd">
+            <i class="icon-dm-view-add"></i> New view
+          </a>
+        </li>
+      </ul>
+    </div>
+    {{/is_writer}}
+
+    <div class="btn-group dropdown">
+      <button class="btn dropdown-toggle has-tooltip" data-toggle="dropdown" data-placement="top" 
+          title="Import or export data in CSV format">
+        <i class="icon-dm-model-import"></i>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu right-aligned-dropdown">
+        {{#is_writer}}
+        <li class="has-tooltip" data-placement="left" title="Import data into the structure from a CSV file">
+          <a href="#/importdata/{{mm_id}}">
+            <i class="icon-dm-model-import"></i>
+            Import
+          </a>
+        </li>
+        {{/is_writer}}
+        <li class="has-tooltip" data-placement="left" title="Export structure's data to a CSV file">
+          <a href="#/exportdata/{{mm_id}}">
+            <i class="icon-dm-model-export"></i>
+            Export
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  {{/has_model_selected}}
+</div>

@@ -1,0 +1,12 @@
+<a class="btn btn-mini pull-right add-field has-tooltip" data-placement="left" title="Add field to {{label}}">
+  <i class="icon-plus"></i>
+  Add field
+</a>
+{{^isEmpty}}
+  {{#existingValues}}
+    <input type="text" class="editmt" value="{{value}}" />
+  {{/existingValues}}
+{{/isEmpty}}
+{{#isEmpty}}
+  <input type="text" class="editmt" value="{{defaultValue}}" />
+{{/isEmpty}}

@@ -1,0 +1,63 @@
+<h3>
+  * New synchronization wizard - step 2/4
+</h3>
+
+{{^isAdmin}}
+<p class="alert" style="width: 600px">
+  <strong>Warning:</strong> you are not an administrator. You will not be able
+  to synchronize structure definitions! Such documents will be silently ignored.
+</p>
+{{/isAdmin}}
+
+<form class="form form-inline">
+  <h4>Which data do you want to exchange?</h4>
+
+  <div class="control-group">
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="all" checked/>
+        Everything
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="advanced"/>
+        Select by structure
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="queries"/>
+        Queries results
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="what" value="selections"/>
+        Selections contents
+      </label>
+    </div>
+  </div>
+
+  <div id="sync-select-what">
+    <!-- built by selector -->
+  </div>
+
+  <p class="alert alert-warning sync-mode-help" id="sync-mode-help-one-shot">
+    <strong>Warning:</strong> Even if you synchronize structure definitions only,
+    <strong>a link will be kept</strong> between all the synchronized documents
+    and their source.
+    If you are administrator, you can break this link after the synchronization
+    has ended by clicking the "New structure" button in the toolbar and selecting
+    "Copy selected structure", then deleting the original one.
+  </p>
+
+  <br/>
+  <div class="row-fluid">
+    <div class="form-actions span6">
+      <a class="btn previous-step-cmd">Previous</a>
+      <a class="btn btn-danger cancel-cmd">Cancel</a>
+      <button class="btn btn-primary pull-right next-step-cmd">Next</button>
+    </div>
+  </div>
+</form>

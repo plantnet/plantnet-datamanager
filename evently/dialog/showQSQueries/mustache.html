@@ -1,0 +1,44 @@
+<div id="quicksearch-queries-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="quicksearch-queries-modal-label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="confirm-delete-modal-label">Quick Search queries</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table table-condensed">
+      <tr>
+        <th></th>
+        <th></th>
+        <th>Query</th>
+        <th>Structure</th>
+        <th>Module</th>
+        <th>Field</th>
+        <th>View</th>
+      </tr>
+      {{#queries}}
+        <tr>
+          <td>
+            <a href="#" class="btn btn-mini btn-success has-tooltip replay-qs-query" data-placement="right" title="Replay this query" data-identifier="{{tostring}}">
+              <i class="icon-white icon-ok"></i>
+            </a>
+          </td>
+          <td>
+            {{#deletable}}
+              <a href="#" class="btn btn-mini btn-danger has-tooltip delete-qs-query" data-placement="right" title="Delete this query" data-identifier="{{tostring}}">
+                <i class="icon-white icon-remove"></i>
+              </a>
+            {{/deletable}}
+          </td>
+          <td>{{req}}</td>
+          <td>{{structure_lbl}}</td>
+          <td>{{module_lbl}}</td>
+          <td>{{field_lbl}}</td>
+          <td>{{view_lbl}}</td>
+        </tr>
+      {{/queries}}
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

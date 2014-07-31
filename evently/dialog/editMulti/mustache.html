@@ -1,0 +1,58 @@
+<div id="edit-multi-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-multi-modal-label" aria-hidden="true">
+  <form id="edit-multi" class="form form-inline">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-doc-modal-label">Bulk Edit</h3>
+    </div>
+
+    <div class="modal-body{{#hasFieldNames}} modal-bulk{{/hasFieldNames}}">
+      <div class="control-group">
+        <label class="field-label">
+          Field name
+        </label>
+        {{#hasFieldNames}}
+        <div class="btn-group">
+          <div class="input-append">
+            <input id="field-name" type="text" class="has-tooltip input-medium"
+              title="Choose or type a field name to update its value in all the selected documents" data-placement="right"
+              placeholder="Field name">
+            <a class="btn dropdown-toggle has-tooltip btn" data-toggle="dropdown"
+              title="Choose or type a field name to update its value in all the selected documents" data-placement="right">
+              <span class="caret"></span>
+            </a>
+            <ul id="available-field-names" class="dropdown-menu">
+              {{#fieldNames}}
+                <li>
+                  <a class="select-field-name-cmd" value="{{name}}">{{label}}</a>
+                </li>
+              {{/fieldNames}}
+              {{^fieldNames}}
+                <li></li>
+              {{/fieldNames}}
+            </ul>
+          </div>
+        </div>
+        {{/hasFieldNames}}
+        {{^hasFieldNames}}
+        <input id="field-name" type="text" name="field-name" class="has-tooltip" data-placement="right"
+          placeholder="Field name"
+          title="Choose a field to update its value in all the selected documents"/>
+        {{/hasFieldNames}}
+        <br/>
+        <label class="field-label">
+          Value
+        </label>
+        <input id="field-value" type="text" name="field-value" class="has-tooltip" data-placement="right"
+          placeholder="Value to be set"
+          title="This value will be written into the above field, for all selected documents. Use ${val} for current value,
+            or ${fieldname} to copy a value from the field called 'fieldname' in the doc"/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</a>
+      <button type="submit" class="btn btn-primary">Confirm and close</button>
+    </div>
+  </form>
+</div>

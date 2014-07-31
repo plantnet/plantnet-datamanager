@@ -1,0 +1,151 @@
+<div id="edit-query-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-query-modal-label" 
+    aria-hidden="true">
+
+  <form class="form form-inline" id="edit-query-form">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-query-modal-label">Edit Query</h3>
+    </div>
+
+    <div class="modal-body">
+      <fieldset class="large">
+        <div class="control-group">
+          <legend>Infos</legend>
+          <input type="hidden" name="id" value="{{_id}}"/>
+          <label class="field-label-very-large">Name :</label>
+          <input type="text" name="name" class="has-tooltip" value="{{query_name}}" required placeholder="Enter name"
+            data-placement="right" title="Choose a name for your query"/>
+        </div>
+        <div class="control-group">
+          <label class="field-label-very-large" for="modi">Select from module instance :</label>
+          <div class="input-append"> 
+            <select id="modi">
+              <option value=""></option>
+              {{#modi_list}}
+                <option value="{{modi}}" {{#selected}}selected{{/selected}}>{{label}}</option>
+              {{/modi_list}}
+            </select>
+            <a class="btn has-popover" data-trigger="hover" title="Module instance"
+              data-content="If you select a module instance, the results of your query will be picked among the docs of this instance only">
+              <i class="icon-dm-help"></i>
+            </a>
+          </div>
+          <label class="field-label-large" for="modt">&nbsp;or from module type :</label>
+          <div class="input-append"> 
+            <select id="modt">
+              {{#modts}}
+                <option value="{{modt}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+              {{/modts}}
+              <option value=""></option>
+            </select>
+            <a class="btn has-popover" data-trigger="hover" title="Module type"
+              data-placement="left"
+              data-content="If you select a module type, the results of your query will be picked among the docs of all instances of this module type">
+              <i class="icon-dm-help"></i>
+            </a>
+          </div>
+        </div>
+      </fieldset>
+      <br/>
+
+      <fieldset class="large">
+        <legend>Criteria</legend>
+        <a class="btn open-chooser-cmd has-tooltip" href="#" data-placement="right"
+          title="Click to open / close the fields chooser">
+          <i class="icon-dm-add"></i>
+          Show / hide criteria explorer
+        </a>
+
+        <div id="chooser" class="widget" style="display:none">
+          <h4>Select by module instance</h4>
+          {{#modi_list}}
+          <div class="indent" data-indent="{{level}}">
+            <a class="tree-action-cmd tree-element" href="#">
+              <span class="tree-state">►</span> {{label}}
+            </a>
+            <ul class="fields-selector" style="display:none">
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="_label" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_label" data-type="text" class="new-criterion-cmd has-tooltip"
+                   data-placement="right" title="Add a criterion on the doc's _label">
+                  <strong>+</strong> <i>_label</i>
+                </a>
+              </li>
+              {{#fields}}
+               <li class="field">
+                <a data-modi="{{modi}}" data-mm-ref-id="{{mm_ref_id}}" data-field="{{name}}" 
+                    data-label="{{field_label}}" data-type="{{type}}" class="new-criterion-cmd has-tooltip"
+                    data-placement="right" title="Add a criterion on this field">
+                  <strong>+</strong> {{field_label}}
+                </a>
+                {{#__has__refs}}
+                  | <select class="dictionary-level has-tooltip new-dict-col-cmd" data-placement="right"
+                      title="Add information from the referenced dictionary at the level of your choice">
+                    <option></option>
+                {{/__has__refs}}
+                {{#refs}}
+                  <option data-modi="{{pmodi}}" data-field="{{ref_path}}" data-mm-ref-id="{{mm_ref_id}}"
+                    data-label="{{ref_label}}" data-type="ref">
+                    {{ref_label}}
+                  </option>
+                {{/refs}}
+                {{#__has__refs}}
+                  </select>
+                {{/__has__refs}}
+              </li>
+              {{/fields}}
+              {{#withattchs}}
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="_attchs" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_attchs" data-type="text" class="new-criterion-cmd has-tooltip"
+                   data-placement="right" title="Add a criterion on the doc's attachments names">
+                  <strong>+</strong> <i>_attachments</i>
+                </a>
+              </li>
+              {{/withattchs}}
+              {{#isRef}}
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="_synonym" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_synonym" data-type="synonym" class="new-criterion-cmd has-tooltip"
+                   data-placement="right" title="Add a criterion on the doc's synonymy status">
+                  <strong>+</strong> <i>_synonym</i>
+                </a>
+              </li>
+              {{/isRef}}
+            </ul>
+          </div>
+          {{/modi_list}}
+
+          <h4>Select by module type</h4>
+          {{#modt_list}}
+          <div class="indent" data-indent="{{level}}">
+            <a class="tree-action-cmd tree-element" href="#">
+              <span class="tree-state">►</span> {{name}}
+            </a>
+            <ul class="fields-selector" style="display:none">
+              {{#fields}}
+              <li class="field">
+                <a data-modi="{{modt}}" data-mm-ref-id="{{mm_ref_id}}" data-field="{{name}}" 
+                  data-label="{{#label}}{{label}}{{/label}}{{^label}}{{name}}{{/label}}"
+                  data-type="{{type}}" class="new-criterion-cmd has-tooltip"
+                  data-placement="right" title="Add a criterion on this field">
+                  <strong>+</strong> {{#label}}{{label}}{{/label}}{{^label}}{{name}}{{/label}}
+                </a>
+              </li>
+              {{/fields}}
+            </ul>
+          </div>
+          {{/modt_list}}
+        </div>
+        <br/>
+
+        <div id="criteria"></div>
+      </fieldset>
+    </div>
+  
+    <div class="modal-footer">
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</a>
+      <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>

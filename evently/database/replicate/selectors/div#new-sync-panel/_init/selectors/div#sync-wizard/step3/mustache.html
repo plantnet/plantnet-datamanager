@@ -1,0 +1,68 @@
+<h3>
+  * New synchronization wizard - step 3/4
+</h3>
+
+<form class="form form-inline">
+  <div class="control-group">
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="continuous" value="one-shot" checked/>
+        One-shot
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="continuous" value="continuous"/>
+        Continuous
+      </label>
+    </div>
+  </div>
+
+  <p class="alert alert-info sync-mode-help" id="sync-mode-help-one-shot">
+    <strong>One-shot:</strong> The synchronization will be executed once, and stopped as soon
+    as it has finished processing all the documents.
+  </p>
+  <p class="alert alert-info sync-mode-help" id="sync-mode-help-continuous" style="display:none;">
+    <strong>Continuous:</strong> The synchronization will be executed continuously to keep
+    the two databases in the same state at all times. Beware that document deletions
+    will be reproduced as well, without warning.
+  </p>
+
+  {{#hasFilter}}
+  <br/>
+  <div class="control-group">
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="includedeleted" value="no" checked/>
+        Do NOT include deleted docs
+      </label>
+    </div>
+    <div class="control">
+      <label class="radio">
+        <input class="radio" type="radio" name="includedeleted" value="yes"/>
+        Include deleted docs
+      </label>
+    </div>
+  </div>
+
+  <p class="alert alert-info sync-mode-help" id="sync-mode-help-without-deleted">
+    <strong>Without deleted docs:</strong> The documents that were deleted won't be replicated.
+    Only docs that were modified or newly created docs will be synchronized.
+  </p>
+  <p class="alert alert-info sync-mode-help" id="sync-mode-help-with-deleted" style="display:none;">
+    <strong>With deleted docs:</strong> The documents that were deleted will be replicated as well.
+    Beware that <!-- it is impossible to distinguish the structure the deleted docs come from: -->
+    if you chose to synchronize certain structures only, deleted docs from other structures will be
+    replicated as well: this may lead to unexpected results!
+  </p>
+  {{/hasFilter}}
+
+  <br/>
+  <div class="row-fluid">
+    <div class="form-actions span6">
+      <a class="btn previous-step-cmd">Previous</a>
+      <a class="btn btn-danger cancel-cmd">Cancel</a>
+      <button class="btn btn-primary pull-right next-step-cmd">Next</button>
+    </div>
+  </div>
+</form>

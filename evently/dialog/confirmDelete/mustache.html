@@ -1,0 +1,33 @@
+<div id="confirm-delete-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+  
+  <form class="form-inline">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="confirm-delete-modal-label">Confirm deletion</h3>
+    </div>
+    
+    <div class="modal-body">
+      Delete {{nbdocs}} selected doc{{#plural}}s{{/plural}} and {{#plural}}their{{/plural}}{{^plural}}its{{/plural}} subdocs ?
+      <br/><br/>
+      {{#isDictionary}}
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right">
+          <input id="confirm-delete-synonyms" name="delete-synonyms" type="checkbox"/>
+          Delete synonyms
+        </label>
+      </div>
+      <p class="alert alert-info">
+        If <strong>delete synonyms</strong> is checked, all synonyms of any of the
+        deleted documents will be deleted as well.<br/>
+        Otherwise, those synonyms will be transformed into valid names.
+      </p>
+      {{/isDictionary}}
+    </div>
+  
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </div>
+  </form>
+</div>

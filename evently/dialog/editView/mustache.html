@@ -1,0 +1,129 @@
+<div id="edit-view-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-view-modal-label" 
+    aria-hidden="true">
+
+  <form id="edit-view-form" class="form form-inline">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-view-modal-label">Edit View</h3>
+    </div>
+
+    <div class="modal-body">
+      <fieldset class="large">
+        <div class="control-group">
+          <legend>Infos</legend>
+          <input type="hidden" name="id" value="{{_id}}"/>
+          <label class="field-label-large">Name :</label>
+          <input type="text" name="name" class="has-tooltip" value="{{name}}" required placeholder="Enter name"
+            data-placement="right" title="Choose a name for your view"/>
+        </div>
+        <div class="control-group">
+          <label class="field-label-large">With unique :</label>
+          <select id="unique-field" class="has-tooltip"
+            title="Will remove duplicates on this field - does not guarantee which data are kept in the other columns">
+          <!-- built by selector -->
+          </select>
+          - only applicable with queries
+        </div>
+      </fieldset>
+      <br/>
+
+      <fieldset class="large">
+        <legend>Columns</legend>
+        <a class="btn open-chooser-cmd has-tooltip" href="#" data-placement="right"
+          title="Click to open / close the fields chooser">
+          <i class="icon-dm-add"></i>
+          Add columns
+        </a>
+        <div id="chooser" class="widget" style="display:none">
+          <h4>Select fields from structure</h4>
+          {{#modules}}
+          <div class="indent" data-indent="{{level}}">
+            <a class="tree-action-cmd tree-element" href="#">
+              <span class="tree-state">►</span> {{label}}
+            </a>
+            <ul class="fields-selector" style="display:none">
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="_id" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_id" data-type="id" class="new-col-cmd has-tooltip"
+                   data-placement="right" title="Add a column for the doc's _id">
+                  <strong>+</strong> <i>_id</i>
+                </a>
+              </li>
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="$label" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_label" data-type="label" class="new-col-cmd has-tooltip"
+                   data-placement="right" title="Add a column for the doc's _label">
+                  <strong>+</strong> <i>_label</i>
+                </a>
+              </li>
+              {{#fields}}
+               <li class="field">
+                <a data-modi="{{modi}}" data-mm-ref-id="{{mm_ref_id}}" data-field="{{name}}" 
+                    data-label="{{field_label}}" data-type="{{type}}" class="new-col-cmd has-tooltip"
+                    data-placement="right" title="Add this field to the view">
+                  <strong>+</strong> {{field_label}}
+                </a>
+                {{#__has__refs}}
+                  | <select class="dictionary-level has-tooltip new-dict-col-cmd" data-placement="right"
+                      title="Add information from the referenced dictionary at the level of your choice">
+                    <option></option>
+                {{/__has__refs}}
+                {{#refs}}
+                  <option data-modi="{{pmodi}}" data-field="{{ref_path}}" data-mm-ref-id="{{mm_ref_id}}"
+                    data-label="{{ref_label}}" data-type="ref">
+                    {{ref_label}}
+                  </option>
+                {{/refs}}
+                {{#__has__refs}}
+                    <option data-modi="{{modi}}" data-field="$ref,{{name}},geoloc,geoloc" data-mm-ref-id="{{mm_ref_id}}"
+                      data-label="geoloc" data-type="geoloc">
+                      geoloc
+                    </option>
+                  </select>
+                {{/__has__refs}}
+              </li>
+              {{/fields}}
+              {{#withattchs}}
+              <li class="field">
+                <a data-modi="{{modi}}" data-field="_attchs" data-mm-ref-id="{{mm_ref_id}}"
+                   data-label="_attchs" data-type="attch" class="new-col-cmd has-tooltip"
+                   data-placement="right" title="Add a column for attachments (images, files...)">
+                  <strong>+</strong> <i>_attachments</i>
+                </a>
+              </li>
+              {{/withattchs}}
+            </ul>
+          </div>
+          {{/modules}}
+        </div>
+
+        <br/>
+        <br/>
+
+        <div class="btn-toolbar">
+          <a class="btn btn-danger delete-col-cmd has-tooltip"
+            title="Remove the selected field from the view">
+            Remove field
+          </a>
+          <div class="btn-group">
+            <a class="btn up-col-cmd has-tooltip" title="Move the selected field up">
+              <i class="icon-dm-bullet-arrow-up"></i>
+              Move up
+            </a>
+            <a class="btn down-col-cmd has-tooltip" title="Move the selected field down">
+              <i class="icon-dm-bullet-arrow-down"></i>
+              Move down
+            </a>
+          </div>
+        </div>
+        <div id="cols"></div>
+
+      </fieldset>
+    </div>
+
+    <div class="modal-footer">
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</a>
+      <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>

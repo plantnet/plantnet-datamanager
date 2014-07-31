@@ -1,0 +1,31 @@
+<table class="table">
+
+  <thead>
+    <tr>
+      <th class="ck-col"></th>
+      <th>Module type</th>
+      <th>Field</th>
+      <th>Module instance</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#cols}}
+    <tr data-rowIndex="{{index}}">
+      <td class="ck-col">
+        <input class="ck selected-field" type="checkbox"value="{{fname}}"/>
+      </td>
+      <td>
+        {{modtname}}
+      </td>
+      <td>
+        {{label}}
+      </td>
+      <td>
+        {{fname}}
+      </td>
+    </tr>
+    {{/cols}}
+  </tbody>
+
+</table>

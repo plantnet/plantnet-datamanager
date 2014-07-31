@@ -1,0 +1,19 @@
+<input 
+  id="{{name}}" 
+  class="ispinbox editw" 
+  type="number" 
+  pattern="\-?[0-9]+"
+  step="1" 
+  placeholder="0"
+  title="You can use positive or negative integers." 
+  value="{{value}}" 
+  {{#required}}required{{/required}}
+/>
+
+{{#isSerial}}
+<a class="generate-cmd pull-right btn btn-mini has-tooltip"
+   title="Generate new integer (or hit Ctrl+Space in that field)" data-placement="left"
+   data-modi="{{modi}}" data-structid="{{structid}}" data-fieldname="{{name}}">
+  Gen
+</a>
+{{/isSerial}}

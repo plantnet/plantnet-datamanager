@@ -1,0 +1,57 @@
+<project default="all">
+  <property name="deploy.dir" value="../../_attachments/fileserver"/>
+  <property name="version" value="0.2"/>
+ 
+  <target name="clean">
+    <delete>
+      <fileset dir="." includes="*.class, *.jar"/>
+    </delete>
+  </target>
+
+  <target name="compile">
+    <javac srcdir="." 
+           classpath="deps/commons-imaging-1.0-SNAPSHOT.jar"
+           />
+  </target>
+  
+  <target name="jar" depends="compile">
+    <jar destfile="FileServerApplet.jar"
+         basedir="."
+         manifest="manifest.mf"
+         includes="**/*.class"
+         >
+      <zipgroupfileset dir="deps" includes="*.jar" />
+    </jar>
+  </target>
+
+  <target name="keytool">
+    <exec executable="keytool">
+    <arg value="-genkey"/>
+    <arg line="-alias signature"/>
+    <arg line="-keystore keystore"/>
+    <arg line="-storepass datamanager"/>
+    <arg line="-validity 3000"/>
+    <arg value="-noprompt"/>
+    </exec>
+  </target>
+
+  <target name="signedjar" depends="jar">
+    <signjar jar="FileServerApplet.jar"
+             keystore="keystore"
+             alias="signature"
+             storepass="datamanager"/>
+  </target>
+
+  <target name="deploy" depends="signedjar">
+    <copy todir="${deploy.dir}">
+      <fileset dir=".">
+        <include name="*.jar"/>
+        <!-- <include name="*.jnlp"/> -->
+        <include name="*.html"/>
+        <include name="*.js"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="all" depends="deploy" />
+</project>

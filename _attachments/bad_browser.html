@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Browser compatibility - Pl@ntNet-DataManager</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Pl@ntNet-Datamanager : distributed data management system dedicated to botany." />
+    <meta name="keywords" content="Pl@ntnet, Datamanager, botany, management system" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="img/favicons/datamanager.png"> 
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicons/datamanager.ico">
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="vendor/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/shared.css" />
+    <link rel="stylesheet" href="style/projects.css" />
+  </head>
+
+  <body>
+    <div id="header" class="navbar navbar-fixed-top"></div>
+
+    <div id="main-bloc" class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a href="projects.html">
+            <i class="icon-home"></i> 
+            Home
+          </a> 
+          <span class="divider"> > </span>
+        </li>
+        <li class="active">Browser compatibility</li>
+      </ul>
+      
+      <h2>Browser compatibility</h2>
+      
+      <div class="alert alert-info"
+        <p>
+          <b>Your browser is not supported at the moment.</b>
+        </p>
+        <p>
+          Pl@ntNet-DataManager supports the following browsers, that can be installed on all
+          major operating systems (including Windows, Mac, Linux, Android, iOs) :
+        </p>
+        <ul>
+          <li><a href="http://www.google.com/chrome">Google Chrome</a></li>
+          <li><a href="http://www.mozilla.org">Mozilla Firefox</a></li>
+        </ul>
+      </div>
+      
+      <div id="dm-mode-change">
+        <h2>Developer mode</h2>
+        <p>I am a developer and I want to test DataManager in an other browser.</p>
+        <p class="alert">Your actual mode is&nbsp;: <strong id="dm-mode">user</strong></p>
+        <p class="alert alert-error">
+          Be careful, you may lose data in this mode. Don't use this with production data.
+        </p>
+        <p>
+          <button id="add-devel-mode-btn" class="btn btn-danger" onclick="addDevelMode();">Add devel Mode</button>
+          <button id="del-devel-mode-btn" class="btn btn-primary" onclick="deleteDevelMode();">Remove devel Mode</button>
+         </p>
+      </div>
+    </div>
+    
+    <footer id="footer" class="navbar navbar-fixed-bottom"></footer>
+    
+    <div id="dialog-bloc"></div>
+    
+    <div id="msg-bloc"></div>
+    
+    <div id="busy-bloc" class="alert">
+      <img src="img/animate/loader.gif" alt="Loading..." />
+      <span id="busy-msg">Browser compatibility check is loading</span>
+    </div>
+    
+    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/datamanager/loader.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+      // Boostrap actions
+      $(document).ready(function() {
+          $('#app').on('click', 'button[data-toggle="modal"], a[data-toggle="modal"]', openModal);
+          
+          $('#app').on('hover', 'a[rel="tooltip"], .has-tooltip', startTooltip);
+      });
+      
+      function startTooltip(event) {
+          if ($(this).data('original-title') == undefined) {
+              $(this).tooltip('show');
+          }
+      }
+      
+      function openModal(event) {
+          var targetId = $(this).is('button') ? $(this).attr('data-target') : $(this).attr('href'),
+              targetDialogName = convertTargetIdToDialogName(targetId)
+
+          $('#dialog-bloc').trigger(targetDialogName);
+          $(targetId + '-modal').modal('show');
+          
+          event.stopPropagation()
+          return false;
+      }
+      
+      function convertTargetIdToDialogName(id) {
+          id = id.slice(1);
+          id = id.replace('-', ' ');
+          id = id.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+          id = id.charAt(0).toLowerCase() + id.substr(1);
+          id = id.replace(' ', '');
+          return id;
+      }
+      
+      $.couch.app(function(app) {
+          app.libs = {}
+          app.libs.utils = app.require('vendor/datamanager/lib/utils');
+        
+          // Initialisation DataManager
+          app.libs.utils.init_app(app, executeEvently);
+      });
+      
+      function executeEvently(app) {
+          // evently event connections
+          $('#header').evently('header', app);
+          $('#footer').evently('footer', app);
+          $('#dialog-bloc').evently('dialog', app);
+      }
+    </script>
+  </body>
+</html>

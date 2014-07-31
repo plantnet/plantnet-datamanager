@@ -1,0 +1,448 @@
+{{#modelEmpty}}
+  <h3 class="page-title">Table view</h3>
+  <p class="alert alert-info">
+    This structure is empty:
+    {{#is_admin}}
+      <a class="btn" href="#/editmm/{{mm_id}}">
+        <i class="icon-dm-model-edit"></i>
+        Add some modules
+      </a>
+    {{/is_admin}}
+    {{^is_admin}}
+      ask an administrator to edit the structure.
+    {{/is_admin}}
+  </p>
+{{/modelEmpty}}
+
+{{^modelEmpty}}
+<h3 class="page-title">
+  Table view for <span class="{{#isView}}view-name{{/isView}}{{^isView}}module-name{{/isView}}">{{name}}</span>
+  {{#filter_name}} - Filter : <span class="filter-name">{{filter_name}}</span>{{/filter_name}}
+  {{#exactPagination}} - {{total_rows}} results{{/exactPagination}}
+</h3>
+
+ <div class="btn-toolbar" data-spy="affix" data-offset="200">
+  <div class="btn-group">
+    <a title="Select or Unselect all rows on this page." class="btn has-tooltip" data-placement="bottom">
+      <input class="toggle-all-cmd" type="checkbox">
+    </a>
+  </div>
+  <!-- Need to be implemented -->
+  <!-- 
+  <div class="btn-group">
+    <form id="tree-search" class="">
+      <div class="input-prepend input-append">
+        <span class="add-on"><i class="icon-dm-filter"></i></span>
+        <input title="Filter entries in this module" name="q" 
+            placeholder="Filter this data" 
+            class="input-medium search-query has-tooltip" data-placement="bottom" type="text">
+      </div>
+    </form>
+  </div>
+   -->
+
+  <div class="btn-group">
+  {{#isRef}}{{^isView}}{{^filter_name}}
+      <button class="btn has-tooltip include-synonyms-cmd {{#showSyn}}active{{/showSyn}}"
+         data-placement="bottom" title="Include synonyms in table (synonyms label will appear in grey)">
+        <i class="icon-dm-synonym-show"></i>
+      </button>
+  {{/filter_name}}{{/isView}}{{/isRef}}
+
+  {{#has_column_attachs}}
+      <button type="button" class="btn has-tooltip include-images-cmd {{#show_images}}active{{/show_images}}" data-toggle="button"
+        data-placement="bottom"
+        title="Display attachments - warning: may require a lot of memory!">
+        <i class="icon-dm-pictures"></i>
+        <!-- Show images -->
+      </button>
+  {{/has_column_attachs}}
+  </div>
+
+  <div class="btn-group">
+    <button title="Show details of the selected row. You can double-click on a row to show its details, too"
+      class="view-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
+      <i class="icon-dm-detail"></i>
+    </button>
+    {{#is_writer}}
+    <button title="Edit the selected row. You can hold Ctrl and double-click on a row to edit it, too"
+      class="edit-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
+      <i class="icon-dm-edit"></i>
+    </button>
+    <button type="button" class="btn has-tooltip edit-multi btn-light-docs" data-placement="bottom" 
+        title="Edit selected docs at once">
+      <i class="icon-dm-bulk-edit"></i>
+    </button>
+    {{#add_doc_possible}}
+      <button title="Add a new doc to this module" class="add-doc-cmd btn has-tooltip btn-light-docs" data-placement="bottom">
+    {{/add_doc_possible}}
+    {{^add_doc_possible}}
+      <button disabled title="You can't add docs to this module" class="btn has-tooltip" data-placement="bottom">
+    {{/add_doc_possible}}
+      <i class="icon-dm-add"></i>
+    </button>
+    {{/is_writer}}
+    <button class="btn has-tooltip compare-doc-cmd btn-light-docs" data-container="body" data-placement="bottom"
+        title="Compare selected docs">
+      <i class="icon-dm-compare"></i>
+    </button>
+    {{#is_writer}}
+    <div class="btn-group dropdown">
+      <a class="btn dropdown-toggle has-tooltip btn-danger" data-toggle="dropdown" title="Delete" data-placement="top">
+        <i class="icon-dm-delete"></i>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li class="has-tooltip" data-placement="right" title="Delete the selected rows">
+          <a class="delete-doc-cmd">
+            <i class="icon-dm-delete"></i>
+            Selected rows
+          </a>
+        </li>
+        {{^isView}}
+          {{^hasFilter}}
+            <li class="has-tooltip" data-placement="right" title="{{#isModi}}Delete the module instance's data{{/isModi}}{{^isModi}}Delete the module's data{{/isModi}}">
+              <a class="delete-module-docs-cmd" data-mm="{{id}}" data-modi="{{modi}}">
+                <i class="icon-dm-delete"></i>
+                {{#isModi}}Module instance's data{{/isModi}}{{^isModi}}Module's data{{/isModi}}
+              </a>
+            </li>
+            {{/hasFilter}}
+        {{/isView}}
+      </ul>
+    </div>
+    {{/is_writer}}
+  </div>
+
+  {{#isRef}}
+  <div class="btn-group">
+    <button class="btn has-tooltip edit-syn-cmd" data-container="body" data-placement="bottom"
+        title="Add or edit synonyms for selected entry">
+      <i class="icon-dm-synonym-add"></i>
+    </button>
+    <input type="hidden" id="mm-is-ref" value="{{isRef}}"/>
+    <button title="Show linked docs for selected doc" class="show-linked-docs-cmd btn has-tooltip" data-placement="bottom">
+      <i class="icon-dm-docs-linked"></i>
+    </button>
+  </div>
+  {{/isRef}}
+
+  <div class="btn-group">
+    <button class="btn has-tooltip show-images-cmd" data-placement="bottom" title="Show the pictures associated to the selected entry">
+      <i class="icon-dm-pictures"></i>
+    </button>
+    <button class="btn has-tooltip show-map-cmd" data-placement="bottom" title="Show the map for the selected entry">
+      <i class="icon-dm-map"></i>
+    </button>
+    <button title="View revisions for one selected doc" class="view-revs-cmd btn has-tooltip" data-placement="bottom">
+      <i class="icon-dm-revision"></i>
+    </button>
+  </div>
+
+  <div class="btn-group selections">
+    <!-- Construct by selector -->
+  </div>
+  <div class="btn-group">
+    <button class="export-csv-table-cmd btn has-tooltip"
+        title="Export all rows from all pages. If you want to export a subgroup, create a selection then export it." 
+        data-placement="bottom">
+      <i class="icon-dm-module-export"></i>
+    </button>
+    <button  class="query-new-cmd btn has-tooltip"
+        title="Create a new query based on this module."
+        data-placement="bottom">
+      <i class="icon-dm-query"></i>
+    </button>
+  </div>
+</div>
+
+{{#isView}}
+  <p class="alert alert-info small-bottom-margin">
+    <strong>Reference modi:</strong> <span class="module-name">{{modiName}}</span>
+    <br/>
+    Data are sorted and paginated based on this module instance.
+    {{#unique}}
+      <br/>
+    {{#hasFilter}}
+      <strong>Unique field:</strong> <span class="module-name">{{unique}}</span>
+    {{/hasFilter}}
+    {{^hasFilter}}
+      <strong>Warning:</strong> unique field is ignored (no query)
+    {{/hasFilter}}
+    {{/unique}}
+  </p>
+  <form class="small-bottom-margin form-inline">
+    <label class="radio has-tooltip" data-placement="top"
+      title="Each different value of the reference module will generate a line, values down in the hierarchy will be grouped">
+      <input type="radio" name="group-view" class="group-view" value="true" {{#group}}checked="checked"{{/group}}/>
+      Group data under reference module
+    </label>
+    <br/>
+    <label class="radio has-tooltip" data-placement="top"
+      title="If a colum contains the same value multiple times, it will be repeated on several lines">
+      <input type="radio" name="group-view" class="group-view" value="false" {{^group}}checked="checked"{{/group}}/>
+      Flatten data - one row per leaf
+    </label>
+  </form>
+{{/isView}}
+
+
+{{^has_rows}}
+<p class="alert alert-info">
+  You have no data
+</p>
+{{/has_rows}}
+{{#has_rows}}
+<table class="data table table-striped table-hover table-bordered">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      {{#hasParents}}
+        <th>
+          Parent
+        </th>
+      {{/hasParents}}
+      {{#headers}}
+        <th{{#columnEmpty}} class="emptyColumn"{{/columnEmpty}}>
+          <div class="header-container">
+            {{#isView}}
+              <span class="module-label{{#columnEmpty}} has-tooltip{{/columnEmpty}}" {{#columnEmpty}}title="{{long_label}}"{{/columnEmpty}}>
+                {{#columnEmpty}}{{long_label_ellipsed}}{{/columnEmpty}}{{^columnEmpty}}{{long_label}}{{/columnEmpty}}
+              </span>
+              <br/>
+            {{/isView}}
+            {{#priority}}
+            <a {{#enc_field}}
+               class="header-sort" data-id="{{id}}" data-modi="{{modi}}" data-corder="{{corder}}" data-showimages="{{show_images}}"
+               data-showsyn="{{showSyn}}"
+               data-encfield="{{enc_field}}" data-limit="{{limit}}" data-filter-id="{{filter_id}}" data-group="{{group}}"
+               {{/enc_field}}>
+              <span class="sort-{{class}} colunm-sort-order label has-tooltip" 
+                  title="Column sort order: {{class}}ending. Click to invert order">
+                {{priority}}
+              </span>
+            </a>
+            <span class="cancel-sort">
+              <a href="#/viewtable/{{id}}/{{modi}}/_id/{{limit}}/0/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}">
+                <img src="img/icons/delete.png" alt="Cancel sort" class="has-tooltip" 
+                  title="Click here to cancel sort"/>
+              </a>
+            </span>
+            {{/priority}}
+            {{^priority}}
+              <a class="help-spot has-tooltip"
+                title="Click on column name to sort{{^isView}}. Hold the Shift key to sort multiple columns at the same time{{/isView}}">
+                ?
+              </a>
+            {{/priority}}
+            <a {{#enc_field}}
+               class="header-sort" data-id="{{id}}" data-modi="{{modi}}" data-corder="{{corder}}" data-showimages="{{show_images}}"
+               data-showsyn="{{showSyn}}"
+               data-encfield="{{enc_field}}" data-limit="{{limit}}" data-filter-id="{{filter_id}}" data-group="{{group}}"
+               {{/enc_field}}>
+              <span {{#hasTooltip}}class="has-tooltip" title="{{#columnEmpty}}{{label}}{{/columnEmpty}}{{#description}} - {{description}}{{/description}}"{{/hasTooltip}}>
+                {{#columnEmpty}}{{label_ellipsed}}{{/columnEmpty}}{{^columnEmpty}}{{label}}{{/columnEmpty}}
+              </span>
+            </a>
+          </div>
+        </th>
+      {{/headers}}
+      {{^isView}}
+      <th style="width:18px;">
+        <img src="img/icons/calendar.png" alt="_meta" class="has-tooltip"
+          data-placement="left" title="Metadata"/>
+      </th>
+      {{/isView}}
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#rows}}
+      <tr class="dblclick-listener">
+        <td>
+          <input type="checkbox" class="ck" value="{{_id}}"
+            data-mm-id="{{$mm}}"
+            {{#hasGeoloc}} data-label="{{row_label}}" data-lonlat="{{geoloc}}" {{/hasGeoloc}}/>
+        </td>
+        {{#hasParents}}
+          <td>
+            {{parent}}
+          </td>
+        {{/hasParents}}
+        {{#values}}
+          <td{{#columnEmpty}} class="emptyColumn"{{/columnEmpty}}>
+            {{^columnEmpty}}
+            {{^has_attachments}}
+              {{#is_label}}
+                {{#is_synonym}}
+                  <div class="gotovalidname">
+                    <a href="#/viewdoc/{{is_synonym}}"
+                      title="Go to valid name">
+                      ⇒
+                    </a>
+                  </div>
+                {{/is_synonym}}
+              {{/is_label}}
+              <div class="val" data-type="{{type}}">
+                {{#is_label}}
+                  <i {{#is_synonym}}class="muted"{{/is_synonym}}>
+                {{/is_label}}
+                {{#ref_id}}
+                  <a class="ref-link{{#has_tooltip}} has-tooltip{{/has_tooltip}}"
+                    {{#has_tooltip}} data-placement="top" title="{{tooltip}}"{{/has_tooltip}}
+                    href="#/viewdoc/{{ref_id}}">
+                {{/ref_id}}
+                {{#is_url}}
+                  <a href="{{value}}">
+                {{/is_url}}
+                  {{! BEWARE do not insert linebreaks or spaces around "span class="innerval" or it will break the "white-space: pre" }}
+                  <span class="innerval">{{value}}</span>
+                {{#is_url}}
+                  </a>
+                {{/is_url}}
+                {{#ref_id}}
+                  </a>
+                {{/ref_id}}
+                {{#is_label}}
+                  </i>
+                {{/is_label}}
+              </div>
+            {{/has_attachments}}
+
+            {{^show_images}}
+              {{#has_attachments}}
+                {{attachments_names}}
+              {{/has_attachments}}
+            {{/show_images}}
+
+            {{#show_images}}
+              {{#has_attachments}}
+                <ul class="thumbnails small-thumbnails no-bottom-margin">
+                  {{#attachments}}
+                    <li>
+                      <div class="thumbnail small-thumbnail">
+                        {{#is_image}}
+                          <div class="has-tooltip" title="{{name}}">
+                            <a href="{{url}}" class="preview">
+                              <img src="{{url}}" alt="Image : {{name}}" title="{{name}}"/>
+                            </a>
+                          </div>
+                        {{/is_image}}
+                        {{^is_image}}
+                          <div class="has-tooltip" title="Click to open the file">
+                            <a href="{{url}}" target="_blank">
+                              <img class="file" src="img/icons/big-attachment.png" alt="File : {{name}}"/>
+                            </a>
+                          </div>
+                          <p class="file-caption">
+                            {{shortFn}}
+                          </p>
+                        {{/is_image}}
+                      </div>
+                    </li>
+                  {{/attachments}}
+                </ul>
+              {{/has_attachments}}
+            {{/show_images}}
+            {{/columnEmpty}}
+          </td>
+        {{/values}}
+        {{^isView}}
+        <td>
+          {{#meta}}
+          <span class="btn btn-mini has-popover" data-trigger="hover" title="Metadata"
+              data-content="<ul>
+                <li><strong>Created at:</strong> {{created_at}}</li>
+                <li><strong>Created by:</strong> {{created_by}}</li>
+                {{#peer}}<li><strong>On server:</strong> {{peer}}</li>{{/peer}}
+                {{#edited_at}}<li><strong>Edited at:</strong> {{edited_at}}</li>{{/edited_at}}
+                {{#edited_by}}<li><strong>Edited by:</strong> {{edited_by}}</li>{{/edited_by}}
+                </ul>"
+              data-placement="left" data-html="true">
+            i
+          </span>
+          {{/meta}}
+        </td>
+        {{/isView}}
+      </tr>
+    {{/rows}}
+  </tbody>
+</table>
+{{/has_rows}}
+
+{{#show_pagination}}
+<div class="pagination pagination-centered affix-bottom" data-offset-bottom="300" data-spy="affix">
+  <ul>
+    <li {{^prev}}class="disabled"{{/prev}}>
+      <a {{#prev}}href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/0/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}"{{/prev}}>
+        « First
+      </a>
+    </li>
+    <li {{^prev}}class="disabled"{{/prev}}>
+      <a {{#prev}}href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{skip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}"{{/prev}}>
+        « Previous
+      </a>
+    </li>
+    {{#pagesBefore}}
+    <li title="Go to page {{pn}}">
+      <a href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{lskip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}">
+        {{pn}}
+      </a>
+    </li>
+    {{/pagesBefore}}
+    <li class="active">
+      <span>
+        <strong>
+          {{page}}
+        </strong>
+      </span>
+    </li>
+    {{#pagesAfter}}
+    <li title="Go to page {{pn}}">
+      <a href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{lskip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}">
+        {{pn}}
+      </a>
+    </li>
+    {{/pagesAfter}}
+    <li {{^next}}class="disabled"{{/next}}> 
+      <a {{#next}}href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{skip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}"{{/next}}>
+        Next » 
+      </a>
+    </li>
+    <li {{^next}}class="disabled"{{/next}}> 
+      <a {{#next}}href="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{last_page}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}"{{/next}}>
+        Last » 
+      </a>
+    </li>
+    <li class="pagination-info disabled">
+      <span class="zero-padding pagination-count">
+        {{#exactPagination}}
+        Elements {{eltstart}} - {{eltend}} / <strong>{{total_rows}}</strong> on {{total_pages}} pages of 
+        <select id="rows-per-page" class="input-mini">
+          {{#rowsPerPage}}
+          <option value="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{number}}/{{skip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}" 
+              {{#selected}}selected="selected"{{/selected}}>
+            {{number}}
+          </option>
+          {{/rowsPerPage}}
+        </select>
+        rows.
+        {{/exactPagination}}
+        {{^exactPagination}}
+          There are <strong>{{nb_rows}}</strong> elements on this page.
+        {{/exactPagination}}
+        Go to page
+        <select id="jump-to-page" class="input-mini">
+          {{#pages}}
+            <option value="#/viewtable/{{id}}/{{modi}}/{{order}}{{sort}}/{{limit}}/{{jump_skip}}/{{filter_id}}/{{group}}/{{show_images}}/{{showSyn}}"{{#selected}} selected="selected"{{/selected}}>
+              {{jump_page}}
+            </option>
+          {{/pages}}
+        </select>
+      </span>
+    </li>
+  </ul>
+</div>
+{{/show_pagination}}
+
+{{/modelEmpty}}

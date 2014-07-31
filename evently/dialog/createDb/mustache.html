@@ -1,0 +1,42 @@
+<div id="create-db-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="create-db-modal-label" 
+    aria-hidden="true">
+  <form id="create-db-form" class="form-horizontal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="create-db-modal-label">Create a new Database</h3>
+    </div>
+    
+    <div class="modal-body">
+      <div class="control-group">
+        <label for="db-name" class="control-label">Name</label>
+        <div class="controls">
+          <input id="db-name" type="text" name="dbname" value="" autocapitalize="off" autocorrect="off" 
+                 required pattern="[^ ]+" placeholder="no special chars or spaces" autofocus />
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="db-desc" class="control-label">Description</label>
+        <div class="controls">
+          <textarea id="db-desc" name="dbdesc" spellcheck="true"/>
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="db-fork" class="control-label">Fork an existing db</label>
+        <div class="controls">
+          <select id="db-fork" name="dbfork">
+          </select>
+        </div>
+      </div>
+      <div class="controls">
+        <input id="db-fork-url" type="text" name="dbforkurl" value="" autocapitalize="off" 
+               autocorrect="off" class="hide" placeholder="Database URL"/>
+      </div>
+      
+    </div>
+    
+    <div class="modal-footer">
+      <a class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</a>
+      <button id="create-db-submit" class="btn btn-primary" type="submit">Create</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'/>
+    <title>Image viewer</title>
+    <link rel="stylesheet" href="./iviewer/jquery.iviewer.css" />
+    <style type="text/css">
+      body, html {
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+      }
+      #viewer {
+        width: 100%;
+        height: 100%;
+        background-color: #333333;
+      }
+      #viewer h3, #viewer p {
+        text-align: center;
+        color: #EEEEEE;
+        display:none;
+      }
+      #viewer p a {
+        color: #EEEEEE;
+      }
+      .viewer {
+        position: relative;
+      }
+      .wrapper {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="viewer" class="viewer">
+      <h3>This picture cannot be loaded from local file</h3>
+      <p>
+        <a href="../../../fileserver/FileServerApplet.html" target="_blank">
+          Check if local files applet is running</a>
+        and
+        <a href="#" class="reload">
+          refresh</a>
+      </p>
+    </div>
+    <script type="text/javascript" src="../jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="./lib/jqueryui.js"></script>
+    <script type="text/javascript" src="./lib/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="./iviewer/jquery.iviewer.min.js"></script>
+    <script>
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+      }
+      $(document).ready(function() {
+        $('a.reload').click(function() {
+          location.reload();
+        });
+        var url = getQueryVariable('url');
+        var iv1 = $('#viewer').iviewer({
+          src: url,
+          onErrorLoad : function() {
+            $('#viewer h3').show();
+            $('#viewer p').show();
+            $('.iviewer_button').hide();
+            $('.iviewer_common').hide();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

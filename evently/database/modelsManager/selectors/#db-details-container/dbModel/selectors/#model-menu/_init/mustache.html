@@ -1,0 +1,207 @@
+{{#has_menu}}
+<div id="{{mm_id}}" class="model-menu-container">
+  <div id="{{mm_id}}-accordion" class="accordion model-menu">
+
+    <div id="structure-accordion-group" class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{mm_id}}-accordion" href="#{{mm_id}}-structure">
+          <i class="icon-chevron-right"></i>
+          <h4 class="nav-title">
+            <i class="icon-dm-model-structure"></i>
+            Layout
+          </h4>
+        </a>
+      </div>
+
+      <div id="{{mm_id}}-structure" class="accordion-body collapse {{#inStructure}}in{{/inStructure}}">
+        <div class="accordion-inner">
+          <ul class="nav nav-list">
+          {{#structure}}
+            <li {{#active}}class="active"{{/active}}
+                title="{{#title}}{{name}} : {{title}} - {{/title}}{{#desc}}{{desc}}{{/desc}}">
+              <a class="model-menu-cmd" data-add-doc-possible="{{add}}" 
+                  href="#/viewtable/{{mm_id}}/{{modi}}/_id/0/0/0/0/0/1">
+                <span data-indent="{{level}}">
+                  {{shortLabel}}
+                </span>
+              </a>
+            </li>
+          {{/structure}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="modules-accordion-group" class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{mm_id}}-accordion" href="#{{mm_id}}-modules">
+          <i class="icon-chevron-right"></i>
+          <h4 class="nav-title">
+            <i class="icon-dm-modules"></i>
+            Modules
+          </h4>
+        </a>
+      </div>
+
+      <div id="{{mm_id}}-modules" class="accordion-body collapse {{#inModules}}in{{/inModules}}">
+        <div class="accordion-inner">
+          <ul class="nav nav-list">
+          {{#modules}}
+            <li {{#active}}class="active"{{/active}}>
+              <a class="model-menu-cmd" href="#/viewtable/{{mm_id}}/*{{modt}}/_id/0/0/0/0/0/1" title="{{desc}}">
+                {{name}}
+              </a>
+            </li>
+          {{/modules}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="views-accordion-group" class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{mm_id}}-accordion" href="#{{mm_id}}-views">
+          <i class="icon-chevron-right"></i>
+          <h4 class="nav-title">
+            <i class="icon-dm-model-view"></i>
+            Views
+          </h4>
+        </a>
+      </div>
+
+      <div id="{{mm_id}}-views" class="accordion-body collapse {{#inViews}}in{{/inViews}}">
+        <div class="accordion-inner">
+          <ul class="nav nav-list">
+          {{#hasViews}}
+            {{#views}}
+            <li {{#active}}class="active"{{/active}}>
+              {{#is_admin}}
+              <a class="pull-right delete-view-cmd" title="Delete this view" data-id="{{id}}">
+                <i class="icon-dm-delete"></i>
+              </a>
+              {{/is_admin}}
+              {{#is_writer}}
+              <a class="pull-right edit-view-cmd" title="Edit this view" data-id="{{id}}">
+                <i class="icon-dm-edit"></i>
+              </a>
+              {{/is_writer}}
+              <a class="model-menu-cmd" data-view-id="{{id}}" href="#/viewtable/{{id}}/0/_id/0/0/0/0/0/1">
+                {{name}}
+              </a>
+            </li>
+            {{/views}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-view-cmd" title="Add a new view">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                Add a new view!
+              </span>
+            </li>
+          {{/hasViews}}
+          {{^hasViews}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-view-cmd" title="Add a new view">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                No views. Add one!
+              </span>
+            </li>
+          {{/hasViews}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="queries-accordion-group" class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{mm_id}}-accordion" href="#{{mm_id}}-queries">
+          <i class="icon-chevron-right"></i>
+          <h4 class="nav-title">
+            <i class="icon-dm-model-query"></i>
+            Queries
+          </h4>
+        </a>
+      </div>
+      <div id="{{mm_id}}-queries" class="accordion-body collapse {{#inQueries}}in{{/inQueries}}">
+        <div class="accordion-inner">
+          <ul class="nav nav-list">
+          {{#hasQueries}}
+            {{#queries}}
+            <li {{#active}}class="active"{{/active}}>
+              {{#is_admin}}
+              <a class="pull-right delete-query-cmd" title="Delete this query" data-id="{{id}}">
+                <i class="icon-dm-delete"></i>
+              </a>
+              {{/is_admin}}
+              {{#is_writer}}
+              <a class="pull-right edit-query-cmd" title="Edit this query" data-id="{{id}}">
+                <i class="icon-dm-edit"></i>
+              </a>
+              {{/is_writer}}
+              <a class="model-menu-cmd query-destination-cmd" href="#/viewtable/{{mm_id}}/0/_id/0/0/{{id}}/0/0/1"
+                data-query-id="{{id}}">
+                {{name}}
+              </a>
+            </li>
+            {{/queries}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-query-cmd" title="Add a new query">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                Add a new query!
+              </span>
+            </li>
+          {{/hasQueries}}
+          {{^hasQueries}}
+            <li>
+              {{#is_writer}}
+              <a class="pull-right add-query-cmd" title="Add a new query">
+                <i class="icon-dm-add"></i>
+              </a>
+              {{/is_writer}}
+              <span class="model-menu-cmd muted">
+                No queries. Add one!
+              </span>
+            </li>
+          {{/hasQueries}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {{#has_specific_actions}}
+    <div id="actions-accordion-group" class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{mm_id}}-accordion" href="#{{mm_id}}-specific">
+          <i class="icon-chevron-right"></i>
+          Specific actions
+        </a>
+      </div>
+      <div id="{{mm_id}}-specific" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <ul class="nav nav-list">
+            {{#specific_actions}}
+            <li>
+              <a class="model-menu-cmd" href="#{{key}}" data-mmid="{{mm_id}}">
+                {{name}}
+              </a>
+            </li> 
+            {{/specific_actions}}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {{/has_specific_actions}}
+
+  </div>
+</div>
+{{/has_menu}}

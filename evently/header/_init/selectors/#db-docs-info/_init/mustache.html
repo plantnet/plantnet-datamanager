@@ -1,0 +1,22 @@
+<span id="doc-separator">&nbsp;/&nbsp;</span>
+<span id="doc-info">
+    <span id="doc-number" class="has-tooltip" 
+        data-placement="bottom" title="Number of documents in your database.">
+      {{nb_docs}}
+    </span>
+    docs
+</span>
+{{#show_conflicts}}
+{{#nb_conflicts}}
+<span id="conflict-separator">&nbsp;-&nbsp;</span>
+<em id="conflict-info" class="has-tooltip" 
+    data-placement="bottom" title="Number of documents in your database with a conflict status.">
+    <a class="command conflict" href="#/viewlist/conflict/0/0/conflict/0">
+      <span id="conflict-number">
+        {{nb_conflicts}}
+      </span>
+      conflicts
+    </a>
+</em>
+{{/nb_conflicts}}
+{{/show_conflicts}}

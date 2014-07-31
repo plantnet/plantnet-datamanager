@@ -1,0 +1,72 @@
+<div id="map-layer-modal" class="modal modal-large hide fade" tabindex="-1" role="dialog" aria-labelledby="map-layer-modal-label" 
+    aria-hidden="true">
+  <form id="map-layer" class="form-horizontal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="map-layer-modal-label">New Map Layer</h3>
+    </div>
+    
+    <div class="modal-body">
+      <div class="control-group">
+        <label for="layer-short-name" class="control-label">Short name</label>
+        <div class="controls">
+          <input id="layer-short-name" class="has-tooltip" name="layer-short-name" type="text" required 
+              data-placement="right"
+              title="Short name identifying the layer." />
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label for="layer-name" class="control-label">Description</label>
+        <div class="controls">
+          <input id="layer-name" class="has-tooltip" name="layer-name" type="text" required
+              data-placement="right" 
+              title="A short sentence describing the layer."/>
+        </div>
+      </div>
+    
+      <div class="control-group">
+        <label for="tiles-url" class="control-label">URL of tiles</label>
+        <div class="controls">
+          <input id="tiles-url" class="input-xxlarge has-tooltip" name="tiles-url" type="text" required 
+              placeholder="http://tile.openstreetmap.org/{zoom}/{x}/{y}.png"
+              data-placement="right"
+              title="Use {zoom}, {x} and {y} for indicate the zoom level, the longitude and the latitude in 
+                the tile URL. Ex. : http://tile.openstreetmap.org/{zoom}/{x}/{y}.png"/>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label for="layer-min-zoom" class="control-label">Minimum zoom</label>
+        <div class="controls">
+          <input id="layer-min-zoom" class="has-tooltip" name="layer-min-zoom" type="number" value="2"
+              data-placement="right"
+              title="A value between 2 and 19."/>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label for="layer-max-zoom" class="control-label">Maximum zoom</label>
+        <div class="controls">
+          <input id="layer-max-zoom" class="has-tooltip" name="layer-max-zoom" type="number" value="19"
+              data-placement="right"
+              title="A value between 2 and 19."/>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label for="layer-opacity" class="control-label">Opacity</label>
+        <div class="controls">
+          <input id="layer-opacity" class="has-tooltip" name="layer-opacity" type="number" value="1"
+              data-placement="right"
+              title="A float number between 0 and 1. 0 is totaly transparent and 1 is opaque. Ex. : 0.7."/>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary" type="submit">Add</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,33 @@
+<ul class="nav nav-tabs">
+  <li class="disabled">
+      <a class="models-list">
+        Database <strong>{{dbName}}</strong> :
+      </a>
+  </li>
+  <li id="structures-selector-button" class="dropdown {{#activeModelName}}active{{/activeModelName}}">
+    <a class="dropdown-toggle has-tooltip" data-toggle="dropdown" href="#"
+      title="Explore data structures in your database">
+      <i class="{{^activeModelName}}icon-dm-model{{/activeModelName}}{{#activeModelName}}{{#activeModelIsRef}}icon-dm-model-dictionary{{/activeModelIsRef}}{{^activeModelIsRef}}icon-dm-model{{/activeModelIsRef}}{{/activeModelName}}"></i>
+      {{^activeModelName}}Select a structure{{/activeModelName}}
+      {{#activeModelName}}Structure : <strong>{{activeModelName}}</strong> ({{nbDocs}} docs){{#isReadonly}} <i class="icon-dm-model-readonly" title="This structure is readonly"></i>{{/isReadonly}}{{/activeModelName}}
+      <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu">
+      {{#models}}
+      <li {{#is_selected}}class="active"{{/is_selected}}>
+        <a {{#desc}}class="has-tooltip" data-placement="right" title="{{mm_name}} - {{desc}}"{{/desc}}
+          data-mm-name="{{mm_name}}" data-mm-id="{{mm_id}}"
+          {{#is_ref}}href="#/tree/{{mm_id}}/0/1"{{/is_ref}}
+          {{^is_ref}}href="#/viewtable/{{mm_id}}/0/_id/0/0/0/0/0/1"{{/is_ref}}
+          data-is-ref="false">
+          <i class="{{#is_ref}}icon-dm-model-dictionary{{/is_ref}}{{^is_ref}}icon-dm-model{{/is_ref}}"></i>
+          {{mm_name}}
+        </a>
+      </li>
+      {{/models}}
+    </ul>
+  </li>
+  <li id="models-toolbar-container">
+    <!-- Generate by selectors -->
+  </li>
+</ul>

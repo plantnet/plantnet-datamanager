@@ -1,0 +1,156 @@
+{{#not_logged}}
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="page-header">
+          <h2>
+            <a class="pull-left" href="http://www.plantnet-project.org">
+              <img src="img/logos/plantnet.png" alt="Pl@ntNet"/>
+            </a>
+            &nbsp;-
+            Datamanager
+          </h2>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span7">
+      <p>
+        Pl@ntNet-Datamanager is a distributed data management system dedicated to botany.
+        With this software, you can :
+        <ul>
+          <li>Create databases with your own data organization.</li>
+          <li>Send / retrieve data to / from other Pl@ntNet-DataManager instances.</li>
+          <li>
+            Manage your data locally on your computer. Pl@ntNet-DataManager is decentralized. 
+            The software can be installed on servers but also on personal computers.
+          </li>
+        </ul>
+      </p>
+      <p>
+        <a class="btn btn-success" href="download.html">Download »</a>
+        <a class="btn" href="http://community.plantnet-project.org/datamanager">Help and forums »</a>
+      </p>
+      <div class="row-fluid">
+        <div class="span12">
+          <ul class="row-fluid unstyled logos">
+            <li class="span2"><a href="http://www.agropolis-fondation.fr"><img id="logo-agropolis-fondation" src="img/logos/agropolis_fondation.png" alt="Agropolis Fondation logo"/></a></li>
+            <li class="span2"><a href="http://www.cirad.fr"><img id="logo-cirad" src="img/logos/cirad.png" alt="CIRAD logo"/></a></li>
+            <li class="span2"><a href="http://www.inra.fr"><img id="logo-inra" src="img/logos/inra.png" alt="INRA logo"/></a></li>
+            <li class="span2"><a href="http://www.inria.fr"><img id="logo-inria" src="img/logos/inria.png" alt="INRIA logo"/></a></li>
+            <li class="span2"><a href="http://www.ird.fr"><img id="logo-ird" src="img/logos/ird.png" alt="IRD logo"/></a></li>
+            <li class="span2"><a href="http://www.tela-botanica.org/"><img id="logo-tela-botanica" src="img/logos/telabotanica.png" alt="Tela Botanica logo"/></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="span5">
+      <div id="login-form-bloc" class="hero-unit"></div>
+    </div>
+  </div>
+{{/not_logged}}
+
+{{#has_dbs}}
+  {{#not_logged}}
+    <h3 class="cleaner">Public database list</h3>
+    <p>You can access those databases without signing in</p>
+  {{/not_logged}}
+  {{^not_logged}}
+    <h2>Databases list on {{localhost}}</h2>
+  {{/not_logged}}
+{{/has_dbs}}
+
+{{^not_logged}}
+  <div class="btn-group">
+    {{#create_db}}
+      <button class="btn create-db-cmd" data-toggle="modal" data-target="#create-db">
+        <i class="icon-dm-db-add"></i>
+        Create a new database
+      </button>
+    {{/create_db}}
+    {{#admin}}
+      <a class="btn" href="#/users">
+        <i class="icon-dm-user-manager"></i>
+        Manage users
+      </a>
+        <button class="update-all-app-cmd btn" title="Update the Data Manager application for all databases">
+          <i class="icon-dm-app-update"></i>
+          Upgrade all <abbr title="database">db</abbr> <abbr title="applications">apps</abbr>
+        </button>
+    {{/admin}}
+  </div>
+
+  {{^create_db}}
+  <div class="alert">
+    <h3>Information</h3>
+    <p>
+      You cannot create or delete databases. 
+      If you want create a new one, please contact an <a href="mailto:contact@plantnet-project.org">administrator</a>.
+    </p>
+  </div>
+  {{/create_db}}
+{{/not_logged}}
+
+
+{{#has_dbs}}
+  <table id="dbs-list" class="table table-condensed table-hover medium-top-margin">
+    <thead>
+      <tr>
+        <th title="Click to open the database">Name</th>
+        <th>Description</th>
+        {{#logged}}
+          <th title="Your rights on the database">Rights</th>
+          <th>Settings</th>
+          <th>Update <abbr title="application">app</abbr></th>
+          <th>Delete</th>
+        {{/logged}}
+      </tr>
+    </thead>
+    <tbody>
+    {{#dbs}}
+      <tr>
+        <td title="Click on name to open the database">
+          {{^noddm}}
+          <a target="_blank" href="/{{name}}/{{app_path}}/database.html">
+            {{name}}
+          </a>
+          {{/noddm}}
+          {{#noddm}}{{name}}{{/noddm}}
+        </td>
+        <td>
+          <span class="db-description">
+            {{{desc}}}
+          </span>
+        </td>
+        {{#logged}}
+          <td title="Your rights on this database">
+            {{sessionUserRights}}
+          </td>
+          <td title="Open database settings">
+            {{^noddm}}
+            <a target="_blank" class="btn btn-info" href="/{{name}}/{{app_path}}/database.html#/settings">
+              <i class="icon-dm-db-settings"></i>
+              Settings
+            </a>
+            {{/noddm}}
+          </td>
+          <td title="{{#noddm}}(Re)Install{{/noddm}}{{^noddm}}Update{{/noddm}} the Data Manager application for this database">
+            {{#hasAdminRight}}
+              <div class="check-for-update" data-db-name="{{name}}"></div>
+            {{/hasAdminRight}}
+          </td>
+          <td title="Delete the database">
+            {{#dropRight}}
+              {{^noddm}}
+                <button class="btn btn-danger delete-db-cmd" data-db-name="{{name}}">
+                  <i class="icon-dm-db-delete"></i>
+                  Delete
+                </button>
+              {{/noddm}}
+            {{/dropRight}}
+          </td>
+        {{/logged}}
+      </tr>
+    {{/dbs}}
+    </tbody>
+  </table>
+{{/has_dbs}}

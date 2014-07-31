@@ -1,0 +1,43 @@
+<div class="controls">
+
+<div id="input-geoloc-{{edit_map_id}}" class="input-geoloc" data-geoloc-id="{{edit_map_id}}">
+
+  <input id="{{name}}" class="editw" type="hidden" value="{{array_value}}"/>
+
+  <label>Longitude</label> 
+  <input 
+    class="lng loc input-small has-tooltip"
+    type="text"
+    title="Longitude coordinate (no projection - WGS 84 compliant)"
+    pattern="-?\d{1,3}\.?\d*" 
+    placeholder="0.0" 
+    title="Use a decimal longitude (float number) with a value between -180° and 180°."
+    value="{{lng}}"
+    {{#required}}required{{/required}}
+  />
+  <label>Latitude</label> 
+  <input 
+    class="lat loc input-small has-tooltip"
+    type="text" 
+    title="Latitude coordinate (no projection - WGS 84 compliant)"
+    pattern="-?\d{1,2}\.?\d*" 
+    placeholder="0.0" 
+    title="Use a decimal latitude (float number) with a value between -90° and 90°." 
+    value="{{lat}}"
+    {{#required}}required{{/required}}
+  />
+  </div>
+
+
+  <div id="{{edit_map_id}}" class="geoloc-edit-map google-map"></div>
+  <br/>
+
+  <div>
+    <input type="text" class="location-str btn-small input-medium" placeholder="Search for a location"/>
+    <a class="btn btn-small find-loc-cmd has-tooltip" data-placement="left"
+      title="Automatically position the specified location on the map, if found">
+      Find loc.</a>
+    <a class="btn btn-small myloc-cmd has-tooltip" data-placement="left"
+      title="Detect your location and position it on the map">Current loc.</a>
+  </div>
+</div>

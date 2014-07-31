@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# test couchdb
+curl http://localhost:5984  > /dev/null 2> /dev/null
+if [ $? != "0" ]
+then
+echo "Cannot find couchdb service"
+exit
+fi
+
+
+# test lucene
+curl http://localhost:5985 > /dev/null 2> /dev/null
+if [ $? != "0" ]
+then
+echo "Cannot find lucene service"
+exit
+fi
+
+
+# open browser
+
+URL="http://localhost:5984/datamanager/_design/datamanager/start.html"
+if which xdg-open > /dev/null
+then
+  xdg-open $URL
+elif which gnome-open > /dev/null
+then
+  gnome-open $URL
+fi

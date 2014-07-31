@@ -1,0 +1,23 @@
+<h4>Which query(ies) results would you like to exchange?</h4>
+
+<a class="btn btn-mini has-tooltip check-all-queries-cmd" title="Check all queries">
+  Check all
+</a>
+<a class="btn btn-mini has-tooltip uncheck-all-queries-cmd" title="Uncheck all queries">
+  Check none
+</a>
+
+<ul id="sync-queries-selection">
+{{#queries}}
+  <li>
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox" data-id="{{id}}" data-structure-name="{{structureName}}"
+        data-name="{{#value}}{{name}}{{/value}}" checked/>
+      {{structureName}} - 
+      {{#value}}
+        {{name}}
+      {{/value}}
+    </label>
+  </li>
+{{/queries}}
+</ul>

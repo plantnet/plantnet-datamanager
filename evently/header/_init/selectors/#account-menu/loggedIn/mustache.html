@@ -1,0 +1,30 @@
+<li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="{{^is_super_admin}}icon-dm-user{{/is_super_admin}}{{#is_super_admin}}icon-dm-admin{{/is_super_admin}}"></i>
+    {{name}}
+    <span class="user-role muted" title="You are {{user_role}} for this database.">
+      {{user_role}}
+    </span>
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li class="has-tooltip" data-placement="left" title="Change your password and email.">
+      <a href="#change-pwd" class="change-pwd-cmd" data-toggle="modal">
+        <i class="icon-dm-user-edit"></i>
+        Change password
+      </a>
+    </li>
+    <!-- <li class="has-tooltip" data-placement="left" title="Indicate the directory where DataManager can find your local files (pictures, docs...). This action open a new tab where a Java applet allows you to choose a directory.">
+      <a id="file-server" href="fileserver/FileServerApplet.html" target="_blank">
+        <i class="icon-dm-local-directory"></i>
+        Choose local directory
+      </a>
+    </li> -->
+    <li class="has-tooltip" data-placement="left" title="Logout and close the application.">
+      <a href="#" class="logout-cmd">
+        <i class="icon-dm-logout"></i>
+        Logout
+      </a>
+    </li>
+  </ul>
+</li>

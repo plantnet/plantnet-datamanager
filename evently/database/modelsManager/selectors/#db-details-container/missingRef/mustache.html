@@ -1,0 +1,74 @@
+<h3 class="page-title">Structure
+  <span class="model-name">{{mm_name}}</span> 
+  : Missing links for dictionary <span class="model-name">{{mm_ref_name}}</span>
+  ({{hasRows}})
+</h3>
+
+<div id="missing-references">
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <a title="Select or Unselect all rows on this page." class="btn has-tooltip" data-placement="bottom">
+        <input class="toggle-all-cmd" type="checkbox">
+      </a>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn has-tooltip edit-multi" data-placement="bottom" 
+        title="Edit selected docs at once">
+        <i class="icon-dm-bulk-edit"></i>
+      </button>
+    </div>
+    <div class="btn-group">
+      <a class="btn match-cmd">Try to repair the links (match by value)</a>
+    </div>
+    <div class="btn-group">
+      <div class="input-prepend input-append">
+        <span class="add-on">
+          <i class="icon-search"></i>
+        </span>
+        <input class="missing-ref-filter" type="text" placeholder="Filter on doc label">
+        <button class="btn label-filter-cmd" type="submit">
+          Filter
+        </button>
+      </div>
+    </div>
+  </div>
+  {{^hasRows}}
+    <p class="alert alert-info" style="width: 600px;">
+      All references to <strong>{{mm_ref_name}}</strong> are ok
+    </p>
+  {{/hasRows}}
+  {{#hasRows}}
+  <table class="table table-striped table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th>&nbsp;</th>
+        <th>Module / field</th>
+        <th>Doc label</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#rows}}
+      <tr>
+        <td>
+          <input type="checkbox" class="ck" value="{{_id}}" data-field="{{field}}" data-modt="{{modt}}"/>
+        </td>
+        <td>
+          {{module}}.{{field}}
+        </td>
+        <td class="missing-label">
+          {{val}}
+        </td>
+        <td>
+          <a class="btn btn-mini edit-doc-cmd has-tooltip" data-id="{{_id}}"
+            title="Edit the document to manually fix the broken link" data-placement="left">
+            <i class="icon-dm-edit"></i>
+            edit
+          </a>
+        </td>
+      </tr>
+      {{/rows}}
+    </tbody>
+  </table>
+  {{/hasRows}}
+</div>

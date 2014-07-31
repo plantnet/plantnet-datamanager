@@ -1,0 +1,15 @@
+<input 
+  id="{{name}}"  
+  class="fspinbox editw" 
+  type="number" 
+  pattern="\-?[0-9]+\.?[0-9]*"
+  {{#has_min}}min="{{min}}"{{/has_min}}
+  {{#has_max}}max="{{max}}"{{/has_max}}
+  step="{{step}}"
+  {{#required}}required{{/required}}
+  placeholder="{{step}}"
+  title="You can use a float numbers with {{^has_min}}none {{/has_min}}min value{{#has_min}} {{min}}{{/has_min}}, 
+{{^has_max}}none {{/has_max}}max value {{#has_max}}{{max}} {{/has_max}}and a step value of {{step}}."
+  value="{{value}}" 
+  {{#required}}required{{/required}}
+/>

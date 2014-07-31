@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pl@ntNet-DataManager</title>
+    
+    <meta charset="UTF-8" />
+    <meta name="description" content="Pl@ntNet-Datamanager : distributed data management system dedicated to botany." />
+    <meta name="keywords" content="Pl@ntnet, Datamanager, botany, management system" />
+
+    <link rel="icon" type="image/png" href="img/favicons/datamanager.png"> 
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicons/datamanager.ico">
+
+    <link rel="stylesheet" href="vendor/jquery/colorbox/jquery.colorbox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="vendor/jquery/autocomplete/jquery.autocomplete.css" type="text/css">
+    <link rel="stylesheet" href="vendor/jquery-ui/timepicker/jquery-ui.timepicker.css" type="text/css">
+    <link rel="stylesheet" href="vendor/jquery-ui/themes/bootstrap/jquery-ui-1.10.0.custom.css" type="text/css">
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="vendor/bootstrap/bootstrap-datepicker/datepicker.css" type="text/css" media="screen" /> -->
+    <link rel="stylesheet" href="style/shared.css" />
+    <link rel="stylesheet" href="style/database.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="header" class="navbar navbar-fixed-top"></div>
+      
+      <div id="app-wrapper" class="container-fluid">
+        <div class="row-fluid">
+          <div id="breadcrumb-container" class="span4"></div>
+          <div id="quick-search-container"  class="span8"></div>
+        </div>
+        
+        <div id="app-main-container" class="row-fluid"></div>
+      </div>
+      
+      <div id="dialog-bloc"></div>
+      
+      <div id="msg-bloc"></div>
+      
+      <div id="busy-bloc" class="alert">
+        <img src="img/animate/loader.gif" alt="Loading..." />
+        <span id="busy-msg">DataManager is starting</span>
+      </div>
+    </div><!--/app-->
+    
+    <footer id="footer" class="footer"></footer>
+    
+    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/datamanager/detect_browser.js"></script>
+    <script src="vendor/datamanager/loader.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var serverName = window.location.hostname;
+      if (serverName.indexOf('.') != -1) {
+        serverName = serverName.substring(0, serverName.indexOf('.'));
+      }
+
+      // Boostrap actions
+      $(document).ready(function() {
+          $('#app').on('click', 'button[data-toggle="modal"], a[data-toggle="modal"]', openModal);
+
+          $('#app').on('hover', 'a[rel="tooltip"]:not([data-trigger]), .has-tooltip:not([data-trigger])', startTooltip);
+          $('#app').on('focus', '.has-tooltip[data-trigger="focus"]', startTooltip);
+          $('#app').on('hover', 'a[rel="popover"], .has-popover', startPopover);
+
+          $('#app').on('click', 'button[data-toggle="collapse"], .toggle-cmd', changeCollapseIcon);
+
+          $('#app').on('mouseover', '.has-overlap', showImgOverlap);
+          $('#app').on('mouseout', '.has-overlap', hideImgOverlap);
+      });
+
+      function showImgOverlap() {
+          $(this).find('.overlap-cmd').css('display', 'block');
+      }
+      
+      function hideImgOverlap() {
+          $(this).find('.overlap-cmd').css('display', 'none');
+      }
+      
+      function openModal(event) {
+          var targetId = $(this).is('button') ? $(this).attr('data-target') : $(this).attr('href'),
+              targetDialogName = convertTargetIdToDialogName(targetId);
+
+          $('#dialog-bloc').trigger(targetDialogName);
+          $(targetId + '-modal').modal('show');
+          
+          event.stopPropagation();
+          return false;
+      }
+      
+      function startTooltip(event) {
+          if ($(this).data('original-title') == undefined) {
+              $(this).tooltip('show');
+          }
+      }
+      
+      function startPopover(event) {
+          if ($(this).data('original-title') == undefined) {
+              $(this).popover('show');
+          }
+      }
+      
+      function changeCollapseIcon(event) {
+          if ($(this).hasClass('collapsed')) {
+              $(this).html('&#9650;');
+          } else {
+              $(this).html('&#9660;');
+          }
+      }
+      
+      function convertTargetIdToDialogName(id) {
+          id = id.slice(1);
+          id = id.replace(/-/g, ' ');
+          id = id.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+          id = id.charAt(0).toLowerCase() + id.substr(1);
+          id = id.replace(/ /g, '');
+          return id;
+      }
+      
+      $.couch.app(function(app) {
+        document.title = app.db.name + ' @ ' + serverName;
+
+        // load commons libs
+        app.libs = {}
+        app.libs.utils = app.require('vendor/datamanager/lib/utils');
+        app.libs.utils.init_app(app, executeEvently);
+      });
+      
+      function executeEvently(app) {
+          // evently event connections
+          $('#header').evently('header', app, { conflicts: true });
+          $('#footer').evently('footer', app);
+          $('#quick-search-container').evently('quickSearch', app);
+          $('#breadcrumb-container').evently('breadcrumb', app);
+          $('#dialog-bloc').evently('dialog', app);
+          $('#app').evently('core', app); // fake widget, only for core widget
+          
+          $('#app-main-container').evently('database', app);
+
+          // $.evently.connect('#main-bloc', '#model-bloc', ['_init']);  //
+          // $.evently.connect('#main-bloc', '#selection-bloc', ['addNewSelection', 'addToSelection', 'addNewQuery']); 
+
+          // run pathbinder on the url
+          $.pathbinder.begin('/db-manager');
+      }
+    </script>
+        <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-39479056-1']);
+      _gaq.push(['_trackPageview']);
+      
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

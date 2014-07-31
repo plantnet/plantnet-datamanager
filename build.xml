@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="datamanager" default="push" basedir=".">
+
+  <property name="build-dir" value="${java.io.tmpdir}/datamanager-build" />
+  <property name="install-dir" value="/opt/datamanager" />
+  <property name="db-name" value="default"/>
+  <property name="host" value="localhost:5984"/>
+  <property name="host" value="localhost:5984"/>
+  <property file="version"/>
+
+    
+  <target name="clean">
+    <delete dir="${build-dir}"/>
+  </target> 
+
+  <target name="build" depends="clean">
+    <exec executable="svn">
+      <arg value="export"/>
+      <arg value="${basedir}"/>
+      <arg value="${build-dir}"/>
+    </exec>
+  </target>
+
+  <target name="set_version">
+    <replaceregexp match="v[0-9]\.[0-9]\.[0-9]" replace="v${version}">
+      <fileset dir="evently" includes="**/*.html"/>
+    </replaceregexp>
+    <replaceregexp match="Changelog_[0-9][0-9][0-9]" replace="Changelog_${version_nopoint}">
+      <fileset dir="evently" includes="**/*.html"/>
+    </replaceregexp>
+
+  </target>
+  
+  <target name="minify" depends="build">
+    <apply executable="java" dest="${build-dir}" failonerror="true"> 
+      <arg value="-jar"/> 
+      <arg value="${build-dir}/extra/jar/yuicompressor.jar"/> 
+      <srcfile/> 
+      <arg value="-o"/> 
+      <targetfile/> 
+      <fileset dir="${build-dir}" includes="**/*.js" excludes="extra/**"/> 
+      <mapper type="glob" from="*.js" to="*.min"/>
+    </apply> 
+
+    <move todir="${build-dir}" overwrite="yes">
+      <fileset dir="${build-dir}" includes="**/*.min"/> 
+      <mapper type="glob" from="*.min" to="*.js"/>
+    </move>
+
+  </target>
+  
+  <target name="push" depends="build">
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+        <arg value="push"/> 
+        <arg value="${build-dir}"/>
+        <arg value="http://${host}/${db-name}"/>
+    </exec>
+  </target>
+
+  <target name="deploy" depends="push">
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+      <arg value="push"/> 
+      <arg value="${build-dir}/_design/start"/>
+      <arg value="http://${host}/${db-name}"/>
+    </exec>
+
+    <exec executable="curl" dir="${build-dir}" failonerror="true">
+      <arg line="-X PUT"/>
+      <arg line="http://${host}/_config/datamanager/main_db"/>
+      <arg value="-d &quot;${db-name}&quot;"/>
+      <arg value="-H &quot;Content-type: application/json&quot;"/>
+    </exec>
+  </target>
+
+  <target name="deploy-prod" depends="build">
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+      <arg value="push"/> 
+      <arg value="${build-dir}"/>
+      <arg value="http://${user}:${password}@data.plantnet-project.org/datamanager"/>
+    </exec>
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+      <arg value="push"/> 
+      <arg value="${build-dir}/_design/start"/>
+      <arg value="http://${user}:${password}@data.plantnet-project.org/datamanager"/>
+    </exec>
+  </target>
+
+  <target name="deploy-preprod" depends="build">
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+      <arg value="push"/> 
+      <arg value="${build-dir}"/>
+      <arg value="http://${user}:${password}@datatest.plantnet-project.org/datamanager"/>
+    </exec>
+    <exec executable="couchapp" dir="${build-dir}" failonerror="true">
+      <arg value="push"/> 
+      <arg value="${build-dir}/_design/start"/>
+      <arg value="http://${user}:${password}@datatest.plantnet-project.org/datamanager"/>
+    </exec>
+  </target>
+
+  <target name="deploy-node-server">	
+     <copy todir="${install-dir}/node-datamanager">
+       <fileset dir="extra/node-datamanager"/>
+     </copy>
+  </target>
+      
+  <target name="delete-db">
+    <exec executable="curl" dir="${build-dir}" failonerror="true">
+      <arg line="-X DELETE"/>
+      <arg line="http://${host}/${db}"/>
+    </exec>
+  </target>
+
+  
+  <target name="autopush">	
+    <exec executable="couchapp" failonerror="true">
+      <arg value="autopush ${db-name}"/>
+    </exec>
+  </target>
+</project>

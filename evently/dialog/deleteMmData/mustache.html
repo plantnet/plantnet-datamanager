@@ -1,0 +1,56 @@
+<div id="delete-mm-data-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+    aria-labelledby="export-csv-table-modal-label" aria-hidden="true">
+  <form class="form-inline">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="export-csv-table-modal-label">Delete structure's data</h3>
+    </div>
+
+    <div class="modal-body">
+      <p>
+        All data in "<strong>{{mmName}}</strong>" structure will be deleted.
+      </p>
+
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right"
+          title="Delete data">
+          <input id="delete-data" name="data" type="checkbox" checked="checked" disabled="disabled"/>
+          Data
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right"
+          title="Delete and purge">
+          <input id="delete-purge" name="purge" type="checkbox"/>
+          Purge
+        </label>
+        <p class="alert alert-info">
+          Purge will destroy data. These changes will not be reflected on linked databases.
+          <br />
+          To delete data in linked databases, keep this checkbox unchecked.
+        </p>
+      </div>
+
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right"
+          title="Delete layout (structure definition will be deleted too)">
+          <input id="delete-layout" name="layout" type="checkbox"/>
+          Delete structure definition
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="checkbox has-tooltip" data-placement="right"
+          title="Delete views and queries definitions">
+          <input id="delete-views-qeries" name="views-qeries" type="checkbox"/>
+          Delete views and queries definitions
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary" type="submit">Delete</button>
+    </div>
+  </form>
+</div>

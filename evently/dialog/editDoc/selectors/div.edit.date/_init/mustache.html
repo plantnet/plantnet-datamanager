@@ -1,0 +1,10 @@
+<input 
+  id="{{name}}" 
+  class="date editw"
+  type="text" 
+  pattern="[0-9]{4}-(0[0-9]|1[012])-(0[0-9]|1[0-9]|2[0-9]|3[01])"
+  placeholder="yyyy-mm-dd"
+  title="Exemples of dates : 2012-12-21, 1999-01-31, 1912-00-00, 1910-04-00, 0000-04-28. You may use zeroes for incomplete dates"
+  value="{{value}}" 
+  {{#required}}required{{/required}}
+/>

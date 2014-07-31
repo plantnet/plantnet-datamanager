@@ -1,0 +1,7 @@
+<div class="input-boolean">
+  <input name="{{name}}" class="bool-value" type="radio" value="true" {{#is_true}}checked{{/is_true}}/> yes 
+  <input name="{{name}}" class="bool-value" type="radio" value="false" {{#is_false}}checked{{/is_false}} /> no 
+  <input name="{{name}}" class="bool-value" type="radio" value="" {{#is_null}}checked{{/is_null}}/> null
+  
+  <input id="{{name}}" class="editw" type="hidden" value="{{value}}"/>
+</div> 

@@ -1,0 +1,26 @@
+<div id="edit-enum-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit-enum-modal-label" 
+    aria-hidden="true">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-doc-modal-label">Edit possible values</h3>
+    </div>
+
+    <div class="modal-body">
+      <form id="edit-enum">
+        <label for="items">One possible value per line</label> <br/>
+        <textarea class="ta-enum-values" name="items">{{values}}</textarea>
+        <br/>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn sort-cmd has-tooltip"
+        title="Sort options by alphabetical order">
+        <i class="icon-dm-sort-asc"></i>
+        Alphabetical sort
+      </button>
+      <button id="save" type="submit" class="btn btn-primary">Confirm and close</button>
+    </div>
+</div>

@@ -1,0 +1,168 @@
+<table class="table table-condensed">
+  <tbody>
+
+  <tr class="no-top-border">
+    <td colspan="7">
+      <h3>Incoming</h3>
+    </td>
+  </tr>
+
+  <tr>
+    <th>From (source database)</th>
+    <th>Nickname</th>
+    <th>Status</th>
+    <th>Achievement</th>
+    <th>%</th>
+    <th>Mode</th>
+    <th>Actions</th>
+  </tr>
+
+  {{^hasIncoming}}
+  <tr>
+    <td colspan="7">
+      <p class="alert alert-info">
+        There are no incoming synchronizations at the moment
+      </p>
+    </td>
+  </tr>
+  {{/hasIncoming}}
+
+  {{#hasIncoming}}
+    {{#incoming}}
+    <tr>
+      <td>
+        {{#isRemote}}
+          <a href="{{source}}_design/datamanager/index.html" target="_blank">{{source}}</a>
+        {{/isRemote}}
+        {{^isRemote}}
+          <a href="/{{source}}/_design/datamanager/index.html" target="_blank">{{source}}</a>
+        {{/isRemote}}
+      </td>
+      <td>
+        {{nickname}}
+      </td>
+      <td>
+        {{status_and_time}}
+      </td>
+      <td>
+        {{#continuous}}
+          {{docs_written}} docs written / seq {{source_seq}}
+        {{/continuous}}
+        {{^continuous}}
+        <div class="progress progress-striped">
+          <div class="bar" style="width: {{progress}}%;"></div>
+        </div>
+        {{/continuous}}
+      </td>
+      <td>
+        {{progress}}
+      </td>
+      <td>
+        {{#continuous}}continuous{{/continuous}}
+        {{^continuous}}one-shot{{/continuous}}
+      </td>
+      <td>
+        <a class="btn btn-mini sync-info-cmd has-tooltip" data-id="{{_id}}"
+          data-rst="{{_replication_state_time}}" data-rs="{{_replication_state}}"
+          data-source="{{source}}" data-target="{{target}}"
+          data-continuous="{{continuous}}" data-owner="{{owner}}"
+          data-css="{{checkpointed_source_seq}}" data-dwf="{{doc_write_failures}}"
+          data-dr="{{docs_read}}" data-dw="{{docs_written}}"
+          data-mrf="{{missing_revisions_found}}" data-rc="{{revisions_checked}}"
+          data-what="{{sfyWhat}}" data-includedeleted="{{#extra}}{{includedeleted}}{{/extra}}"
+          data-placement="left" title="Show details">?</a>
+        {{#canRestart}}
+        <a class="btn btn-mini btn-success sync-restart-cmd has-tooltip" data-id="{{_id}}"
+          data-placement="left" title="Restart this synchronization">↺</a>
+        {{/canRestart}}
+        <a class="btn btn-mini btn-danger sync-stop-cmd has-tooltip"
+          data-id="{{_id}}"
+          data-placement="left" title="Stop / remove this synchronization">X</a>
+      </td>
+    </tr>
+    {{/incoming}}
+{{/hasIncoming}}
+
+  <tr>
+    <td colspan="7">
+      <h3>Outgoing</h3>
+    </td>
+  </tr>
+
+  <tr>
+    <th>To (destination database)</th>
+    <th>Nickname</th>
+    <th>Status</th>
+    <th>Achievement</th>
+    <th>%</th>
+    <th>Mode</th>
+    <th>Actions</th>
+  </tr>
+
+  {{^hasOutgoing}}
+  <tr>
+    <td colspan="7">
+      <p class="alert alert-info">
+        There are no outgoing synchronizations at the moment
+      </p>
+    </td>
+  </tr>
+  {{/hasOutgoing}}
+
+  {{#hasOutgoing}}
+  {{#outgoing}}
+    <tr>
+      <td>
+        {{#isRemote}}
+          <a href="{{target}}_design/datamanager/index.html" target="_blank">{{target}}</a>
+        {{/isRemote}}
+        {{^isRemote}}
+          <a href="/{{target}}/_design/datamanager/index.html" target="_blank">{{target}}</a>
+        {{/isRemote}}
+      </td>
+      <td>
+        {{nickname}}
+      </td>
+      <td>
+        {{status_and_time}}
+      </td>
+      <td>
+        {{#continuous}}
+          {{docs_written}} docs written / seq {{source_seq}}
+        {{/continuous}}
+        {{^continuous}}
+        <div class="progress progress-striped">
+          <div class="bar" style="width: {{progress}}%;"></div>
+        </div>
+        {{/continuous}}
+      </td>
+      <td>
+        {{progress}}
+      </td>
+      <td>
+        {{#continuous}}continuous{{/continuous}}
+        {{^continuous}}one-shot{{/continuous}}
+      </td>
+      <td>
+        <a class="btn btn-mini sync-info-cmd has-tooltip" data-id="{{_id}}"
+          data-rst="{{_replication_state_time}}" data-rs="{{_replication_state}}"
+          data-source="{{source}}" data-target="{{target}}"
+          data-continuous="{{continuous}}" data-owner="{{owner}}"
+          data-css="{{checkpointed_source_seq}}" data-dwf="{{doc_write_failures}}"
+          data-dr="{{docs_read}}" data-dw="{{docs_written}}"
+          data-mrf="{{missing_revisions_found}}" data-rc="{{revisions_checked}}"
+          data-what="{{sfyWhat}}" data-includedeleted="{{#extra}}{{includedeleted}}{{/extra}}"
+          data-placement="left" title="Show details">?</a>
+        {{#canRestart}}
+        <a class="btn btn-mini btn-success sync-restart-cmd has-tooltip" data-id="{{_id}}"
+          data-placement="left" title="Restart this synchronization">↺</a>
+        {{/canRestart}}
+        <a class="btn btn-mini btn-danger sync-stop-cmd has-tooltip"
+          data-id="{{_id}}"
+          data-placement="left" title="Stop / remove this synchronization">X</a>
+      </td>
+    </tr>
+    {{/outgoing}}
+  {{/hasOutgoing}}
+  </tbody>
+</table>
