@@ -51,7 +51,7 @@ PlantNet-DataManager
   curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 
 
 
-go to http://localhost:5984/datamanager/_start
+go to [http://localhost:5984/_start]
 
 Documentation
 =============
