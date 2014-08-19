@@ -38,18 +38,26 @@ This software uses the following libraries with the respective licenses
 * jquery.autocomplete : MIT / GPL license
 
 
+Install
+=======
+
+* Install CouchDB, couchdb-lucene, node.js, geocouch, curl
+
+PlantNet-DataManager
+--------------------
+  npm -g install http://github.com/plantnet/node-datamanager/tarball/master
+
+  curl -X PUT http://localhost:5984/datamanager 
+  curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 
+
+
+go to http://localhost:5984/datamanager/_start
+
 Documentation
 =============
 
-Dependencies
-------------
-
-* Apache CouchDB
-* GeoCouch
-* CouchDB Lucene
-* Node.js
-
-
 See http://community.plantnet-project.org/datamanager
 See http://amap-dev.cirad.fr/projects/p2pnote/wiki
+
+
 
