@@ -47,20 +47,19 @@ Install
     npm -g install http://github.com/plantnet/node-datamanager/tarball/master
   
 * add /etc/couchdb/local.d/datamanager.ini
-* 
 <pre>
-[external]
-admin_db = nodejs /usr/bin/plantnet-dm-admin_db
+    [external]
+    admin_db = nodejs /usr/bin/plantnet-dm-admin_db
 
-[httpd_db_handlers]
-_admin_db = {couch_httpd_external, handle_external_req, <<"admin_db">>}
+    [httpd_db_handlers]
+    _admin_db = {couch_httpd_external, handle_external_req, <<"admin_db">>}
     
-[httpd_global_handlers]
-_start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
-_dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
-    
-[os_daemons]
-dm_server = nodejs /usr/bin/plantnet-dm-server
+    [httpd_global_handlers]
+    _start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
+    _dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
+        
+    [os_daemons]
+    dm_server = nodejs /usr/bin/plantnet-dm-server
 </pre>
 
 * Install main database and couchapp
