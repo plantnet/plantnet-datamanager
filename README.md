@@ -44,14 +44,31 @@ Install
 * Install CouchDB, couchdb-lucene, node.js, geocouch, curl
 * Install plantnet-datamanager node server
 
-  npm -g install http://github.com/plantnet/node-datamanager/tarball/master
+    npm -g install http://github.com/plantnet/node-datamanager/tarball/master
+  
+* add /etc/couchdb/local.d/datamanager.ini
+
+    [external]
+    admin_db = nodejs /usr/bin/plantnet-dm-admin_db
+    
+    [httpd_db_handlers]
+    _admin_db = {couch_httpd_external, handle_external_req, <<"admin_db">>}
+    
+    [httpd_global_handlers]
+    _start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
+    _dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
+    
+    [os_daemons]
+    dm_server = nodejs /usr/bin/plantnet-dm-server
+
 
 * Install main database and couchapp
 
-  curl -X PUT http://localhost:5984/datamanager 
-  curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 
+    curl -X PUT http://localhost:5984/datamanager 
+    curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 
 
 * go to http://localhost:5984/_start
+
 
 Documentation
 =============
