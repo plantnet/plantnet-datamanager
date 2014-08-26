@@ -47,26 +47,27 @@ Install
     npm -g install http://github.com/plantnet/node-datamanager/tarball/master
   
 * add /etc/couchdb/local.d/datamanager.ini
+* 
+<pre>
+[external]
+admin_db = nodejs /usr/bin/plantnet-dm-admin_db
 
-    [external]
-    admin_db = nodejs /usr/bin/plantnet-dm-admin_db
+[httpd_db_handlers]
+_admin_db = {couch_httpd_external, handle_external_req, <<"admin_db">>}
     
-    [httpd_db_handlers]
-    _admin_db = {couch_httpd_external, handle_external_req, <<"admin_db">>}
+[httpd_global_handlers]
+_start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
+_dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
     
-    [httpd_global_handlers]
-    _start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
-    _dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
-    
-    [os_daemons]
-    dm_server = nodejs /usr/bin/plantnet-dm-server
-
+[os_daemons]
+dm_server = nodejs /usr/bin/plantnet-dm-server
+</pre>
 
 * Install main database and couchapp
-
+<pre>
     curl -X PUT http://localhost:5984/datamanager 
     curl -H "Content-Type: application/json" -X POST http://localhost:5984/_replicate -d "{\"source\":\"http://data.plantnet-project.org/datamanager\", \"target\":\"http://localhost:5984/datamanager\"}" 
-
+</pre>
 * go to http://localhost:5984/_start
 
 
