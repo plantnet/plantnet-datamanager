@@ -77,7 +77,7 @@ function index_docs(new_docs, index_field, full_index) {
 // save doc from parsed csv_data
 // col map : list of objects representing cols (contains fields name, modi and type)
 // if hasAttachments, slice size will be 5 instead of 50
-exports.import_csv = function (db, csv_data, mm, user_ctx, notrim, hasAttachments, col_map, withConflicts, onSuccess, onError, updateStats) {
+exports.import_csv = function (db, csv_data, mm, user_ctx, notrim, hasAttachments, col_map, withConflicts, overwrite, onSuccess, onError, updateStats) {
 
     updateStats = updateStats || function() {};
 
@@ -175,7 +175,7 @@ exports.import_csv = function (db, csv_data, mm, user_ctx, notrim, hasAttachment
             }, function () { // onComplete one slice
                 saveSlice(db, slice, withConflicts, function() {
                     docsProcessed += slice.length;
-                    //utils.showSuccess(docsProcessed + ' documents processed');
+                    //utils.showSuccess(docsProcessed + ' documents processed / ' + totalDocs);
                     updateStats(docsProcessed, totalDocs); // inform caller of progress (to update progress bar)
                     nextSlice();
                 });

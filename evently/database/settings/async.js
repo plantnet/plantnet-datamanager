@@ -9,6 +9,7 @@ function(callback) {
         sessionUserName;
 
     function next() {
+        console.log(users, secu, addons_by_key, mms, roles);
         if (users != undefined && secu != undefined && 
             addons_by_key != undefined && mms != undefined && 
             roles != undefined) {
