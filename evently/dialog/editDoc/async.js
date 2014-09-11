@@ -96,7 +96,7 @@ function(callback, e, id, new_doc, trigger) {
             parentId: parent_id,
             parentLabel: parent_label,
             parentModi: parent_modi
-        }
+        };
 
         if (needLoadJsLib()) {
             if (needGoogleMapLib) {
@@ -136,7 +136,9 @@ function(callback, e, id, new_doc, trigger) {
     }
 
     function loadGoogleMapLib() {
-        $.getScript('http://www.google.com/jsapi', function() {
+
+        var r = $.getScript('http://www.google.com/jsapi', function() {
+            
             // Step 2: Once the core is loaded, use the google loader to bring in the maps module.
             if(google.maps) {
                 loadGoogleMapLibOk = true;
@@ -146,11 +148,12 @@ function(callback, e, id, new_doc, trigger) {
                     callback: function() {
                         loadGoogleMapLibOk = true;
                         next();
-                    }, 
+                    },
                     other_params: 'sensor=false&language=en'
                 });
             }
         });
+
     }
 
     // loads label of doc's "valid name", if doc is a synonym
