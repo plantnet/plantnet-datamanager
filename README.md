@@ -50,14 +50,12 @@ Install
   
 * add /etc/couchdb/local.d/datamanager.ini
 <pre>
-    [httpd_global_handlers]
-_start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamana
-ger/_design/start/index.html">>}
+[httpd_global_handlers]
+_start = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5984/datamanager/_design/start/index.html">>}
 _dm = {couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5995">>}
 
 [os_daemons]
-dm_server = nodejs /usr/local/lib/node_modules/plantnet-node-datamanager/user_server.j
-s
+dm_server = nodejs /usr/local/lib/node_modules/plantnet-node-datamanager/user_server.js
 </pre>
 
 * Restart couchdb
